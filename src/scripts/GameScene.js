@@ -2,73 +2,48 @@ import Phaser from 'phaser';
 
 import  Game  from 'phaser';
 import Player from './Player';
+import Map from './Map';
 
 export default class GameScene extends Phaser.Scene
 {
     constructor()
     {
 		super("GameScene");
-
-
     }
 
     preload()
     {
-    	this.load.image('sky', 'assets/sky.png');
-		this.load.spritesheet('player', 'assets/move_sprite.png', { frameWidth: 32, frameHeight: 64 });
 		this.load.image('projectile', 'assets/bomb.png');
-		///
-
-
-		
-
 
 		this.load.image('tiles', 'assets/dungeon_tiles.png')
-		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json')
-		
+		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json')	
+
+		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json')
     }
 
     create()
     {
-    	console.log("GameScene started")
+    	console.log("GameScene started");
+		this.currentMap = new Map(this);
 
-
-		const map = this.make.tilemap({ key: 'dungeon' });
-		const tileset = map.addTilesetImage('dungeon', 'tiles');
-
-		
-
-		const ground = map.createLayer('ground', tileset).setScale(3,3);
-		const walls = map.createLayer('walls', tileset).setScale(3,3);
-
-
-
-		walls.setCollisionByProperty({ collides: true });
-
-		
-
-		this.spawnPlayer(walls);
-		this.setColliders();
+		this.spawnPlayer();
 	}
 
-
-
-	spawnPlayer(walls)
+	spawnPlayer()
 	{
 		this.myPlayer = new Player(this, 300, 300);
 		this.setFollowingCamera(this.myPlayer);
-		this.physics.add.collider(this.myPlayer, walls);
+		this.setColliders(this.myPlayer);
+	}
+
+	setColliders(player)
+	{
+		this.physics.add.collider(player, this.currentMap.walls)
 	}
 
 	update()
 	{
-
-	}
-
-	setColliders()
-	{
-		this.physics.add.collider(this.myPlayer, this.walls);
-
+		this.myPlayer.updateMovement2();
 	}
 
 	setFollowingCamera(player)

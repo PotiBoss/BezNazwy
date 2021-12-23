@@ -1,9 +1,7 @@
 export default anims => {
 	anims.create({
-	  key: 'idle',
-	  frames: anims.generateFrameNumbers('player', {start: 0, end: 8}),
-	  frameRate: 8,
-	  repeat: -1
+	    key: 'faune-idle-down',
+		frames: [{ key: 'player', frame: 'walk-down-3.png'}]
 	})
   
 	anims.create({

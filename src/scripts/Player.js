@@ -9,7 +9,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		scene.add.existing(this);
 		scene.physics.add.existing(this);
 		this.create();
-		this.initEvents();
 
 	}
 
@@ -28,16 +27,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		//this.setCollideWorldBounds();
 		this.setupMovement();
-	}
+		this.setupAnimation();
 
-	initEvents() 
-	{
-		this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
 	}
 
 	update()
 	{
-		this.updateMovement();
+		//this.updateMovement();
 		this.lookAtMouse(this.scene.input.activePointer);
 		//this.handleAttack();
 	}
@@ -57,22 +53,70 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.keySpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 	}
 
-	updateMovement()
+	setupAnimation()
+	{
+
+		this.anims.create({
+			key: 'idle-Down',
+			frames: [{ key: 'player', frame: 'walk-down-3.png'}]
+		})
+
+		this.anims.create({
+			key: 'idle-Up',
+			frames: [{ key: 'player', frame: 'walk-up-3.png'}]
+		})
+
+		this.anims.create({
+			key: 'idle-Side',
+			frames: [{ key: 'player', frame: 'walk-side-3.png'}]
+		})
+
+		this.anims.create({
+			key: 'run-Down',
+			frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'run-down-', suffix: '.png' }),
+			repeat: -1,
+			frameRate: 15
+
+		})
+
+		this.anims.create({
+			key: 'run-Up',
+			frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'run-up-', suffix: '.png' }),
+			repeat: -1,
+			frameRate: 15
+
+		})
+
+		this.anims.create({
+			key: 'run-Side',
+			frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'run-side-', suffix: '.png' }),
+			repeat: -1,
+			frameRate: 15
+
+		})
+		
+
+	}
+
+	updateMovement() // nie wiem co pilem jak myslalem ze to super smart pomysl ale nie dosyc ze to overkill to do tego chujowo dziala
 	{
 		// zmieniamy boole na zakres 1 0 -1 dla kierunku ruchu
 		if(this.keyA.isDown)
 		{
 			this.left = 1;
+		//	this.anims.play('runUp', true);
 			//this.flipX = true;
 		}
 		if(this.keyD.isDown)
 		{
 			this.right = 1;
+			//this.anims.play('runSide', true);
 			//this.flipX = false;
 		}
 		if(this.keyS.isDown)
 		{
 			this.down = 1;
+			//this.anims.play('runDown', true);
 			//this.flipY = false;
 		}
 		if(this.keyW.isDown)
@@ -88,10 +132,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		if(this.keyD.isUp)
 		{
 			this.right = 0;
+			//this.anims.play('idleSide');
 		}
 		if(this.keyS.isUp)
 		{
 			this.down = 0;
+			this.anims.play('idleDown');
 		}
 		if(this.keyW.isUp)
 		{
@@ -114,6 +160,89 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		}
 
 		this.teleport(this.scene.input.activePointer);
+	}
+
+	updateMovement2()
+	{
+
+		if(this.keyD.isDown && this.keyW.isDown)
+		{
+			this.setVelocityX(this.playerSpeed);
+			this.setVelocityY(-this.playerSpeed);
+			this.anims.play('run-Up', true);
+		}
+
+		else if(this.keyD.isDown && this.keyS.isDown)
+		{
+			this.setVelocityX(this.playerSpeed);
+			this.setVelocityY(this.playerSpeed);
+			this.anims.play('run-Down', true);
+		}
+
+		else if(this.keyA.isDown && this.keyS.isDown)
+		{
+			this.setVelocityX(-this.playerSpeed);
+			this.setVelocityY(this.playerSpeed);
+			this.flipX = true;
+			this.anims.play('run-Down', true);
+		}
+
+		else if(this.keyA.isDown && this.keyW.isDown)
+		{
+			this.setVelocityX(-this.playerSpeed);
+			this.setVelocityY(-this.playerSpeed);
+			this.anims.play('run-Up', true);
+		}
+
+		else if(this.keyA.isDown)
+		{
+			this.setVelocityX(-this.playerSpeed);
+			this.flipX = true;
+			this.anims.play('run-Side', true);
+		}
+
+		else if(this.keyD.isDown)
+		{
+			this.setVelocityX(this.playerSpeed);
+			this.flipX = false;
+			this.anims.play('run-Side', true);
+		}
+
+		else if(this.keyW.isDown)
+		{
+			this.setVelocityY(-this.playerSpeed);
+			this.anims.play('run-Up', true);
+		}
+
+		else if(this.keyS.isDown)
+		{
+			this.setVelocityY(this.playerSpeed);
+			this.anims.play('run-Down', true);
+		}
+		
+		else // NIE RUSZAC to gowno nie dzialalo przez 2 godziny i nagle zaczelo dzialac :)
+		{
+			if(this.anims.currentAnim != null){
+				const parts = this.anims.currentAnim.key.split('-')
+				parts[0] = 'idle'
+				this.anims.play(parts.join('-'))
+				this.setVelocity(0, 0)
+			}
+
+		}
+
+
+		if(this.keyA.isUp && this.keyD.isUp)
+		{
+			this.setVelocityX(0);
+		}
+
+		if(this.keyW.isUp && this.keyS.isUp)
+		{
+			this.setVelocityY(0);
+		}
+
+
 	}
 
 
