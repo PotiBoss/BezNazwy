@@ -22,7 +22,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		this.projectiles = new Projectile(this.scene,-1000, 0);
 
-		this.setOrigin(0.7, 0.7);
 
 		//this.setCollideWorldBounds();
 		this.setupMovement();
@@ -33,7 +32,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	update()
 	{
 		//this.updateMovement();
-		this.lookAtMouse(this.scene.input.activePointer);
+		//this.lookAtMouse(this.scene.input.activePointer);
 		//this.handleAttack();
 	}
 

@@ -11,7 +11,16 @@ const config =
 		arcade: {
 			debug: true
 		}
-	}
+	},
+	plugins: {
+        scene: [
+            {
+                key: 'PhaserRaycaster',
+                plugin: PhaserRaycaster,
+                mapping: 'raycasterPlugin'
+            }
+        ]
+    }
 }
 
 const game = new Phaser.Game(config)

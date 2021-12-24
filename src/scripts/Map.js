@@ -18,9 +18,8 @@ export default class Map
 
 		
 
-		const ground = map.createLayer('ground', tileset).setScale(2,2);
+		this.ground = map.createLayer('ground', tileset).setScale(2,2);
 		this.walls = map.createLayer('walls', tileset).setScale(2,2);
-
 		this.activateColliders();
 	}
 
