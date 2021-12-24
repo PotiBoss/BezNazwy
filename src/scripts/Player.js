@@ -18,7 +18,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 
 		this.teleportCooldown = 1000;
-		this.teleportRange = 50;
 		this.timeFromLastTeleport = null;
 
 		this.projectiles = new Projectile(this.scene,-1000, 0);
@@ -242,6 +241,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.setVelocityY(0);
 		}
 
+		this.teleport2(this.body.velocity);
+
 
 	}
 
@@ -356,6 +357,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		}
 	}
 
+	teleport2(playerVelocity)
+	{
+		if(this.keySpace.isDown)
+		{
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
+
+			this.timeFromLastTeleport = this.getTimeStamp();
+
+			console.log(playerVelocity);
+			this.x += playerVelocity.x;
+			this.y += playerVelocity.y;
+		}
+
+	}
 
 	handleAttack() 
 	{
