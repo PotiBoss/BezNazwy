@@ -37,7 +37,7 @@ export default class GameScene extends Phaser.Scene
 			  y: this.myPlayer.y
 			},
 			autoSlice: true,  //automatically slice casting result into triangles
-			//collisionRange: 250, //ray's field of view range
+			collisionRange: this.myPlayer.playerSpeed, //ray's field of view range
 		  });
 
 		this.ray.enablePhysics();
@@ -52,7 +52,6 @@ export default class GameScene extends Phaser.Scene
 		this.wallsRaycast = this.add.group(this.currentMap.walls);
 		this.raycaster.mapGameObjects(this.wallsRaycast.getChildren());
 		this.raycaster.mapGameObjects(this.currentMap.ground);
-		this.intersection = this.ray.cast();
 
 		this.graphics = this.add.graphics({ lineStyle: { width: 1, color: 0x00ff00}, fillStyle: { color: 0xff00ff } });
 //
@@ -72,14 +71,15 @@ export default class GameScene extends Phaser.Scene
 
 		///
   //rotate ray
-  			this.ray.setAngle(this.ray.angle + 0.01);
+			this.ray.setOrigin(this.myPlayer.x, this.myPlayer.y);
+  			this.ray.setAngle(this.ray.angle);
   //cast ray
   			this.intersection = this.ray.cast();
   
   //draw ray
  			this.graphics.clear();
   			this.line = new Phaser.Geom.Line(this.myPlayer.x, this.myPlayer.y, this.intersection.x, this.intersection.y);
-  		//	this.graphics.fillPoint(this.ray.origin.x, this.ray.origin.y, 3)
+  			//this.graphics.fillPoint(this.ray.origin.x, this.ray.origin.y, 3)
   			this.graphics.strokeLineShape(this.line);
 
 		///

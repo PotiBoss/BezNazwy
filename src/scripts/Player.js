@@ -10,6 +10,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		scene.physics.add.existing(this);
 		this.create();
 
+		this.scene.scene;
+
 	}
 
 	create()
@@ -240,7 +242,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.setVelocityY(0);
 		}
 
-		this.teleport2(this.body.velocity);
+		this.teleport2(this.body.velocity, this.scene.intersection);
 
 
 	}
@@ -356,7 +358,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		}
 	}
 
-	teleport2(playerVelocity)
+	teleport2(playerVelocity, raycastIntersection)
 	{
 		if(this.keySpace.isDown)
 		{
@@ -364,9 +366,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 			this.timeFromLastTeleport = this.getTimeStamp();
 
-			console.log(playerVelocity);
-			this.x += playerVelocity.x;
-			this.y += playerVelocity.y;
+			//this.x += playerVelocity.x;
+			//this.y += playerVelocity.y;
+			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed);
+			//this.y -= raycastIntersection.y;
+			console.log(raycastIntersection);
+
+			
 		}
 
 	}
