@@ -26,63 +26,14 @@ export default class GameScene extends Phaser.Scene
     	console.log("GameScene started");
 		this.currentMap = new Map(this);
 		this.spawnPlayer();
-		this.createFOV(this);
-///
-		this.raycaster = this.raycasterPlugin.createRaycaster();
-		console.log(this.raycaster);
-
-		this.ray = this.raycaster.createRay({
-			origin: {
-			  x: this.myPlayer.x,
-			  y: this.myPlayer.y
-			},
-			autoSlice: true,  //automatically slice casting result into triangles
-			collisionRange: this.myPlayer.playerSpeed, //ray's field of view range
-		  });
-
-		this.ray.enablePhysics();
-		this.raycaster.debugOptions.enabled = true;
-
-
-
-		this.raycaster.mapGameObjects(this.currentMap.walls, false, {
-			collisionTiles: [1,2,3,33,34,35,224,225,226,227,256,257,258,259,260,261,288,289,290,291,292,293,322,323] //array of tile types which collide with rays
-		  });
-
-		this.wallsRaycast = this.add.group(this.currentMap.walls);
-		this.raycaster.mapGameObjects(this.wallsRaycast.getChildren());
-		this.raycaster.mapGameObjects(this.currentMap.ground);
-
-		this.graphics = this.add.graphics({ lineStyle: { width: 1, color: 0x00ff00}, fillStyle: { color: 0xff00ff } });
-//
-
-
-
-//
-
-///
-
-
+		//this.createFOV(this);
+		this.setupRaycast();
 	}
 
 	update()
 	{
 		this.myPlayer.updateMovement2();
-
-		///
-  //rotate ray
-			this.ray.setOrigin(this.myPlayer.x, this.myPlayer.y);
-  			this.ray.setAngle(this.ray.angle);
-  //cast ray
-  			this.intersection = this.ray.cast();
-  
-  //draw ray
- 			this.graphics.clear();
-  			this.line = new Phaser.Geom.Line(this.myPlayer.x, this.myPlayer.y, this.intersection.x, this.intersection.y);
-  			//this.graphics.fillPoint(this.ray.origin.x, this.ray.origin.y, 3)
-  			this.graphics.strokeLineShape(this.line);
-
-		///
+		this.updateRaycast();
 	}
 
 
@@ -98,12 +49,136 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(player, this.currentMap.walls)
 	}
 
+	setupRaycast()
+	{
+		this.raycaster = this.raycasterPlugin.createRaycaster();
+		console.log(this.raycaster);
+
+		this.rayRightDown = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true,  
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayRightDown.setAngleDeg(45);
+
+		 this.rayLeftDown = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true,  
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayLeftDown.setAngleDeg(135);
+		
+		this.rayLeftUp = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true,  
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayLeftUp.setAngleDeg(225);
+
+		this.rayRightUp = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true,  
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayRightUp.setAngleDeg(315);
+
+		this.rayRight = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayRight.setAngleDeg(0);
+
+		  this.rayLeft = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true,  
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayLeft.setAngleDeg(180);
+
+		  this.rayUp = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayUp.setAngleDeg(270);
+
+		  this.rayDown = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true,  
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayDown.setAngleDeg(90);
+
+		this.raycaster.debugOptions.enabled = true;
+
+
+
+		this.raycaster.mapGameObjects(this.currentMap.walls, false, {
+			collisionTiles: [1,2,3,33,34,35,224,225,226,227,256,257,258,259,260,261,288,289,290,291,292,293,322,323] //ID tilow z Tiled
+		  });
+
+		this.wallsRaycast = this.add.group(this.currentMap.walls);
+		this.raycaster.mapGameObjects(this.wallsRaycast.getChildren());
+	}
+
+	updateRaycast()
+	{
+		this.rayRightDown.setOrigin(this.myPlayer.x, this.myPlayer.y);
+		this.rayLeftDown.setOrigin(this.myPlayer.x, this.myPlayer.y);
+		this.rayLeftUp.setOrigin(this.myPlayer.x, this.myPlayer.y);
+		this.rayRightUp.setOrigin(this.myPlayer.x, this.myPlayer.y);
+  		this.rayRight.setOrigin(this.myPlayer.x, this.myPlayer.y);
+		this.rayLeft.setOrigin(this.myPlayer.x, this.myPlayer.y);
+		this.rayUp.setOrigin(this.myPlayer.x, this.myPlayer.y);
+		this.rayDown.setOrigin(this.myPlayer.x, this.myPlayer.y);
+
+		this.intersectionRightDown = this.rayRightDown.cast();
+		this.intersectionLeftDown = this.rayLeftDown.cast();
+		this.intersectionLeftUp = this.rayLeftUp.cast();
+		this.intersectionRightUp = this.rayRightUp.cast();
+		this.intersectionRight = this.rayRight.cast();
+		this.intersectionLeft = this.rayLeft.cast();
+		this.intersectionUp = this.rayUp.cast();
+		this.intersectionDown = this.rayDown.cast();
+
+ 	//	this.graphics.clear();
+  	//	this.line = new Phaser.Geom.Line(this.myPlayer.x, this.myPlayer.y, this.intersectionRight.x, this.intersectionRight.y);
+  	//	this.graphics.fillPoint(this.rayRight.origin.x, this.rayRight.origin.y, 3)
+  	//	this.graphics.strokeLineShape(this.line);
+	}
+
 
 	setFollowingCamera(player)
 	{
 		//this.physics.world.setBounds()
 		this.cameras.main.startFollow(player);
 	}
+	
 
 	createFOV(scene){
 		this.maskGraphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0 }});

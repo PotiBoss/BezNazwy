@@ -12,6 +12,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		this.scene.scene;
 
+		this.square2 = 1.41;
 	}
 
 	create()
@@ -242,10 +243,47 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.setVelocityY(0);
 		}
 
-		this.teleport2(this.body.velocity, this.scene.intersection);
+		if(this.keyD.isDown && this.keyS.isDown && this.keySpace.isDown)
+		{
+			this.teleportRightDown(this.body.velocity, this.scene.intersectionRightDown);
+		}
 
+		else if(this.keyA.isDown && this.keyS.isDown && this.keySpace.isDown)
+		{
+			this.teleportLeftDown(this.body.velocity, this.scene.intersectionLeftDown);
+		}
 
+		else if(this.keyA.isDown && this.keyW.isDown && this.keySpace.isDown)
+		{
+			this.teleportLeftUp(this.body.velocity, this.scene.intersectionLeftUp);
+		}
+
+		else if(this.keyD.isDown && this.keyW.isDown && this.keySpace.isDown)
+		{
+			this.teleportRightUp(this.body.velocity, this.scene.intersectionRightUp);
+		}
+
+		else if(this.keyD.isDown && this.keySpace.isDown)
+		{
+			this.teleportRight(this.body.velocity, this.scene.intersectionRight);
+		}
+		
+		else if(this.keyA.isDown && this.keySpace.isDown)
+		{
+			this.teleportLeft(this.body.velocity, this.scene.intersectionLeft);
+		}
+
+		else if(this.keyW.isDown && this.keySpace.isDown)
+		{
+			this.teleportUp(this.body.velocity, this.scene.intersectionUp);
+		}
+
+		else if(this.keyS.isDown && this.keySpace.isDown)
+		{
+			this.teleportDown(this.body.velocity, this.scene.intersectionDown);
+		}
 	}
+	
 
 
 	lookAtMouse(pointer)
@@ -300,81 +338,64 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		return this.date.getTime();
 	}
 
-
-	teleport(pointer)
+	teleportRightDown(playerVelocity, raycastIntersection)
 	{
-		if(this.keySpace.isDown)
-			
-		{
-
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-
 			this.timeFromLastTeleport = this.getTimeStamp();
-
-			//this.x -= Phaser.Math.Clamp(this.x - pointer.x, -this.teleportRange, this.teleportRange);
-			//this.y -= Phaser.Math.Clamp(this.y - pointer.y, -this.teleportRange, this.teleportRange);
-
-			console.log("pointx: " + pointer.x);
-			console.log("pointy: " + pointer.y);
-
-			console.log("charx: " + this.x);
-			console.log("chary: " + this.y);
-			//console.log(this.x)
-
-			// tylko bog teraz wie co tu liczy i nie liczy 
-			if(Math.abs(pointer.x - this.x) > Math.abs(pointer.y - this.y))
-			{
-			 	this.teleportStandardX = pointer.x / pointer.y
-
-				if(this.teleportStandardX > 1)
-				{
-					this.x -= Phaser.Math.Clamp(this.x - pointer.x, -this.teleportRange, this.teleportRange);
-					this.y -= Phaser.Math.Clamp(this.y - pointer.y, -this.teleportRange / this.teleportStandardX, this.teleportRange / this.teleportStandardX);
-					console.log("1");
-				}
-				else 
-				{
-					this.x -= Phaser.Math.Clamp(this.x - pointer.x, -this.teleportRange, this.teleportRange);
-					this.y -= Phaser.Math.Clamp(this.y - pointer.y, -this.teleportRange * this.teleportStandardX, this.teleportRange * this.teleportStandardX);
-					console.log("2");
-				}
-			}
-			else
-			{
-			 	this.teleportStandardY = pointer.y / pointer.x
-				if(this.teleportStandardY > 1)
-				{
-					this.x -= Phaser.Math.Clamp(this.x - pointer.x, -this.teleportRange / this.teleportStandardY, this.teleportRange / this.teleportStandardY);
-					this.y -= Phaser.Math.Clamp(this.y - pointer.y, -this.teleportRange, this.teleportRange);
-					console.log("3");
-				}
-				else
-				{
-					this.x -= Phaser.Math.Clamp(this.x - pointer.x, -this.teleportRange * this.teleportStandardY, this.teleportRange * this.teleportStandardY);
-					this.y -= Phaser.Math.Clamp(this.y - pointer.y, -this.teleportRange, this.teleportRange);
-					console.log("4");
-				}
-			}
-		}
+			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;
+			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed) / this.square2;
 	}
 
-	teleport2(playerVelocity, raycastIntersection)
+	teleportLeftDown(playerVelocity, raycastIntersection)
 	{
-		if(this.keySpace.isDown)
-		{
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-
 			this.timeFromLastTeleport = this.getTimeStamp();
+			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0) / this.square2;
+			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed) / this.square2;
+	}
 
-			//this.x += playerVelocity.x;
-			//this.y += playerVelocity.y;
+	teleportLeftUp(playerVelocity, raycastIntersection)
+	{
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
+			this.timeFromLastTeleport = this.getTimeStamp();
+			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0) / this.square2;
+			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0) / this.square2;
+	}
+
+	teleportRightUp(playerVelocity, raycastIntersection)
+	{
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
+			this.timeFromLastTeleport = this.getTimeStamp();
+			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;
+			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0) / this.square2;
+	}
+
+	teleportRight(playerVelocity, raycastIntersection)
+	{
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
+			this.timeFromLastTeleport = this.getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed);
-			//this.y -= raycastIntersection.y;
-			console.log(raycastIntersection);
+	}
 
-			
-		}
+	teleportLeft(playerVelocity, raycastIntersection)
+	{
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
+			this.timeFromLastTeleport = this.getTimeStamp();
+			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0);
+	}
 
+	teleportUp(playerVelocity, raycastIntersection)
+	{
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
+			this.timeFromLastTeleport = this.getTimeStamp();
+			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0);
+	}
+
+	teleportDown(playerVelocity, raycastIntersection)
+	{
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
+			this.timeFromLastTeleport = this.getTimeStamp();
+			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed);
 	}
 
 	handleAttack() 
