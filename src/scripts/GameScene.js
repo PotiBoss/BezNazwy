@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 
 import  Game  from 'phaser';
 import Player from './Player';
+import Enemy from './Enemy';
 import Map from './Map';
 
 export default class GameScene extends Phaser.Scene
@@ -15,25 +16,34 @@ export default class GameScene extends Phaser.Scene
     {
 		this.load.image('projectile', 'assets/bomb.png');
 
-		this.load.image('tiles', 'assets/dungeon_tiles.png')
-		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json')	
+		this.load.image('tiles', 'assets/dungeon_tiles.png');
+		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');
 
-		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json')
+		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
+		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
     }
 
     create()
     {
     	console.log("GameScene started");
 		this.currentMap = new Map(this);
+
+		this.hitCounter = 0;
+
 		this.spawnPlayer();
 		//this.createFOV(this);
 		this.setupRaycast();
+
+		//this.spawnEnemy();
+
+
 	}
 
-	update()
+	update(time, deltaTime)
 	{
 		this.myPlayer.updateMovement2();
 		this.updateRaycast();
+		this.myPlayer.handleState(deltaTime);
 	}
 
 
@@ -44,9 +54,16 @@ export default class GameScene extends Phaser.Scene
 		this.setColliders(this.myPlayer);
 	}
 
+	spawnEnemy()
+	{
+		this.myEnemy = new Enemy(this, 500, 400);
+	}
+
 	setColliders(player)
 	{
-		this.physics.add.collider(player, this.currentMap.walls)
+		this.physics.add.collider(player, this.currentMap.walls);
+		this.physics.add.collider(this.currentMap.lizards, this.currentMap.walls);
+		this.physics.add.collider(player, this.currentMap.lizards, this.handlePlayerEnemyCollision, undefined, this);
 	}
 
 	setupRaycast()
@@ -189,4 +206,16 @@ export default class GameScene extends Phaser.Scene
 		this.fow.fillRect(0, 0, 800, 600);
 	}
 
+	handlePlayerEnemyCollision(player, enemy)
+	{
+		this.collidedEnemy = enemy;
+
+		this.xImpactSide = this.myPlayer.x - this.collidedEnemy.x;
+		this.yImpactSide = this.myPlayer.y - this.collidedEnemy.y;
+
+		this.directionVector = new Phaser.Math.Vector2(this.xImpactSide, this.yImpactSide).normalize().scale(200);
+
+		this.myPlayer.handleDamage(this.directionVector);
+
+	}
 }

@@ -1,4 +1,5 @@
-import Player from "./Player";
+
+import Enemy from "./Enemy";
 
 export default class Map
 {
@@ -21,11 +22,22 @@ export default class Map
 		this.ground = map.createLayer('ground', tileset).setScale(2,2);
 		this.walls = map.createLayer('walls', tileset).setScale(2,2);
 		this.activateColliders();
+
+		this.lizards = this.scene.physics.add.group({
+			classType: Enemy	
+		})
+
+		this.lizards.get(200,150);
 	}
 
 	activateColliders()
 	{
 		this.walls.setCollisionByProperty({ collides: true });
+	}
+
+	createColliders()
+	{
+
 	}
 
 }

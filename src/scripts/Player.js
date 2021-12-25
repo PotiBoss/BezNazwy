@@ -1,4 +1,7 @@
+import initAnims from './AnimsPlayer'
 import Projectile from './Projectile';
+
+import { getTimeStamp } from './GetTimeStamp';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -8,16 +11,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		scene.add.existing(this);
 		scene.physics.add.existing(this);
-		this.create();
+		initAnims(scene.anims);
 
-		this.scene.scene;
-
+		//this.scene.scene;
 		this.square2 = 1.41;
+
+		this.create();
 	}
 
 	create()
 	{
 		this.playerSpeed = 150;
+		this.health = 3;
+		this.healthState = 0;
+		this.damageTime = 0;
+		this.damagedInvulnerability = 300;
 
 
 		this.teleportCooldown = 1000;
@@ -28,15 +36,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		//this.setCollideWorldBounds();
 		this.setupMovement();
-		this.setupAnimation();
-
-	}
-
-	update()
-	{
-		//this.updateMovement();
-		//this.lookAtMouse(this.scene.input.activePointer);
-		//this.handleAttack();
+		this.setupStates();
 	}
 
 	setupMovement()
@@ -54,49 +54,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.keySpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 	}
 
-	setupAnimation()
+	setupStates()
 	{
-
-		this.anims.create({
-			key: 'idle-Down',
-			frames: [{ key: 'player', frame: 'walk-down-3.png'}]
-		})
-
-		this.anims.create({
-			key: 'idle-Up',
-			frames: [{ key: 'player', frame: 'walk-up-3.png'}]
-		})
-
-		this.anims.create({
-			key: 'idle-Side',
-			frames: [{ key: 'player', frame: 'walk-side-3.png'}]
-		})
-
-		this.anims.create({
-			key: 'run-Down',
-			frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'run-down-', suffix: '.png' }),
-			repeat: -1,
-			frameRate: 15
-
-		})
-
-		this.anims.create({
-			key: 'run-Up',
-			frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'run-up-', suffix: '.png' }),
-			repeat: -1,
-			frameRate: 15
-
-		})
-
-		this.anims.create({
-			key: 'run-Side',
-			frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'run-side-', suffix: '.png' }),
-			repeat: -1,
-			frameRate: 15
-
-		})
-		
-
+		this.unharmed = 0;
+		this.damaged = 1;
+		this.dead = 2;
 	}
 
 	updateMovement() // nie wiem co pilem jak myslalem ze to super smart pomysl ale nie dosyc ze to overkill to do tego chujowo dziala
@@ -165,6 +127,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	updateMovement2()
 	{
+
+		if(this.healthState === this.damaged || this.healthState === this.dead) {return;}
+
 
 		if(this.keyD.isDown && this.keyW.isDown)
 		{
@@ -331,71 +296,85 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		}
 	}
 
-
-	getTimeStamp()
-	{
-		this.date = new Date();
-		return this.date.getTime();
-	}
-
 	teleportRightDown(playerVelocity, raycastIntersection)
 	{
-			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-			this.timeFromLastTeleport = this.getTimeStamp();
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
+			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed) / this.square2;
 	}
 
 	teleportLeftDown(playerVelocity, raycastIntersection)
 	{
-			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-			this.timeFromLastTeleport = this.getTimeStamp();
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
+			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0) / this.square2;
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed) / this.square2;
 	}
 
 	teleportLeftUp(playerVelocity, raycastIntersection)
 	{
-			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-			this.timeFromLastTeleport = this.getTimeStamp();
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
+			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0) / this.square2;
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0) / this.square2;
 	}
 
 	teleportRightUp(playerVelocity, raycastIntersection)
 	{
-			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-			this.timeFromLastTeleport = this.getTimeStamp();
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
+			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0) / this.square2;
 	}
 
 	teleportRight(playerVelocity, raycastIntersection)
 	{
-			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-			this.timeFromLastTeleport = this.getTimeStamp();
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
+			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed);
 	}
 
 	teleportLeft(playerVelocity, raycastIntersection)
 	{
-			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-			this.timeFromLastTeleport = this.getTimeStamp();
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
+			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0);
 	}
 
 	teleportUp(playerVelocity, raycastIntersection)
 	{
-			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-			this.timeFromLastTeleport = this.getTimeStamp();
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
+			this.timeFromLastTeleport = getTimeStamp();
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0);
 	}
 
 	teleportDown(playerVelocity, raycastIntersection)
 	{
-			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  this.getTimeStamp()){ return; }
-			this.timeFromLastTeleport = this.getTimeStamp();
+			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
+			this.timeFromLastTeleport = getTimeStamp();
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed);
+	}
+
+	handleState(deltaTime)
+	{
+		
+		switch(this.healthState)
+		{
+			case this.unharmed:
+				
+				break;
+			
+			case this.damaged:
+				this.damageTime += deltaTime;
+				if(this.damageTime >= this.damagedInvulnerability)
+				{
+					this.healthState = this.unharmed;
+					this.setTint(0xffffff);
+					this.damageTime = 0
+				}
+				break;
+		}
 	}
 
 	handleAttack() 
@@ -405,5 +384,32 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			
 		  })
 		
+	}
+
+	handleDamage(knockbackDirection)
+	{
+		if(this.health <= 0) { return; }
+
+		if(this.healthState === this.damaged) { return ;}
+
+		--this.health;
+
+		if (this.health <= 0)
+		{
+			// TODO: die
+			this.healthState = this.dead
+			this.setVelocity(0, 0)
+			console.log('DEAD');
+		}
+
+		else
+		{
+			this.setVelocity(knockbackDirection.x, knockbackDirection.y)
+
+			this.setTint(0xff0000)
+
+			this.healthState = this.damaged
+			this.damageTime = 0
+		}
 	}
 }
