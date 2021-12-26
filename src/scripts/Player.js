@@ -23,15 +23,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	{
 		this.playerSpeed = 150;
 		this.health = 3;
+		this.maxHealth = 3;
 		this.healthState = 0;
 		this.damageTime = 0;
 		this.damagedInvulnerability = 300;
+		//this.projectiles = null;
 
 
 		this.teleportCooldown = 1000;
 		this.timeFromLastTeleport = null;
 
-		this.projectiles = new Projectile(this.scene,-1000, 0);
+		//this.projectiles = new Projectile(this.scene,-1000, 0);
 
 
 		//this.setCollideWorldBounds();
@@ -59,6 +61,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.unharmed = 0;
 		this.damaged = 1;
 		this.dead = 2;
+	}
+
+	setupProjectiles(projectile)
+	{
+		this.projectiles = projectile
 	}
 
 	updateMovement() // nie wiem co pilem jak myslalem ze to super smart pomysl ale nie dosyc ze to overkill to do tego chujowo dziala
@@ -396,9 +403,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		if (this.health <= 0)
 		{
-			// TODO: die
 			this.healthState = this.dead
 			this.setVelocity(0, 0)
+			this.setImmovable();
+			this.anims.play('faint');
 			console.log('DEAD');
 		}
 
@@ -412,4 +420,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.damageTime = 0
 		}
 	}
+
+	getMaxHealth()
+	{
+		return this.maxHealth;
+	}
+
+	getHealth()
+	{
+		return this.health;
+	}	
 }

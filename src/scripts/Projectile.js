@@ -43,9 +43,9 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite
 
 	fireProjectile(initiator)
 	{
-		const center = initiator.getCenter();
+		this.center = initiator.getCenter();
 
-		this.projectile = this.scene.physics.add.sprite(center.x, center.y, 'projectile');
+		this.projectile = this.scene.physics.add.sprite(this.center.x, this.center.y, 'projectile');
 		this.scene.physics.moveTo(this.projectile ,this.scene.input.activePointer.x, this.scene.input.activePointer.y, 100);
 	}
 

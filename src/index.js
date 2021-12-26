@@ -1,5 +1,6 @@
 
 import GameScene from "./scripts/gameScene";
+import UI from "./scripts/UI";
 
 const config = 
 {
@@ -12,6 +13,7 @@ const config =
 			debug: true
 		}
 	},
+	scene: [GameScene, UI],
 	plugins: {
         scene: [
             {
@@ -25,5 +27,6 @@ const config =
 
 const game = new Phaser.Game(config)
 
-game.scene.add('GameScene', GameScene);
-game.scene.start('GameScene');
+//game.scene.add('GameScene', GameScene);
+
+//asgame.scene.start('GameScene');

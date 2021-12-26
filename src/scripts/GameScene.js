@@ -1,9 +1,9 @@
 import Phaser from 'phaser';
 
-import  Game  from 'phaser';
 import Player from './Player';
 import Enemy from './Enemy';
 import Map from './Map';
+import { sceneEvents } from './EventCommunicator';
 
 export default class GameScene extends Phaser.Scene
 {
@@ -21,22 +21,26 @@ export default class GameScene extends Phaser.Scene
 
 		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
+
+		this.load.image('ui-heart-empty', 'assets/ui_heart_empty.png');
+		this.load.image('ui-heart-full', 'assets/ui_heart_full.png');
     }
 
     create()
     {
     	console.log("GameScene started");
+		
 		this.currentMap = new Map(this);
 
 		this.hitCounter = 0;
+
+		this.projectiles = this.physics.add.group({classType: Phaser.Physics.Arcade.Image})
 
 		this.spawnPlayer();
 		//this.createFOV(this);
 		this.setupRaycast();
 
 		//this.spawnEnemy();
-
-
 	}
 
 	update(time, deltaTime)
@@ -50,8 +54,9 @@ export default class GameScene extends Phaser.Scene
 	spawnPlayer()
 	{
 		this.myPlayer = new Player(this, 300, 300);
+		this.scene.run('UI');
 		this.setFollowingCamera(this.myPlayer);
-		this.setColliders(this.myPlayer);
+		this.setColliders();
 	}
 
 	spawnEnemy()
@@ -59,11 +64,12 @@ export default class GameScene extends Phaser.Scene
 		this.myEnemy = new Enemy(this, 500, 400);
 	}
 
-	setColliders(player)
+	setColliders()
 	{
-		this.physics.add.collider(player, this.currentMap.walls);
+		this.physics.add.collider(this.myPlayer, this.currentMap.walls);
 		this.physics.add.collider(this.currentMap.lizards, this.currentMap.walls);
-		this.physics.add.collider(player, this.currentMap.lizards, this.handlePlayerEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.lizards, this.handlePlayerEnemyCollision, undefined, this);
+		this.physics.add.collider(this.projectiles, this.currentMap.lizards, this.handleProjectilesEnemyCollision, undefined, this);
 	}
 
 	setupRaycast()
@@ -216,6 +222,13 @@ export default class GameScene extends Phaser.Scene
 		this.directionVector = new Phaser.Math.Vector2(this.xImpactSide, this.yImpactSide).normalize().scale(200);
 
 		this.myPlayer.handleDamage(this.directionVector);
+
+		sceneEvents.emit('playerHealthChanged', this.myPlayer.health);
+		
+	}
+
+	handleProjectilesEnemyCollision()
+	{
 
 	}
 }

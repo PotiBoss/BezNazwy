@@ -39,4 +39,11 @@ export default anims => {
 		frameRate: 15
 
 	})
+
+	anims.create({
+		key: 'faint',
+		frames: anims.generateFrameNames('player', { start: 1, end: 4, prefix: 'faint-', suffix: '.png' }),
+		frameRate: 15
+
+	})
 }

@@ -34,10 +34,4 @@ export default class Map
 	{
 		this.walls.setCollisionByProperty({ collides: true });
 	}
-
-	createColliders()
-	{
-
-	}
-
 }
