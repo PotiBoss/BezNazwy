@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import Player from './Player';
 import Enemy from './Enemy';
 import Map from './Map';
+import Projectile from './Projectile';
 import { sceneEvents } from './EventCommunicator';
 
 export default class GameScene extends Phaser.Scene
@@ -34,7 +35,8 @@ export default class GameScene extends Phaser.Scene
 
 		this.hitCounter = 0;
 
-		this.projectiles = this.physics.add.group({classType: Phaser.Physics.Arcade.Image})
+		//this.projectiles = this.physics.add.group({classType: Phaser.Physics.Arcade.Image})
+		//this.projectiles = this.physics.add.group({Projectile})
 
 		this.spawnPlayer();
 		//this.createFOV(this);
@@ -48,6 +50,7 @@ export default class GameScene extends Phaser.Scene
 		this.myPlayer.updateMovement2();
 		this.updateRaycast();
 		this.myPlayer.handleState(deltaTime);
+		this.myPlayer.handleAttack();
 	}
 
 
@@ -69,7 +72,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer, this.currentMap.walls);
 		this.physics.add.collider(this.currentMap.lizards, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.lizards, this.handlePlayerEnemyCollision, undefined, this);
-		this.physics.add.collider(this.projectiles, this.currentMap.lizards, this.handleProjectilesEnemyCollision, undefined, this);
+		//dthis.physics.add.collider(this.projectiles, this.currentMap.lizards, this.handleProjectilesEnemyCollision, undefined, this);
 	}
 
 	setupRaycast()

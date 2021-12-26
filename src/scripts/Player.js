@@ -33,12 +33,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.teleportCooldown = 1000;
 		this.timeFromLastTeleport = null;
 
-		//this.projectiles = new Projectile(this.scene,-1000, 0);
+		this.projectiless = new Projectile(this.scene,-1000, 0);
 
 
 		//this.setCollideWorldBounds();
 		this.setupMovement();
 		this.setupStates();
+		this.setupProjectiles();
 	}
 
 	setupMovement()
@@ -65,7 +66,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	setupProjectiles(projectile)
 	{
-		this.projectiles = projectile
+		this.projectiles = this.scene.projectiles;
 	}
 
 	updateMovement() // nie wiem co pilem jak myslalem ze to super smart pomysl ale nie dosyc ze to overkill to do tego chujowo dziala
@@ -386,10 +387,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	handleAttack() 
 	{
+		//console.log(this.projectiles);
 		this.scene.input.on('pointerdown', () => {
-			this.projectiles.fireProjectile(this);
-			
-		  })
+			//this.projectiles.fireProjectile(this);
+			this.projectiless.fireProjectile(this);
+		})
 		
 	}
 

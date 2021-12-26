@@ -14,32 +14,9 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite
 		this.traveledDistance = 0;
 		this.centerX = this.x;
 
-
-		this.initEvents();
 	}
+	
 
-	initEvents()
-	{
-		this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
-	}
-
-	preUpdate(time, delta)
-	{
-		super.preUpdate(time, delta);
-
-		//this.traveledDistance += this.body.deltaAbsX();
-
-	}
-
-
-
-	update()
-	{
-		if(Math.abs(this.centerX - this.x) > this.maxDistance)
-		{
-			this.destroy();
-		}
-	}
 
 	fireProjectile(initiator)
 	{
