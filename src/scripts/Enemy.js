@@ -26,6 +26,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 	create()
 	{
 		this.enemySpeed = 100;
+		this.enemyHealth = 30;
+
 		this.setupDirections();
 		this.currentDirection = this.right;
 		this.timeFromLastDirectionChange = null;
@@ -82,11 +84,17 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 		this.direction = Phaser.Math.Between(0, 3);
 	}
 
+	updateHP()
+	{
+		if(this.enemyHealth <= 0)
+		{
+			this.destroy();
+		}
+	}
+
 	destroy()
 	{
 		super.destroy();
 	}
-
-
 }
 

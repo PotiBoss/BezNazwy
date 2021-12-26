@@ -35,9 +35,6 @@ export default class GameScene extends Phaser.Scene
 
 		this.hitCounter = 0;
 
-		//this.projectiles = this.physics.add.group({classType: Phaser.Physics.Arcade.Image})
-		//this.projectiles = this.physics.add.group({Projectile})
-
 		this.spawnPlayer();
 		//this.createFOV(this);
 		this.setupRaycast();
@@ -72,7 +69,8 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer, this.currentMap.walls);
 		this.physics.add.collider(this.currentMap.lizards, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.lizards, this.handlePlayerEnemyCollision, undefined, this);
-		//dthis.physics.add.collider(this.projectiles, this.currentMap.lizards, this.handleProjectilesEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.lizards, this.handleProjectilesEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
 	}
 
 	setupRaycast()
@@ -230,8 +228,20 @@ export default class GameScene extends Phaser.Scene
 		
 	}
 
-	handleProjectilesEnemyCollision()
+	handleProjectilesEnemyCollision(projectile, enemy)
 	{
+		projectile.destroy();
 
+		enemy.setVelocity(0,0); // wyzerowac knockback
+		enemy.timeFromLastDirectionChange = enemy.directionChangeCooldown; // zmienic kierunek (i tak pewnie useless bo ma gonic)
+
+		enemy.enemyHealth -= projectile.projectileDamage;
+		enemy.updateHP();
+		console.log(enemy.enemyHealth)
+	}
+
+	handleProjectilesWallsCollision(projectile, wall)
+	{
+		projectile.destroy();
 	}
 }

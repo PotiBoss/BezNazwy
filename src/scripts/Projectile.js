@@ -7,23 +7,17 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite
 		super(scene, x , y, 'projectile');
 
 		scene.add.existing(this);
-		scene.add.existing(this);
 
-		this.speed = 300;
+		this.speed = 250;
 		this.maxDistance = 10;
 		this.traveledDistance = 0;
-		this.centerX = this.x;
+		this.projectileDamage = 10;
 
 	}
-	
 
-
-	fireProjectile(initiator)
+	fireProjectile(initiator, pointer)
 	{
-		this.center = initiator.getCenter();
-
-		this.projectile = this.scene.physics.add.sprite(this.center.x, this.center.y, 'projectile');
-		this.scene.physics.moveTo(this.projectile ,this.scene.input.activePointer.x, this.scene.input.activePointer.y, 100);
+		this.scene.physics.moveTo(this, pointer.x + this.scene.cameras.main.scrollX, pointer.y + this.scene.cameras.main.scrollY, this.speed);
 	}
 
 }

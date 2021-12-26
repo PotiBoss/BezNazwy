@@ -13,7 +13,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		scene.physics.add.existing(this);
 		initAnims(scene.anims);
 
-		//this.scene.scene;
 		this.square2 = 1.41;
 
 		this.create();
@@ -27,19 +26,18 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.healthState = 0;
 		this.damageTime = 0;
 		this.damagedInvulnerability = 300;
-		//this.projectiles = null;
-
+		this.fireRate = 1000;
 
 		this.teleportCooldown = 1000;
 		this.timeFromLastTeleport = null;
 
-		this.projectiless = new Projectile(this.scene,-1000, 0);
+
+		this.projectiles = this.scene.physics.add.group({classType:Projectile})
 
 
 		//this.setCollideWorldBounds();
 		this.setupMovement();
 		this.setupStates();
-		this.setupProjectiles();
 	}
 
 	setupMovement()
@@ -62,11 +60,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.unharmed = 0;
 		this.damaged = 1;
 		this.dead = 2;
-	}
-
-	setupProjectiles(projectile)
-	{
-		this.projectiles = this.scene.projectiles;
 	}
 
 	updateMovement() // nie wiem co pilem jak myslalem ze to super smart pomysl ale nie dosyc ze to overkill to do tego chujowo dziala
@@ -372,7 +365,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			case this.unharmed:
 				
 				break;
-			
+			wwa
 			case this.damaged:
 				this.damageTime += deltaTime;
 				if(this.damageTime >= this.damagedInvulnerability)
@@ -387,12 +380,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	handleAttack() 
 	{
-		//console.log(this.projectiles);
-		this.scene.input.on('pointerdown', () => {
-			//this.projectiles.fireProjectile(this);
-			this.projectiless.fireProjectile(this);
+
+
+		this.scene.input.on('pointerdown', (pointer) => {
+			
+			this.date = new Date();
+			if(this.timeFromLastShot && this.timeFromLastShot + this.fireRate >  this.date){ return; }
+			this.timeFromLastShot = getTimeStamp();
+
+			this.projectile = this.projectiles.get(this.x, this.y, this);
+			this.projectile.fireProjectile(this, pointer);
 		})
-		
 	}
 
 	handleDamage(knockbackDirection)
