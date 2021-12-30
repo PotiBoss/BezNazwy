@@ -14,13 +14,13 @@ export default class Map
 
 	createMap()
 	{
-		const map = this.scene.make.tilemap({ key: 'dungeon' });
-		const tileset = map.addTilesetImage('dungeon', 'tiles');
+		this.map = this.scene.make.tilemap({ key: 'dungeon' });
+		const tileset = this.map.addTilesetImage('dungeon', 'tiles');
 
 		
 
-		this.ground = map.createLayer('ground', tileset).setScale(2,2);
-		this.walls = map.createLayer('walls', tileset).setScale(2,2);
+		this.ground = this.map.createLayer('ground', tileset).setScale(2,2);
+		this.walls = this.map.createLayer('walls', tileset).setScale(2,2);
 		this.activateColliders();
 
 		this.lizards = this.scene.physics.add.group({

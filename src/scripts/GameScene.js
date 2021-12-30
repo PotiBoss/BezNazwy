@@ -6,6 +6,8 @@ import Map from './Map';
 import Projectile from './Projectile';
 import { sceneEvents } from './EventCommunicator';
 
+import { Mrpas } from 'mrpas'
+
 export default class GameScene extends Phaser.Scene
 {
     constructor()
@@ -36,10 +38,11 @@ export default class GameScene extends Phaser.Scene
 		this.hitCounter = 0;
 
 		this.spawnPlayer();
-		//this.createFOV(this);
 		this.setupRaycast();
-
+	
 		//this.spawnEnemy();
+
+		this.setupFOV();
 	}
 
 	update(time, deltaTime)
@@ -48,6 +51,7 @@ export default class GameScene extends Phaser.Scene
 		this.updateRaycast();
 		this.myPlayer.handleState(deltaTime);
 		this.myPlayer.handleAttack();
+		this.updateFOV();
 	}
 
 
@@ -76,7 +80,6 @@ export default class GameScene extends Phaser.Scene
 	setupRaycast()
 	{
 		this.raycaster = this.raycasterPlugin.createRaycaster();
-		console.log(this.raycaster);
 
 		this.rayRightDown = this.raycaster.createRay({
 			origin: {
@@ -158,6 +161,19 @@ export default class GameScene extends Phaser.Scene
 		  });
 		  this.rayDown.setAngleDeg(90);
 
+
+		  // fov raycast
+		  this.rayFOV = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true,  //automatically slice casting result into triangles
+			collisionRange: 15,
+			 //ray's field of view range
+		  });
+
+
 		this.raycaster.debugOptions.enabled = true;
 
 
@@ -165,6 +181,8 @@ export default class GameScene extends Phaser.Scene
 		this.raycaster.mapGameObjects(this.currentMap.walls, false, {
 			collisionTiles: [1,2,3,33,34,35,224,225,226,227,256,257,258,259,260,261,288,289,290,291,292,293,322,323] //ID tilow z Tiled
 		  });
+
+		
 
 		this.wallsRaycast = this.add.group(this.currentMap.walls);
 		this.raycaster.mapGameObjects(this.wallsRaycast.getChildren());
@@ -190,27 +208,95 @@ export default class GameScene extends Phaser.Scene
 		this.intersectionUp = this.rayUp.cast();
 		this.intersectionDown = this.rayDown.cast();
 
- 	//	this.graphics.clear();
-  	//	this.line = new Phaser.Geom.Line(this.myPlayer.x, this.myPlayer.y, this.intersectionRight.x, this.intersectionRight.y);
-  	//	this.graphics.fillPoint(this.rayRight.origin.x, this.rayRight.origin.y, 3)
-  	//	this.graphics.strokeLineShape(this.line);
+		this.rayFOV.setOrigin(this.myPlayer.x, this.myPlayer.y);
+		this.intersectionFOV = this.rayFOV.castCircle();
+		
 	}
 
+	
+	setupFOV()
+	{
+		this.fov = new Mrpas(this.currentMap.map.width, this.currentMap.map.height, (x, y) => {
+			const tile = this.currentMap.ground.getTileAt(x, y)
+			const tileWall = this.currentMap.walls.getTileAt(x, y)
+			return tile && !tile.collides && !tileWall;
+		})
+	
+	}
+
+	updateFOV()
+	{
+		if(!this.fov || !this.currentMap || !this.currentMap.ground || !this.myPlayer) { return; }
+
+		const camera = this.cameras.main
+		const bounds = new Phaser.Geom.Rectangle(
+			this.currentMap.map.worldToTileX(camera.worldView.x) - 1,
+			this.currentMap.map.worldToTileY(camera.worldView.y) - 1,
+			this.currentMap.map.worldToTileX(camera.worldView.width) + 2,
+			this.currentMap.map.worldToTileX(camera.worldView.height) + 3
+		)
+
+
+		for (let y = bounds.y; y < bounds.y + bounds.height; y++)
+		{
+			for (let x = bounds.x; x < bounds.x + bounds.width; x++)
+			{
+				if (y < 0 || y >= this.currentMap.map.height || x < 0 || x >= this.currentMap.map.width)
+				{
+					continue
+
+				}
+	
+				const tile = this.currentMap.ground.getTileAt(x, y)
+				if (!tile)
+				{
+
+					continue
+				}
+	
+				tile.alpha = 1
+				tile.tint = 0x404040
+			}
+		}
+	
+		// calculate fov here...
+
+		// get player's position
+	const px = this.currentMap.map.worldToTileX(this.myPlayer.x)
+	const py = this.currentMap.map.worldToTileY(this.myPlayer.y)
+	
+	// compute fov from player's position
+	this.fov.compute(
+		px,
+		py,
+		7,
+		(x, y) => {
+			const tile = this.currentMap.ground.getTileAt(x, y)
+			if (!tile)
+			{
+				return false
+			}
+			return tile.tint === 0xffffff
+		},
+		(x, y) => {
+			const tile = this.currentMap.ground.getTileAt(x, y)
+			if (!tile)
+			{
+				return false
+			}
+			const d = Phaser.Math.Distance.Between(py, px, y, x)
+			const alpha = Math.min(2 - d / 6, 1)
+
+			tile.tint = 0xffffff
+			tile.alpha =  alpha
+		}
+	)
+	}
 
 	setFollowingCamera(player)
 	{
 		//this.physics.world.setBounds()
 		this.cameras.main.startFollow(player);
-	}
-	
-
-	createFOV(scene){
-		this.maskGraphics = scene.add.graphics({ fillStyle: { color: 0xffffff, alpha: 0 }});
-		this.mask = new Phaser.Display.Masks.GeometryMask(scene, this.maskGraphics);
-		this.mask.setInvertAlpha();
-		this.fow = scene.add.graphics({ fillStyle: { color: 0x000000, alpha: 0.6 } }).setDepth(29);
-		this.fow.setMask(this.mask);
-		this.fow.fillRect(0, 0, 800, 600);
 	}
 
 	handlePlayerEnemyCollision(player, enemy)
