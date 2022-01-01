@@ -27,6 +27,10 @@ export default class GameScene extends Phaser.Scene
 
 		this.load.image('ui-heart-empty', 'assets/ui_heart_empty.png');
 		this.load.image('ui-heart-full', 'assets/ui_heart_full.png');
+
+		this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
+
+		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
     }
 
     create()
@@ -43,6 +47,8 @@ export default class GameScene extends Phaser.Scene
 		//this.spawnEnemy();
 
 		this.setupFOV();
+
+		this.createFOW();
 	}
 
 	update(time, deltaTime)
@@ -52,13 +58,69 @@ export default class GameScene extends Phaser.Scene
 		this.myPlayer.handleState(deltaTime);
 		this.myPlayer.handleAttack();
 		this.updateFOV();
+		this.updateFOW();
+	}
+
+	createFOW()
+	{
+		const groundLayer = this.currentMap.ground
+		const wallLayer = this.currentMap.walls
+
+		const width = 2000
+		const height = 2000
+
+		const rt = this.make.renderTexture({
+			width,
+			height
+		}, true)
+
+			// fill it with black
+	rt.fill(0x000000, 1)
+
+	// draw the floorLayer into it
+	rt.draw(groundLayer)
+	rt.draw(wallLayer)
+
+	// set a dark blue tint
+	rt.setTint(0x0a2948)
+
+
+
+	this.vision = this.make.image({
+		x: this.myPlayer.x,
+		y: this.myPlayer.y,
+		key: 'vision',
+		add: false
+	})
+	this.vision.scale = 15
+
+	rt.mask = new Phaser.Display.Masks.BitmapMask(this, this.vision)
+	rt.mask.invertAlpha = true
+	}
+
+	updateFOW()
+	{
+		this.fow = new Mrpas(this.currentMap.map.width, this.currentMap.map.height, (x, y) => {
+			const tile = this.currentMap.ground.getTileAt(x, y)
+			const tileWall = this.currentMap.walls.getTileAt(x, y)
+			
+			
+			return tile && !tile.collides && !tileWall
+		})
+
+		if (this.vision)
+		{
+			this.vision.x = this.myPlayer.x
+			this.vision.y = this.myPlayer.y
+		}
 	}
 
 
 	spawnPlayer()
 	{
-		this.myPlayer = new Player(this, 300, 300);
+		this.myPlayer = new Player(this, 250, 250);
 		this.scene.run('UI');
+		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
 		this.setColliders();
 	}
@@ -75,6 +137,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer, this.currentMap.lizards, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.lizards, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
 	}
 
 	setupRaycast()
@@ -180,7 +243,7 @@ export default class GameScene extends Phaser.Scene
 
 		this.raycaster.mapGameObjects(this.currentMap.walls, false, {
 			collisionTiles: [1,2,3,33,34,35,224,225,226,227,256,257,258,259,260,261,288,289,290,291,292,293,322,323] //ID tilow z Tiled
-		  });
+		});
 
 		
 
@@ -219,9 +282,12 @@ export default class GameScene extends Phaser.Scene
 		this.fov = new Mrpas(this.currentMap.map.width, this.currentMap.map.height, (x, y) => {
 			const tile = this.currentMap.ground.getTileAt(x, y)
 			const tileWall = this.currentMap.walls.getTileAt(x, y)
-			return tile && !tile.collides && !tileWall;
+			
+			
+			return tile && !tile.collides && !tileWall
 		})
-	
+		
+		
 	}
 
 	updateFOV()
@@ -229,6 +295,7 @@ export default class GameScene extends Phaser.Scene
 		if(!this.fov || !this.currentMap || !this.currentMap.ground || !this.myPlayer) { return; }
 
 		const camera = this.cameras.main
+
 		const bounds = new Phaser.Geom.Rectangle(
 			this.currentMap.map.worldToTileX(camera.worldView.x) - 1,
 			this.currentMap.map.worldToTileY(camera.worldView.y) - 1,
@@ -243,14 +310,14 @@ export default class GameScene extends Phaser.Scene
 			{
 				if (y < 0 || y >= this.currentMap.map.height || x < 0 || x >= this.currentMap.map.width)
 				{
+					
 					continue
-
+					
 				}
 	
 				const tile = this.currentMap.ground.getTileAt(x, y)
 				if (!tile)
 				{
-
 					continue
 				}
 	
@@ -272,21 +339,33 @@ export default class GameScene extends Phaser.Scene
 		7,
 		(x, y) => {
 			const tile = this.currentMap.ground.getTileAt(x, y)
+			
+
+
+
 			if (!tile)
 			{
+				
 				return false
 			}
+
+			
+
 			return tile.tint === 0xffffff
 		},
 		(x, y) => {
 			const tile = this.currentMap.ground.getTileAt(x, y)
+
+
+
+
 			if (!tile)
 			{
+				
 				return false
 			}
 			const d = Phaser.Math.Distance.Between(py, px, y, x)
 			const alpha = Math.min(2 - d / 6, 1)
-
 			tile.tint = 0xffffff
 			tile.alpha =  alpha
 		}
@@ -329,5 +408,18 @@ export default class GameScene extends Phaser.Scene
 	handleProjectilesWallsCollision(projectile, wall)
 	{
 		projectile.destroy();
+	}
+
+	handlePlayerChestCollision(player, chest)
+	{
+		this.myPlayer.setChest(chest)
+		
+		if(this.myPlayer.keyF.isDown)
+		{
+			if(this.myPlayer.currentChest)
+			{
+				this.myPlayer.currentChest.openChest();
+			}
+		}
 	}
 }

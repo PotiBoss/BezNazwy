@@ -1,5 +1,6 @@
 
 import Enemy from "./Enemy";
+import Chest from "./Chest";
 
 export default class Map
 {
@@ -7,7 +8,7 @@ export default class Map
 	{
 		this.scene = scene;
 
-		this.interactiveObjects = [];
+		//this.interactiveObjects = [];
 
 		this.createMap();
 	}
@@ -16,18 +17,35 @@ export default class Map
 	{
 		this.map = this.scene.make.tilemap({ key: 'dungeon' });
 		const tileset = this.map.addTilesetImage('dungeon', 'tiles');
-
 		
 
 		this.ground = this.map.createLayer('ground', tileset).setScale(2,2);
 		this.walls = this.map.createLayer('walls', tileset).setScale(2,2);
+		this.chestLayer = this.map.getObjectLayer('chests');
+
+		this.chests = this.scene.physics.add.staticGroup({
+			classType: Chest
+		})
+
+		this.chestLayer.objects.forEach(chest => {
+			this.chests.get(chest.x * 2 + chest.width , chest.y * 2 - chest.height).setScale(1.5, 1.5)
+		})
+
+
+		//this.enemies = this.map.createLayer('enemyTile', tileset).setScale(2,2);
 		this.activateColliders();
 
 		this.lizards = this.scene.physics.add.group({
-			classType: Enemy	
+			classType: Enemy
 		})
 
-		this.lizards.get(200,150);
+
+		const enemyLayer = this.map.getObjectLayer('enemy')
+
+		enemyLayer.objects.forEach(enemyObject => {
+			this.lizards.get(enemyObject.x * 2 + enemyObject.width * 0.5, enemyObject.y * 2 + enemyObject.height * 0.5); // * 2 bo skalowalem tilemape
+		})
+
 	}
 
 	activateColliders()

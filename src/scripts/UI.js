@@ -1,11 +1,8 @@
-import Player from "./Player";
-
 import { sceneEvents } from "./EventCommunicator";
 
 export default class UI extends Phaser.Scene
 {
 
-	
 	constructor()
 	{
 		super('UI');

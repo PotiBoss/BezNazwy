@@ -2,6 +2,7 @@ import initAnims from './AnimsPlayer'
 import Projectile from './Projectile';
 
 import { getTimeStamp } from './GetTimeStamp';
+import Inventory from './Inventory';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -34,6 +35,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		this.projectiles = this.scene.physics.add.group({classType:Projectile})
 
+		this.inventory = new Inventory();
+
 
 		//this.setCollideWorldBounds();
 		this.setupMovement();
@@ -53,6 +56,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.up = 0
 
 		this.keySpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+		this.keyF = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
 	}
 
 	setupStates()
@@ -248,6 +252,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.teleportDown(this.body.velocity, this.scene.intersectionDown);
 		}
+
+
+
 	}
 	
 
@@ -298,7 +305,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	}
 
 	teleportRightDown(playerVelocity, raycastIntersection)
-	{
+	{``
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;
@@ -365,7 +372,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			case this.unharmed:
 				
 				break;
-			wwa
 			case this.damaged:
 				this.damageTime += deltaTime;
 				if(this.damageTime >= this.damagedInvulnerability)
@@ -380,8 +386,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	handleAttack() 
 	{
-
-
 		this.scene.input.on('pointerdown', (pointer) => {
 			
 			this.date = new Date();
@@ -420,6 +424,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.damageTime = 0
 		}
 	}
+	
+	setChest(chest)
+	{
+		this.currentChest = chest;
+	}
+
 
 	getMaxHealth()
 	{

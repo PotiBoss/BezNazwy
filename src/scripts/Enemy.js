@@ -1,5 +1,6 @@
 import initAnims from './AnimsEnemy'
 import { getTimeStamp } from './GetTimeStamp';
+import Player from './Player';
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite
 {
@@ -21,17 +22,31 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 
 		this.create();
 
+		
+		
 	}
 
 	create()
 	{
 		this.enemySpeed = 100;
 		this.enemyHealth = 30;
+		this.visionRange = 200;
 
 		this.setupDirections();
 		this.currentDirection = this.right;
 		this.timeFromLastDirectionChange = null;
 		this.directionChangeCooldown = 1000;
+		this.setPushable(false)
+
+
+	}
+
+	preUpdate(time, deltaTime)
+	{
+		super.preUpdate(time, deltaTime);
+
+		this.changeDirection()
+	//	this.chasePlayer(); //TODO: WLACZYC
 	}
 
 	setupDirections()
@@ -40,6 +55,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 		this.right = 1;
 		this.down = 2;
 		this.left = 3;
+
 	}
 
 	changeDirection()
@@ -53,7 +69,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 
 		this.setVelocityY(0);
 		this.setVelocityX(0);
-
+		
 		switch(this.direction)
 		{
 			case this.right:
@@ -68,20 +84,29 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 			case this.up:
 				this.setVelocityY(-this.enemySpeed);
 		}
+		
 	}
 	
-	preUpdate(time, deltaTime)
-	{
-		super.preUpdate(time, deltaTime);
 
-		this.changeDirection()
-	}
 
 	handleTileCollision(go = Phaser.GameObjects.GameObject, tile = Phaser.Tilemaps.Tile)
 	{
 		if(go !== this) { return; }
 
 		this.direction = Phaser.Math.Between(0, 3);
+	}
+
+	chasePlayer()
+	{
+		this.myPlayer = this.scene.myPlayer
+		if(this.myPlayer != undefined)
+		{
+			if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
+			{
+				this.scene.physics.moveToObject(this, this.myPlayer, 100);
+			}
+		}
+
 	}
 
 	updateHP()
@@ -96,5 +121,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 	{
 		super.destroy();
 	}
+
 }
 
