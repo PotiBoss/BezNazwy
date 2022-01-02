@@ -9,9 +9,12 @@ export default class Inventory
 			//0: {name: 'pickaxe', quantity: 1},
 			//2: {name: 'stone', quantity: 3}
 		}
+		this.observers = [];
 
 		this.maxColumns = 10;
 		this.maxRows = 3;
+
+		this.currentItem = 0;
 
 		this.addItem({name: 'pickaxe', quantity: 2})
 		this.addItem({name: 'stone', quantity: 3})
@@ -37,6 +40,7 @@ export default class Inventory
 				}
 			}
 		}
+		this.broadcast();
 	}
 
 	getItem(gridNumber)
@@ -52,5 +56,21 @@ export default class Inventory
 		}
 		this.items[endingSlot] = this.items[startingSlot];
 		delete this.items[startingSlot];
+		this.broadcast();
+	}
+
+	subscribe(fn)
+	{
+		this.observers.push(fn);
+	}
+
+	unsubscribe(fn)
+	{
+		this.observers = this.observers.filter(subscriber => subscriber !== fn);
+	}
+
+	broadcast()
+	{
+		this.observers.forEach(subscriber => subscriber());
 	}
 }

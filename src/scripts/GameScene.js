@@ -57,6 +57,9 @@ export default class GameScene extends Phaser.Scene
 		this.updateRaycast();
 		this.myPlayer.handleState(deltaTime);
 		this.myPlayer.handleAttack();
+
+		//5. inv select in hand?
+
 		this.updateFOV();
 		this.updateFOW();
 	}

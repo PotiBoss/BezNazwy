@@ -135,7 +135,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		if(this.healthState === this.damaged || this.healthState === this.dead) {return;}
 
-
 		if(this.keyD.isDown && this.keyW.isDown)
 		{
 			this.setVelocityX(this.playerSpeed);
@@ -253,7 +252,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.teleportDown(this.body.velocity, this.scene.intersectionDown);
 		}
 
-
+		//this.scene.input.keyboard.resetKeys(); 
 
 	}
 	
@@ -305,7 +304,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	}
 
 	teleportRightDown(playerVelocity, raycastIntersection)
-	{``
+	{
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;

@@ -23,26 +23,35 @@ export default class SceneInventory extends Phaser.Scene
 		this.inventory = this.mainScene.myPlayer.inventory;
 		this.maxColumns = this.inventory.maxColumns;
 		this.maxRows = this.inventory.maxRows;
+		this.inventory.subscribe(() => this.refresh());
 	}
 	
 	create()
 	{
 		this.refresh();
+		//select
+		this.input.on('wheel', (pointer, spriteObject, x, y, z) => {
+			this.inventory.currentItem = Math.max((0, this.inventory.currentItem + (y > 0 ? 1 : -1)) % this.maxColumns);
+			if(this.inventory.currentItem < 0) this.inventory.currentItem = this.maxColumns - 1;
+			this.changeCurrentItem();
+		})
+
+		//drag
 		this.input.keyboard.on('keydown-I', () => {
 			this.currentRows = this.currentRows === 1 ? this.maxRows : 1;
 			this.refresh();
 		});
 
 		this.input.setTopOnly(false);
-		this.input.on("dragstart", ()=>{
+		this.input.on('dragstart', ()=>{	
 			this.startingSlot = this.hoverSlot;
 			this.inventorySlots[this.startingSlot].quantityText.destroy();
 		})
-		this.input.on("drag", (pointer, spriteObject, x, y) => {
+		this.input.on('drag', (pointer, spriteObject, x, y) => {
 			spriteObject.x = x;
 			spriteObject.y = y;
 		})
-		this.input.on("dragend", () => {
+		this.input.on('dragend', () => {
 			this.inventory.changeSlot(this.startingSlot, this.hoverSlot);
 			this.refresh();
 		})
@@ -80,6 +89,7 @@ export default class SceneInventory extends Phaser.Scene
 			}
 			this.inventorySlots.push(inventorySlot);
 		}
+		this.changeCurrentItem();
 	}
 
 	refreshInventorySlot(inventorySlot)
@@ -95,6 +105,14 @@ export default class SceneInventory extends Phaser.Scene
 		}
 
 		inventorySlot.destroy();
+	}
+
+	changeCurrentItem()
+	{
+		for(let i = 0; i < this.maxColumns; i++)
+		{
+			this.inventorySlots[i].tint = this.inventory.currentItem === i ? 0xffff00 : 0xffffff; 
+		}
 	}
 
 	getTileSize()
