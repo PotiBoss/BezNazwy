@@ -31,6 +31,14 @@ export default class Map
 			this.chests.get(chest.x * 2 + chest.width , chest.y * 2 - chest.height).setScale(1.5, 1.5)
 		})
 
+		this.potionLayer = this.map.getObjectLayer('potions');
+		this.potions = this.scene.physics.add.staticGroup();
+
+		this.potionLayer.objects.forEach(object => {
+			let potion = this.potions.create(object.x * 2, object.y * 2, 'potion') ; 
+		})
+
+
 
 		//this.enemies = this.map.createLayer('enemyTile', tileset).setScale(2,2);
 		this.activateColliders();

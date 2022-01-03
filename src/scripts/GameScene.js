@@ -30,6 +30,8 @@ export default class GameScene extends Phaser.Scene
 
 		this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
 
+		this.load.image('potion', 'assets/star.png'); // placeholder potion
+
 		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
     }
 
@@ -141,6 +143,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.lizards, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.potions, this.handlePlayerPickupCollision, undefined, this);
 	}
 
 	setupRaycast()
@@ -424,5 +427,11 @@ export default class GameScene extends Phaser.Scene
 				this.myPlayer.currentChest.openChest();
 			}
 		}
+	}
+
+	handlePlayerPickupCollision(player, item)
+	{	
+		this.myPlayer.inventory.addItem({name: 'health_potion', quantity: 1});
+		item.destroy();
 	}
 }
