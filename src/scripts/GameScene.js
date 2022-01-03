@@ -3,8 +3,8 @@ import Phaser from 'phaser';
 import Player from './Player';
 import Enemy from './Enemy';
 import Map from './Map';
-import Projectile from './Projectile';
 import { sceneEvents } from './EventCommunicator';
+
 
 import { Mrpas } from 'mrpas'
 
@@ -30,18 +30,16 @@ export default class GameScene extends Phaser.Scene
 
 		this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
 
-		this.load.image('potion', 'assets/star.png'); // placeholder potion
-
 		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
     }
 
     create()
     {
-    	console.log("GameScene started");
 		
 		this.currentMap = new Map(this);
 
 		this.hitCounter = 0;
+		this.isCraftingActive = false;
 
 		this.spawnPlayer();
 		this.setupRaycast();
@@ -64,6 +62,23 @@ export default class GameScene extends Phaser.Scene
 
 		this.updateFOV();
 		this.updateFOW();
+		this.changeCraftingScene();
+
+	}
+
+	changeCraftingScene()
+	{
+		this.input.keyboard.on('keydown-C',() =>{
+			if(this.scene.isActive('SceneCrafting')){
+				this.isCraftingActive = false;
+				this.scene.stop('SceneCrafting');
+			}
+			else
+			{
+				this.isCraftingActive = true;
+				this.scene.run('SceneCrafting', {mainScene: this});
+			}
+		});
 	}
 
 	createFOW()
@@ -124,8 +139,9 @@ export default class GameScene extends Phaser.Scene
 	spawnPlayer()
 	{
 		this.myPlayer = new Player(this, 250, 250);
-		this.scene.run('UI');
+		this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
+	//	this.scene.run('SceneCrafting', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
 		this.setColliders();
 	}
@@ -431,7 +447,9 @@ export default class GameScene extends Phaser.Scene
 
 	handlePlayerPickupCollision(player, item)
 	{	
-		this.myPlayer.inventory.addItem({name: 'health_potion', quantity: 1});
+		//this.myPlayer.inventory.addItem({name: item.name, quantity: 1});
+		this.myPlayer.inventory.addItem({name: 'health_potion', frame: 11, quantity: 1});
 		item.destroy();
 	}
 }
+

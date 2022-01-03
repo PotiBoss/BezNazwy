@@ -31,6 +31,8 @@ export default class SceneInventory extends Phaser.Scene
 		this.refresh();
 		//select
 		this.input.on('wheel', (pointer, spriteObject, x, y, z) => {
+			if(this.mainScene.isCraftingActive) {return};
+			console.log(this.mainScene.isCraftingActive)
 			this.inventory.currentItem = Math.max((0, this.inventory.currentItem + (y > 0 ? 1 : -1)) % this.maxColumns);
 			if(this.inventory.currentItem < 0) this.inventory.currentItem = this.maxColumns - 1;
 			this.changeCurrentItem();

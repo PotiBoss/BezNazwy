@@ -2,6 +2,7 @@
 import GameScene from "./scripts/gameScene";
 import SceneInventory from "./scripts/SceneInventory";
 import UI from "./scripts/UI";
+import SceneCrafting from "./scripts/SceneCrafting";
 
 const config = 
 {
@@ -14,7 +15,7 @@ const config =
 			debug: true
 		}
 	},
-	scene: [GameScene, UI, SceneInventory],
+	scene: [GameScene, UI, SceneInventory, SceneCrafting],
 	plugins: {
         scene: [
             {

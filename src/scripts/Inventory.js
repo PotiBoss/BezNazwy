@@ -16,8 +16,8 @@ export default class Inventory
 
 		this.currentItem = 0;
 
-		this.addItem({name: 'pickaxe', quantity: 2})
-		this.addItem({name: 'stone', quantity: 3})
+		this.addItem({name: 'wood', quantity: 8})
+		this.addItem({name: 'stone', quantity: 8})
 	}
 
 	addItem(item)
@@ -43,9 +43,14 @@ export default class Inventory
 		this.broadcast();
 	}
 
-	getItem(gridNumber)
+	removeItem(itemName)
 	{
-		return this.items[gridNumber]
+		let currentSlot = Object.keys(this.items).find(key => this.items[key].name === itemName)
+		if(currentSlot){
+			this.items[currentSlot].quantity--;
+			if(this.items[currentSlot].quantity <= 0) delete this.items[currentSlot];
+		}
+		this.broadcast();
 	}
 
 	changeSlot(startingSlot, endingSlot)
@@ -72,5 +77,15 @@ export default class Inventory
 	broadcast()
 	{
 		this.observers.forEach(subscriber => subscriber());
+	}
+
+	getItem(gridNumber)
+	{
+		return this.items[gridNumber]
+	}
+
+	getItemQuantity(itemName)
+	{
+		return Object.values(this.items).filter(i => i.name === itemName).map(j => j.quantity).reduce((totalNumber, numberToAdd) => totalNumber + numberToAdd, 0); //kasper bylby dumny
 	}
 }

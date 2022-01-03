@@ -46,7 +46,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 		super.preUpdate(time, deltaTime);
 
 		this.changeDirection()
-	//	this.chasePlayer(); //TODO: WLACZYC
+		//this.chasePlayer(); //TODO: WLACZYC
 	}
 
 	setupDirections()

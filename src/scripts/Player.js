@@ -3,6 +3,7 @@ import Projectile from './Projectile';
 
 import { getTimeStamp } from './GetTimeStamp';
 import Inventory from './Inventory';
+import Crafting from './Crafting'
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -14,6 +15,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		scene.physics.add.existing(this);
 		initAnims(scene.anims);
 
+		this.scene = scene;
 		this.square2 = 1.41;
 
 		this.create();
@@ -36,6 +38,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.projectiles = this.scene.physics.add.group({classType:Projectile})
 
 		this.inventory = new Inventory();
+		this.crafting = new Crafting(this);
 
 
 		//this.setCollideWorldBounds();

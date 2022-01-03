@@ -35,7 +35,7 @@ export default class Map
 		this.potions = this.scene.physics.add.staticGroup();
 
 		this.potionLayer.objects.forEach(object => {
-			let potion = this.potions.create(object.x * 2, object.y * 2, 'potion') ; 
+			let potion = this.potions.create(object.x * 2, object.y * 2, 'items', 144) ; 
 		})
 
 
