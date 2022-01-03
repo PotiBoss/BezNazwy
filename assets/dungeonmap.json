@@ -75,6 +75,29 @@
         }, 
         {
          "draworder":"topdown",
+         "id":8,
+         "name":"workbenches",
+         "objects":[
+                {
+                 "gid":386,
+                 "height":16,
+                 "id":17,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":240.666666666667,
+                 "y":79.3333333333333
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":7,
          "name":"potions",
          "objects":[
@@ -87,7 +110,7 @@
                  "type":"",
                  "visible":true,
                  "width":16,
-                 "x":352.666666666667,
+                 "x":352.667,
                  "y":158
                 }, 
                 {
@@ -99,8 +122,8 @@
                  "type":"",
                  "visible":true,
                  "width":16,
-                 "x":31.3333333333333,
-                 "y":399.333333333333
+                 "x":31.3333,
+                 "y":399.333
                 }, 
                 {
                  "gid":469,
@@ -111,8 +134,8 @@
                  "type":"",
                  "visible":true,
                  "width":16,
-                 "x":65.3333333333333,
-                 "y":47.3333333333333
+                 "x":65.3333,
+                 "y":47.3333
                 }, 
                 {
                  "gid":467,
@@ -124,7 +147,7 @@
                  "visible":true,
                  "width":16,
                  "x":30,
-                 "y":190.666666666667
+                 "y":190.667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -215,8 +238,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":8,
- "nextobjectid":19,
+ "nextlayerid":9,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
@@ -3705,7 +3728,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {
@@ -3714,7 +3737,7 @@
                         {
                          "name":"collides",
                          "type":"bool",
-                         "value":false
+                         "value":true
                         }]
                 }, 
                 {

@@ -42,6 +42,7 @@ export default class GameScene extends Phaser.Scene
 		this.isCraftingActive = false;
 
 		this.spawnPlayer();
+		//this.changeCraftingScene();
 		this.setupRaycast();
 	
 		//this.spawnEnemy();
@@ -62,7 +63,7 @@ export default class GameScene extends Phaser.Scene
 
 		this.updateFOV();
 		this.updateFOW();
-		this.changeCraftingScene();
+		
 
 	}
 
@@ -160,6 +161,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.potions, this.handlePlayerPickupCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
 	}
 
 	setupRaycast()
@@ -450,6 +452,27 @@ export default class GameScene extends Phaser.Scene
 		//this.myPlayer.inventory.addItem({name: item.name, quantity: 1});
 		this.myPlayer.inventory.addItem({name: 'health_potion', frame: 11, quantity: 1});
 		item.destroy();
+	}
+
+	handlePlayerWorkbenchCollision(player, workbench)
+	{
+
+		this.myPlayer.setWorkbench(workbench)
+		
+		if(this.myPlayer.currentWorkbench !== undefined)
+		{
+			this.input.keyboard.on('keydown-C',() =>{
+				if(this.scene.isActive('SceneCrafting')){
+					this.isCraftingActive = false;
+					this.scene.stop('SceneCrafting');
+				}
+				else
+				{
+					this.isCraftingActive = true;
+					this.scene.run('SceneCrafting', {mainScene: this});
+				}
+			});
+		}
 	}
 }
 

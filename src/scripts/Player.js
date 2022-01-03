@@ -432,6 +432,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.currentChest = chest;
 	}
 
+	setWorkbench(workbench)
+	{
+		this.currentWorkbench = workbench;
+	}
+
 
 	getMaxHealth()
 	{
