@@ -1,12 +1,12 @@
 import Phaser from 'phaser';
 
 import Player from './Player';
-import Enemy from './Enemy';
 import Map from './Map';
 import { sceneEvents } from './EventCommunicator';
 
 
 import { Mrpas } from 'mrpas'
+import EnemyBase from './EnemyBase';
 
 export default class GameScene extends Phaser.Scene
 {
@@ -18,17 +18,21 @@ export default class GameScene extends Phaser.Scene
     preload()
     {
 		this.load.image('projectile', 'assets/bomb.png');
+		this.load.image('potion', 'assets/star.png');
 
 		this.load.image('tiles', 'assets/dungeon_tiles.png');
 		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');
 
 		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
+		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');
+
 
 		this.load.image('ui-heart-empty', 'assets/ui_heart_empty.png');
 		this.load.image('ui-heart-full', 'assets/ui_heart_full.png');
 
 		this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
+
 
 		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
     }
@@ -63,7 +67,6 @@ export default class GameScene extends Phaser.Scene
 
 		this.updateFOV();
 		this.updateFOW();
-		
 
 	}
 
@@ -147,21 +150,21 @@ export default class GameScene extends Phaser.Scene
 		this.setColliders();
 	}
 
-	spawnEnemy()
-	{
-		this.myEnemy = new Enemy(this, 500, 400);
-	}
-
 	setColliders()
 	{
 		this.physics.add.collider(this.myPlayer, this.currentMap.walls);
 		this.physics.add.collider(this.currentMap.lizards, this.currentMap.walls);
-		this.physics.add.collider(this.myPlayer, this.currentMap.lizards, this.handlePlayerEnemyCollision, undefined, this);
-		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.lizards, this.handleProjectilesEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.lizards, this.handlePlayerSkeletonCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.lizards, this.handleProjectilesSkeletonCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.potions, this.handlePlayerPickupCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
+		this.physics.add.collider(this.currentMap.tauroses, this.currentMap.walls);
+		this.physics.add.collider(this.myPlayer, this.currentMap.tauroses, this.handlePlayerEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, EnemyBase, this.handlePlayerEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.tauroses, this.handleProjectilesEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.potions, this.currentMap.tauroses, this.handlePotionEnemyCollision, undefined, this);
 	}
 
 	setupRaycast()
@@ -402,7 +405,7 @@ export default class GameScene extends Phaser.Scene
 		this.cameras.main.startFollow(player);
 	}
 
-	handlePlayerEnemyCollision(player, enemy)
+	handlePlayerSkeletonCollision(player, enemy)
 	{
 		this.collidedEnemy = enemy;
 
@@ -417,7 +420,7 @@ export default class GameScene extends Phaser.Scene
 		
 	}
 
-	handleProjectilesEnemyCollision(projectile, enemy)
+	handleProjectilesSkeletonCollision(projectile, enemy)
 	{
 		projectile.destroy();
 
@@ -441,7 +444,7 @@ export default class GameScene extends Phaser.Scene
 		if(this.myPlayer.keyF.isDown)
 		{
 			if(this.myPlayer.currentChest)
-			{
+			{	
 				this.myPlayer.currentChest.openChest();
 			}
 		}
@@ -473,6 +476,34 @@ export default class GameScene extends Phaser.Scene
 				}
 			});
 		}
+	}
+
+	handlePlayerEnemyCollision(player, enemy)
+	{
+		this.xImpactSide = this.myPlayer.x - enemy.x;
+		this.yImpactSide = this.myPlayer.y - enemy.y;
+
+		this.directionVector = new Phaser.Math.Vector2(this.xImpactSide, this.yImpactSide).normalize().scale(250);
+
+		this.myPlayer.handleDamage(this.directionVector);
+
+		sceneEvents.emit('playerHealthChanged', this.myPlayer.health);
+	}
+
+	handleProjectilesEnemyCollision(projectile, enemy)
+	{
+		projectile.destroy();
+
+		enemy.setVelocity(0,0); // wyzerowac knockback
+		enemy.timeFromLastDirectionChange = enemy.directionChangeCooldown; // zmienic kierunek (i tak pewnie useless bo ma gonic)
+
+		enemy.enemyHealth -= projectile.projectileDamage;
+		enemy.updateHP();
+	}
+
+	handlePotionEnemyCollision(potion, enemy)
+	{
+		potion.destroyPotion(enemy);
 	}
 }
 

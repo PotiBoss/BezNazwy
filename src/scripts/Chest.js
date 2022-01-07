@@ -8,7 +8,7 @@ export default class Chest extends Phaser.Physics.Arcade.Sprite
 
 		initAnims(scene.anims);
 		this.anims.play('chest-closed');
-	}
+	}	
 
 
 	openChest()

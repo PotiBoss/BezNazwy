@@ -4,6 +4,7 @@ import Projectile from './Projectile';
 import { getTimeStamp } from './GetTimeStamp';
 import Inventory from './Inventory';
 import Crafting from './Crafting'
+import SkillPotion from './SkillPotion';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -28,14 +29,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.maxHealth = 3;
 		this.healthState = 0;
 		this.damageTime = 0;
-		this.damagedInvulnerability = 300;
+		this.damagedInvulnerability = 500;
+
 		this.fireRate = 1000;
+		this.timeFromLastShot = null;
 
 		this.teleportCooldown = 1000;
 		this.timeFromLastTeleport = null;
 
+		this.potionCooldown = 3000;
+		this.timeFromLastPotion = null;
 
-		this.projectiles = this.scene.physics.add.group({classType:Projectile})
+
+
+
+		this.projectiles = this.scene.physics.add.group({classType:Projectile});
+		this.potions = this.scene.physics.add.group({classType:SkillPotion});
 
 		this.inventory = new Inventory();
 		this.crafting = new Crafting(this);
@@ -60,6 +69,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		this.keySpace = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 		this.keyF = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+		this.keyQ = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
 	}
 
 	setupStates()
@@ -388,16 +398,37 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	handleAttack() 
 	{
-		this.scene.input.on('pointerdown', (pointer) => {
-			
+		this.fireball();
+		this.potionThrow();
+	}
+
+	fireball()
+	{
+		this.scene.input.on('pointerdown', (pointer) => 
+		{
 			this.date = new Date();
 			if(this.timeFromLastShot && this.timeFromLastShot + this.fireRate >  this.date){ return; }
 			this.timeFromLastShot = getTimeStamp();
 
 			this.projectile = this.projectiles.get(this.x, this.y, this);
 			this.projectile.fireProjectile(this, pointer);
-		})
+		});
 	}
+
+	potionThrow()
+	{
+		this.scene.input.keyboard.on('keydown-Q', () => 
+		{
+			this.date = new Date();
+			if(this.timeFromLastPotion && this.timeFromLastPotion + this.potionCooldown >  this.date){ return; }
+			this.timeFromLastPotion = getTimeStamp();
+
+			this.potion = this.potions.get(this.x, this.y, this);
+			this.potion.throw(this);
+		});
+	}
+
+
 
 	handleDamage(knockbackDirection)
 	{

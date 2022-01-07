@@ -1,0 +1,173 @@
+import EnemyBase from "./EnemyBase";
+import { getTimeStamp } from './GetTimeStamp';
+
+export default class Taurus extends EnemyBase
+{
+	constructor(scene, name, x, y)
+		{
+		super(scene, x, y, 'taurus');
+
+		this.scene.physics.add.existing(this);
+
+		this.x = x;
+		this.y = y;
+		this.scene = scene;
+		this.body.onCollide = true;
+		//this.setPushable(false)
+		this.scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this);
+		this.setupDirections();
+
+	}
+
+
+	create()
+	{
+		
+		this.enemySpeed = 80;
+		this.enemyHealth = 50;
+		this.visionRange = 300;
+
+		this.chargeRange = 150;
+		this.chargeTime = 1500; // cooldown miedzy szarzami
+		this.timeFromLastCharge = null;
+		this.chargeSpeed = 300;
+		this.isCharging = false;
+		this.newChargeLocation = true;
+		this.skipChargeCheck = false;
+		this.firstTimeInRange = true;
+		this.chargeDuration = 300;
+
+		this.damageTime = 0;
+		this.damagedInvulnerability = 500;
+	}
+
+	preUpdate(time, deltaTime)
+	{
+		super.preUpdate(time, deltaTime);
+
+		if(!this.isCharging)
+		{
+			this.changeDirection()
+		}
+
+		this.chasePlayer();  //TODO: WLACZYC
+
+		this.handleState(deltaTime);
+	}
+
+	chasePlayer()
+	{
+	
+		this.myPlayer = this.scene.myPlayer
+		if(this.firstTimeInRange)
+		{
+			this.firstTimeInRange = false;
+			this.setupChargeLocation();
+		}
+
+		
+		if(this.myPlayer != undefined)
+		{
+
+			if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
+			{
+
+				if(!this.isCharging)
+				{
+					this.scene.physics.moveToObject(this, this.myPlayer, 100);
+				}
+
+				if(Math.abs(this.x - this.myPlayer.x) < this.chargeRange && Math.abs(this.y - this.myPlayer.y) < this.chargeRange){
+
+					if(this.newChargeLocation)
+					{
+						this.setupChargeLocation();
+					}
+					this.prepareChargeAbility();
+				}
+			}
+			else
+			{
+				this.changeDirection();
+				this.firstTimeInRange = true;
+			}
+		}
+
+	}
+
+	setupChargeLocation()
+	{
+		this.chargeLocation = new Object;
+		this.newChargeLocation = false;
+
+		if(this.myPlayer.x >= this.x && this.myPlayer.y >= this.y)
+		{
+			this.chargeLocation.x = this.myPlayer.x + Math.abs(this.myPlayer.x - this.x);
+			this.chargeLocation.y = this.myPlayer.y + Math.abs(this.myPlayer.y - this.y);
+		}
+		else if(this.myPlayer.x < this.x && this.myPlayer.y > this.y)
+		{
+			this.chargeLocation.x = this.myPlayer.x - Math.abs(this.myPlayer.x - this.x);
+			this.chargeLocation.y = this.myPlayer.y + Math.abs(this.myPlayer.y - this.y);
+		}
+		else if(this.myPlayer.x < this.x && this.myPlayer.y < this.y)
+		{
+			this.chargeLocation.x = this.myPlayer.x - Math.abs(this.myPlayer.x - this.x);
+			this.chargeLocation.y = this.myPlayer.y - Math.abs(this.myPlayer.y - this.y);
+		}
+		else if(this.myPlayer.x > this.x && this.myPlayer.y < this.y)
+		{
+			this.chargeLocation.x = this.myPlayer.x + Math.abs(this.myPlayer.x - this.x);
+			this.chargeLocation.y = this.myPlayer.y - Math.abs(this.myPlayer.y - this.y);
+		}
+	}
+
+	prepareChargeAbility()
+	{
+		if(!this.isCharging){
+			this.setVelocity(0,0);
+		}
+
+		if(this.skipChargeCheck)
+		{
+			this.chargeAbility();
+		}
+	
+		this.date = new Date();
+		if(this.timeFromLastCharge && this.timeFromLastCharge + this.chargeTime >  this.date){ return; }
+		this.timeFromLastCharge = getTimeStamp();
+		
+		this.chargeAbility();
+	}
+
+	chargeAbility()
+	{
+		this.isCharging = true;
+		this.skipChargeCheck = true;
+		this.scene.physics.moveToObject(this, this.chargeLocation, this.chargeSpeed);
+
+		this.date = new Date();
+
+		this.chargeDuration = Math.abs(Math.abs(this.x) - Math.abs(this.chargeLocation.x) + Math.abs(this.y) - Math.abs(this.chargeLocation.y)) * 10;
+
+		if(this.timeFromLastCharge && this.timeFromLastCharge + this.chargeDuration >  this.date){ return; }
+		this.timeFromLastCharge = getTimeStamp();
+		
+		this.isCharging = false;
+		this.skipChargeCheck = false;
+		this.newChargeLocation = true;
+
+		this.setVelocity(0,0)
+	}
+
+	handleTileCollision(go = Phaser.GameObjects.GameObject, tile = Phaser.Tilemaps.Tile)
+	{
+		if(this.isCharging && !go)
+		{
+			this.setupChargeLocation();
+		}
+
+		if(go !== this) { return; }
+		this.direction = Phaser.Math.Between(0, 3);
+	}
+}

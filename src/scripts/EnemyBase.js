@@ -1,52 +1,32 @@
-import initAnims from './AnimsEnemy'
 import { getTimeStamp } from './GetTimeStamp';
-import Player from './Player';
 
-export default class Enemy extends Phaser.Physics.Arcade.Sprite
+
+export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 {
-	constructor(scene, x, y)
+	constructor(scene, x, y, sprite)
 	{
-		super(scene, x, y, 'lizard');
+		super(scene, x, y, sprite);
 
-		scene.add.existing(this);
-		scene.physics.add.existing(this);
-
-		//this.scene.scene;
-
-		initAnims(scene.anims);
-		this.anims.play('lizard-idle');
-
-		this.body.onCollide = true;
-
-		this.scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this);
-
-		this.create();
-
-		
-		
-	}
-
-	create()
-	{
-		this.enemySpeed = 100;
-		this.enemyHealth = 30;
-		this.visionRange = 200;
-
-		this.setupDirections();
+		this.scene = scene
 		this.currentDirection = this.right;
 		this.timeFromLastDirectionChange = null;
 		this.directionChangeCooldown = 1000;
-		this.setPushable(false)
+		this.timeFromLastDamaged = null;
+		this.create();
+
+		this.frozen = false;
+		this.justFrozen = false;
+		this.freezeDuration = 1000;
+
+		
+		this.setupDirections();
 
 
-	}
-
-	preUpdate(time, deltaTime)
-	{
-		super.preUpdate(time, deltaTime);
-
-		this.changeDirection()
-		//this.chasePlayer(); //TODO: WLACZYC
+		this.enemySpeed = 100;
+		this.enemyHealth = 30;
+		this.visionRange = 200;
+		this.justDamaged = false;
+		this.damagedTintTime = 500;
 	}
 
 	setupDirections()
@@ -87,12 +67,9 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 		
 	}
 	
-
-
 	handleTileCollision(go = Phaser.GameObjects.GameObject, tile = Phaser.Tilemaps.Tile)
 	{
 		if(go !== this) { return; }
-
 		this.direction = Phaser.Math.Between(0, 3);
 	}
 
@@ -103,7 +80,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 		{
 			if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
 			{
-				this.scene.physics.moveToObject(this, this.myPlayer, 100);
+				this.scene.physics.moveToObject(this, this.myPlayer, this.enemySpeed);
 			}
 		}
 
@@ -111,9 +88,42 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite
 
 	updateHP()
 	{
+		this.setTint(0xff0000)
 		if(this.enemyHealth <= 0)
 		{
 			this.destroy();
+		}
+		//this.handleState();
+	}
+
+	unfreeze()
+	{
+		this.frozen = false;
+	}
+	
+	handleState(deltaTime)
+	{
+		this.damageTime += deltaTime;
+		if(this.damageTime >= this.damagedInvulnerability && !this.frozen)
+		{
+			this.healthState = this.unharmed;
+			this.setTint(0xffffff);
+			this.damageTime = 0;
+		}
+
+		if(this.frozen === true)
+		{
+			this.setVelocity(0,0);
+		}
+
+		if(this.justFrozen === true)
+		{
+			this.justFrozen = false;
+			this.setTint(0x17A8E6) // jasnoniebieski
+			this.scene.time.addEvent({ 
+			delay: this.freezeDuration, 
+			callback: this.unfreeze, 
+			callbackScope: this});
 		}
 	}
 
