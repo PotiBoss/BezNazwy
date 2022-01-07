@@ -5,6 +5,7 @@ import { getTimeStamp } from './GetTimeStamp';
 import Inventory from './Inventory';
 import Crafting from './Crafting'
 import SkillPotion from './SkillPotion';
+import HealthBar from './HealthBar';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -48,6 +49,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		this.inventory = new Inventory();
 		this.crafting = new Crafting(this);
+		this.healthbar = new HealthBar(this.scene, this);
 
 
 		//this.setCollideWorldBounds();
@@ -147,6 +149,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	{
 
 		if(this.healthState === this.damaged || this.healthState === this.dead) {return;}
+
+
 
 		if(this.keyD.isDown && this.keyW.isDown)
 		{
@@ -437,6 +441,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		if(this.healthState === this.damaged) { return ;}
 
 		--this.health;
+
+		this.healthbar.setMeterPercentage(this.health * 100 / this.maxHealth);
 
 		if (this.health <= 0)
 		{

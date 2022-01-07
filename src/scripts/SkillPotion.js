@@ -1,4 +1,4 @@
-import { getTimeStamp } from "./GetTimeStamp";
+
 
 export default class SkillPotion extends Phaser.Physics.Arcade.Sprite 
 {
@@ -37,7 +37,7 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 		{
 			enemy.justFrozen = true;
 			enemy.frozen = true;
-			console.log('freeeze')
+		
 		}
 		this.destroy();
 

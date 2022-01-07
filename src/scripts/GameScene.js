@@ -35,15 +35,23 @@ export default class GameScene extends Phaser.Scene
 
 
 		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
+
+
+
+		this.load.image('middle', 'assets/barHorizontal_green_mid.png')
+
+
     }
 
     create()
     {
 		
+
 		this.currentMap = new Map(this);
 
 		this.hitCounter = 0;
 		this.isCraftingActive = false;
+		this.fullWidth = 300;
 
 		this.spawnPlayer();
 		//this.changeCraftingScene();
@@ -52,7 +60,7 @@ export default class GameScene extends Phaser.Scene
 		//this.spawnEnemy();
 
 		this.setupFOV();
-
+		this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.lateUpdate, this)
 		this.createFOW();
 	}
 
@@ -62,12 +70,17 @@ export default class GameScene extends Phaser.Scene
 		this.updateRaycast();
 		this.myPlayer.handleState(deltaTime);
 		this.myPlayer.handleAttack();
-
 		//5. inv select in hand?
 
 		this.updateFOV();
 		this.updateFOW();
 
+	}
+
+	lateUpdate(time, deltaTime)
+	{
+		this.myPlayer.healthbar.preUpdate();
+	
 	}
 
 	changeCraftingScene()
@@ -496,14 +509,29 @@ export default class GameScene extends Phaser.Scene
 
 		enemy.setVelocity(0,0); // wyzerowac knockback
 		enemy.timeFromLastDirectionChange = enemy.directionChangeCooldown; // zmienic kierunek (i tak pewnie useless bo ma gonic)
+		
+		enemy.damageTime = 0;
+
+		
 
 		enemy.enemyHealth -= projectile.projectileDamage;
 		enemy.updateHP();
+
+		this.timerEnemyDamaged = this.time.addEvent({ 
+			delay: 1000, 
+			callback: enemy.clearTint, 
+			callbackScope: enemy});
 	}
+		
+	
 
 	handlePotionEnemyCollision(potion, enemy)
 	{
 		potion.destroyPotion(enemy);
 	}
+
+
+
+
 }
 

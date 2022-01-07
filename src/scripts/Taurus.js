@@ -16,8 +16,10 @@ export default class Taurus extends EnemyBase
 		//this.setPushable(false)
 		this.scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this);
 		this.setupDirections();
-
+		//console.log(this.healthbar);
 	}
+
+
 
 
 	create()
@@ -39,6 +41,9 @@ export default class Taurus extends EnemyBase
 
 		this.damageTime = 0;
 		this.damagedInvulnerability = 500;
+
+		
+		
 	}
 
 	preUpdate(time, deltaTime)
@@ -50,8 +55,10 @@ export default class Taurus extends EnemyBase
 			this.changeDirection()
 		}
 
-		this.chasePlayer();  //TODO: WLACZYC
+		//this.chasePlayer();  //TODO: WLACZYC
 
+		this.healthbar.preUpdate();
+		
 		this.handleState(deltaTime);
 	}
 
@@ -170,4 +177,6 @@ export default class Taurus extends EnemyBase
 		if(go !== this) { return; }
 		this.direction = Phaser.Math.Between(0, 3);
 	}
+
+	
 }

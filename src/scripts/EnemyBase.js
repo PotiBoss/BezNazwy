@@ -1,5 +1,5 @@
 import { getTimeStamp } from './GetTimeStamp';
-
+import HealthBar from './HealthBar';
 
 export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 {
@@ -12,14 +12,14 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 		this.timeFromLastDirectionChange = null;
 		this.directionChangeCooldown = 1000;
 		this.timeFromLastDamaged = null;
-		this.create();
 
 		this.frozen = false;
 		this.justFrozen = false;
 		this.freezeDuration = 1000;
-
 		
 		this.setupDirections();
+
+		this.healthbar = new HealthBar(this.scene, this);
 
 
 		this.enemySpeed = 100;
@@ -93,31 +93,28 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 		{
 			this.destroy();
 		}
-		//this.handleState();
+		this.handleState();
 	}
 
 	unfreeze()
 	{
 		this.frozen = false;
+		this.clearTint();
 	}
 	
 	handleState(deltaTime)
 	{
-		this.damageTime += deltaTime;
-		if(this.damageTime >= this.damagedInvulnerability && !this.frozen)
-		{
-			this.healthState = this.unharmed;
-			this.setTint(0xffffff);
-			this.damageTime = 0;
-		}
 
 		if(this.frozen === true)
 		{
 			this.setVelocity(0,0);
 		}
+	
 
 		if(this.justFrozen === true)
 		{
+			
+			console.log('freeeze')
 			this.justFrozen = false;
 			this.setTint(0x17A8E6) // jasnoniebieski
 			this.scene.time.addEvent({ 
@@ -127,10 +124,32 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 		}
 	}
 
+	clearTint()
+	{
+		this.setTint(0xffffff);
+	}
+
+
 	destroy()
 	{
 		super.destroy();
 	}
 
 }
+
+
+/*
+		this.damageTime += deltaTime;
+		
+		
+		console.log(this.damageTime);
+
+		if(this.damageTime >= this.damagedInvulnerability && !this.frozen)
+		{
+			this.healthState = this.unharmed;
+			console.log("uwu")
+			
+			this.damageTime = 0;
+		}
+*/
 
