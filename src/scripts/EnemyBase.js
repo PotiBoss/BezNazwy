@@ -23,10 +23,12 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 
 
 		this.enemySpeed = 100;
+		this.health = 30;
+		this.maxHealth = 30;
 		this.enemyHealth = 30;
 		this.visionRange = 200;
 		this.justDamaged = false;
-		this.damagedTintTime = 500;
+		this.damagedTintTime = 100;
 	}
 
 	setupDirections()
@@ -94,6 +96,11 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 			this.destroy();
 		}
 		this.handleState();
+		//this.healthbar.setMeterPercentage(this.health / this.maxHealth * 100);
+		this.changeHP();
+		//console.log(this.health / this.maxHealth * 100)
+		//console.log(this.maxHealth)
+
 	}
 
 	unfreeze()

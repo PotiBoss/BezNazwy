@@ -98,6 +98,41 @@
         }, 
         {
          "draworder":"topdown",
+         "id":10,
+         "name":"teleporter",
+         "objects":[
+                {
+                 "gid":295,
+                 "height":16,
+                 "id":21,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":209,
+                 "y":65
+                }, 
+                {
+                 "gid":295,
+                 "height":16,
+                 "id":22,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":209,
+                 "y":144
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":8,
          "name":"workbenches",
          "objects":[
@@ -261,8 +296,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":10,
- "nextobjectid":21,
+ "nextlayerid":11,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

@@ -2,7 +2,8 @@
 -Crafting w hubie
 -Inni przeciwnicy
 -Boss room
--Teleport zablokowany za malo pktow z potworkow
+
 -skille
 
 -Menu
+-Teleport zablokowany za malo pktow z potworkow

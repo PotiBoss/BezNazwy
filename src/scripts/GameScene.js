@@ -21,7 +21,7 @@ export default class GameScene extends Phaser.Scene
 		this.load.image('potion', 'assets/star.png');
 
 		this.load.image('tiles', 'assets/dungeon_tiles.png');
-		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');
+		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');	
 
 		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
@@ -35,6 +35,7 @@ export default class GameScene extends Phaser.Scene
 
 
 		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
+		this.load.spritesheet('tileitem','assets/dungeon_tiles.png',{frameWidth:16,frameHeight:16});
 
 
 
@@ -178,6 +179,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer, EnemyBase, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.tauroses, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.tauroses, this.handlePotionEnemyCollision, undefined, this);
+		this.physics.add.overlap(this.myPlayer, this.currentMap.teleporters, this.handlePlayerTeleporterCollision, undefined, this);
 	}
 
 	setupRaycast()
@@ -528,6 +530,11 @@ export default class GameScene extends Phaser.Scene
 	handlePotionEnemyCollision(potion, enemy)
 	{
 		potion.destroyPotion(enemy);
+	}
+
+	handlePlayerTeleporterCollision(player, teleporter) 
+	{
+		teleporter.teleportOnPress(player);
 	}
 
 

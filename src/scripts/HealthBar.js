@@ -1,4 +1,5 @@
 
+
 export default class HealthBar extends Phaser.Physics.Arcade.Sprite 
 {
 	constructor(scene, object)
@@ -40,6 +41,15 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 	{
 
 	const width = this.fullWidth * percent
+
+	if(percent === 100)
+	{
+		this.middle.setScale(0,0)
+	}
+	else
+	{
+		this.middle.setScale(1, 0.3)
+	}
 
 	this.middle.displayWidth = width
 	}

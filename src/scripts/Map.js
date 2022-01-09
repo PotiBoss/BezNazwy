@@ -3,6 +3,7 @@ import Skeleton from "./Skeleton";
 import Chest from "./Chest";
 import Workbench from "./Workbench";
 import Taurus from "./Taurus";
+import Teleporter from "./Teleporter";
 
 export default class Map
 {
@@ -62,9 +63,19 @@ export default class Map
 		this.lizards = this.scene.physics.add.group({
 			classType: Skeleton
 		})
-		const enemyLayer = this.map.getObjectLayer('enemy')
+		const enemyLayer = this.map.getObjectLayer('enemy');
 		enemyLayer.objects.forEach(enemyObject => {
 			this.lizards.get(enemyObject.x * 2 + enemyObject.width * 0.5, enemyObject.y * 2 + enemyObject.height * 0.5); // * 2 bo skalowalem tilemape
+		})
+
+		this.teleporters = this.scene.physics.add.group({
+			classType: Teleporter
+		})
+		this.teleporterLayer = this.map.getObjectLayer('teleporter');
+
+		this.teleportIndex = 0;
+		this.teleporterLayer.objects.forEach(teleporterObject => {
+			this.teleporters.get(teleporterObject.x * 2 + teleporterObject.width * 0.5, teleporterObject.y * 2 + teleporterObject.height * 0.5, this.teleportIndex++); // * 2 bo skalowalem tilemape
 		})
 
 	}
