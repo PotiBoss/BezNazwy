@@ -82,6 +82,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.unharmed = 0;
 		this.damaged = 1;
 		this.dead = 2;
+		this.craftingNow = 3;
 	}
 
 	updateMovement() // nie wiem co pilem jak myslalem ze to super smart pomysl ale nie dosyc ze to overkill to do tego chujowo dziala
@@ -151,7 +152,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	updateMovement2()
 	{
 
-		if(this.healthState === this.damaged || this.healthState === this.dead) {return;}
+		if(this.healthState === this.damaged || this.healthState === this.dead || this.healthState === this.craftingNow) {return;}
 
 
 
