@@ -40,7 +40,7 @@ DialogModalPlugin.prototype = {
     this.windowHeight = opts.windowHeight || 150;
     this.padding = opts.padding || 32;
     this.closeBtnColor = opts.closeBtnColor || 'darkgoldenrod';
-    this.dialogSpeed = opts.dialogSpeed || 3;
+    this.dialogSpeed = opts.dialogSpeed || 4.5;
 
     // used for animating the text
     this.eventCounter = 0;
@@ -215,6 +215,7 @@ setText: function (text, animate) {
 
   _animateText: function () {
 	this.eventCounter++;
+
 	this.text.setText(this.text.text + this.dialog[this.eventCounter - 1]);
 	if (this.eventCounter === this.dialog.length) {
 	  this.timedEvent.remove();

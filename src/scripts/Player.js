@@ -6,6 +6,7 @@ import Inventory from './Inventory';
 import Crafting from './Crafting'
 import SkillPotion from './SkillPotion';
 import HealthBar from './HealthBar';
+import PotionInHand from './PotionInHand';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -19,6 +20,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		this.scene = scene;
 		this.square2 = 1.41;
+		
 
 		this.create();
 	}
@@ -50,6 +52,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.inventory = new Inventory();
 		this.crafting = new Crafting(this);
 		this.healthbar = new HealthBar(this.scene, this);
+		this.potionHand = new PotionInHand(this.scene, this);
 
 
 		//this.setCollideWorldBounds();
@@ -425,6 +428,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.date = new Date();
 			if(this.timeFromLastPotion && this.timeFromLastPotion + this.potionCooldown >  this.date){ return; }
+			//this.potionHand = new PotionInHand(this.scene, this);
 			this.timeFromLastPotion = getTimeStamp();
 
 			this.potion = this.potions.get(this.x, this.y, this);
@@ -484,4 +488,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	{
 		return this.health;
 	}	
+
+	addPotion()
+	{
+		this.potionHand = new PotionInHand(this.scene, this);
+	}
+
+	destroyPotion()
+	{
+		this.potionHand.destroy();
+		this.potionHand = undefined;
+
+		var timer = this.scene.time.addEvent({ 
+			delay: 3000, 
+			callback: this.addPotion, 
+			callbackScope: this});
+	}
 }

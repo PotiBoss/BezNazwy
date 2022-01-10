@@ -8,6 +8,15 @@ export default class UI extends Phaser.Scene
 		super('UI');
 	}
 
+	preload()
+	{
+		this.load.scenePlugin({
+			key: 'DialogModalPlugin',
+			url: 'src/scripts/Dialog.js',
+			sceneKey: 'dialog'
+		});
+	}
+
 	create()
 	{
 		this.hearts = this.add.group({
@@ -26,6 +35,9 @@ export default class UI extends Phaser.Scene
 		this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
 			sceneEvents.off('playerHealthChanged', this.handlePlayerHealthChanged, this);
 		})
+
+		this.dialog.init();
+		this.dialog.setText('OwO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. UwU 2137', true);
 	}
 
 	handlePlayerHealthChanged(health)

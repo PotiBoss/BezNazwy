@@ -16,6 +16,12 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 		this.frozen = false;
 		this.justFrozen = false;
 		this.freezeDuration = 1000;
+
+		this.burned = false;
+		this.justBurned = false;
+		this.burnTicks = 5;
+		this.burnTimer = 5;
+		this.burnIntervals = 500;
 		
 		this.setupDirections();
 
@@ -96,11 +102,7 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 			this.destroy();
 		}
 		this.handleState();
-		//this.healthbar.setMeterPercentage(this.health / this.maxHealth * 100);
 		this.changeHP();
-		//console.log(this.health / this.maxHealth * 100)
-		//console.log(this.maxHealth)
-
 	}
 
 	unfreeze()
@@ -108,9 +110,43 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 		this.frozen = false;
 		this.clearTint();
 	}
+
+	unburn()
+	{
+		this.burned = false;
+		this.clearTint();
+	}
+
+	applyBurn()
+	{
+		this.scene.time.addEvent({
+			delay: this.burnIntervals,                
+			callback: this.applyBurnDamage,
+			callbackScope: this,
+			repeat: this.burnTicks - 1
+		});
+	}
+	
+	applyBurnDamage()
+	{
+		this.enemyHealth = this.enemyHealth - 5;
+		this.updateHP();
+
+		this.burnTimer--;
+		if(this.burnTimer <= 0)
+		{
+			this.unburn();
+			this.burnTimer = this.burnTicks;
+		}
+	}
 	
 	handleState(deltaTime)
 	{
+
+		if(this.enemyHealth <= 0)
+		{
+			this.destroy();
+		}
 
 		if(this.frozen === true)
 		{
@@ -120,14 +156,22 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 
 		if(this.justFrozen === true)
 		{
-			
-			console.log('freeeze')
 			this.justFrozen = false;
 			this.setTint(0x17A8E6) // jasnoniebieski
 			this.scene.time.addEvent({ 
-			delay: this.freezeDuration, 
-			callback: this.unfreeze, 
-			callbackScope: this});
+				delay: this.freezeDuration, 
+				callback: this.unfreeze, 
+				callbackScope: this});
+		}
+
+		if(this.justBurned === true)
+		{
+			this.justBurned = false;
+			this.setTint(0x371a45);
+			this.scene.time.addEvent({ 
+				delay: 0, 
+				callback: this.applyBurn, 
+				callbackScope: this});
 		}
 	}
 
@@ -136,27 +180,10 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 		this.setTint(0xffffff);
 	}
 
-
 	destroy()
 	{
 		super.destroy();
 	}
 
 }
-
-
-/*
-		this.damageTime += deltaTime;
-		
-		
-		console.log(this.damageTime);
-
-		if(this.damageTime >= this.damagedInvulnerability && !this.frozen)
-		{
-			this.healthState = this.unharmed;
-			console.log("uwu")
-			
-			this.damageTime = 0;
-		}
-*/
 

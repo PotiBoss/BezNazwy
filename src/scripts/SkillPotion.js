@@ -13,16 +13,18 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 		this.potionRange = 1000; //tak naprawde to dlugosc lotu
 		this.timeToDestroy = null;
 		this.index = 0;
+		
 
 		this.projectileDamage = 10;
 
-		this.currentPotion = "freeze";
-
+		this.currentPotion = Math.floor(Math.random() * 2);
 	}
 
 	throw(initiator)
 	{
 		this.scene.physics.moveTo(this, this.scene.input.x + this.scene.cameras.main.scrollX, this.scene.input.y + this.scene.cameras.main.scrollY, this.speed);
+
+		initiator.destroyPotion();
 
 		this.timer = this.scene.time.addEvent({ 
 			delay: 1000, 
@@ -31,41 +33,20 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 	}
 
 	destroyPotion(enemy)
-	{
+	{ 
 
-		if(this.currentPotion === "freeze" && enemy !== undefined)
+		if(this.currentPotion === 0 && enemy !== undefined)
 		{
 			enemy.justFrozen = true;
 			enemy.frozen = true;
-		
+		}
+
+		else if( this.currentPotion === 1 && enemy !== undefined)
+		{
+			enemy.justBurned = true;
+			enemy.burned = true;
 		}
 		this.destroy();
 
 	}
 }
-
-
-/*
-throw(initiator)
-{
-
-	if(this.scene.input.mousePointer.x > this.scene.input.mousePointer.y)
-	{
-		this.maxX = Phaser.Math.Clamp(this.scene.input.mousePointer.x, 0, this.potionRange);
-		this.maxY = Phaser.Math.Clamp(this.scene.input.mousePointer.y / this.scene.input.mousePointer.x * this.potionRange, 0, this.potionRange);
-	}
-	else if(this.scene.input.mousePointer.x < this.scene.input.mousePointer.y)
-	{
-		this.maxX = Phaser.Math.Clamp(this.scene.input.mousePointer.x / this.scene.input.mousePointer.x * this.potionRange, 0, this.potionRange);
-		this.maxY = Phaser.Math.Clamp(this.scene.input.mousePointer.y, 0, this.potionRange);
-	} 
-	else
-	{
-		this.maxX = Phaser.Math.Clamp(this.scene.input.mousePointer.x, 0, this.potionRange);
-		this.maxY = Phaser.Math.Clamp(this.scene.input.mousePointer.y, 0, this.potionRange);
-	}
-	console.log(this.maxX + this.scene.cameras.main.scrollX);
-	console.log(this.maxY + this.scene.cameras.main.scrollY)
-	
-	this.scene.physics.moveTo(this, this.maxX + this.scene.cameras.main.scrollX, this.maxY + this.scene.cameras.main.scrollY, this.speed);
-} */

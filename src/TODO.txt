@@ -5,6 +5,6 @@
 
 -skille
 
--Menu
 -Teleport zablokowany za malo pktow z potworkow
--potion do reki
+
+-potion do reki (kolor jak dominik da)

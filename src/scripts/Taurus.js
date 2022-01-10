@@ -176,8 +176,7 @@ export default class Taurus extends EnemyBase
 	changeHP()
 	{
 		this.healthbar.setMeterPercentage(this.enemyHealth / this.enemyMaxHealth * 100);
-		console.log(this.enemyHealth)
-		console.log(this.enemyMaxHealth)
+	//	console.log(this.enemyHealth)
 	}
 
 	

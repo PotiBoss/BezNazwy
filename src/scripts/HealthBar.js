@@ -16,10 +16,8 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 
 	preUpdate(time, deltaTime)
 	{
-		
 		this.middle.x = this.gameObject.x - this.gameObject.width / 2;
 		this.middle.y = this.gameObject.y - this.gameObject.height / 2;
-
 	}
 
 
@@ -34,7 +32,6 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 				
 		this.middle.x = this.gameObject.x - this.gameObject.width / 2;
 		this.middle.y = this.gameObject.y - this.gameObject.height / 2;
-
 	}
 
 	setMeterPercentage(percent = 100)

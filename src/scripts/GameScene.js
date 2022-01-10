@@ -18,11 +18,6 @@ export default class GameScene extends Phaser.Scene
     preload()
     {
 
-		this.load.scenePlugin({
-			key: 'DialogModalPlugin',
-			url: 'src/scripts/dialog_plugin.js',
-			sceneKey: 'dialog'
-		});
     }
 
     create()
@@ -32,6 +27,7 @@ export default class GameScene extends Phaser.Scene
 		this.hitCounter = 0;
 		this.isCraftingActive = false;
 		this.fullWidth = 300;
+		this.booli = false;
 
 		this.spawnPlayer();
 		//this.changeCraftingScene();
@@ -42,9 +38,6 @@ export default class GameScene extends Phaser.Scene
 		this.setupFOV();
 		this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.lateUpdate, this)
 		this.createFOW();
-
-		console.log(this.dialog)
-		this.dialog.init();
 	}
 
 	update(time, deltaTime)
@@ -63,6 +56,11 @@ export default class GameScene extends Phaser.Scene
 	lateUpdate(time, deltaTime)
 	{
 		this.myPlayer.healthbar.preUpdate();
+		if(this.myPlayer.potionHand !== undefined)
+		{
+			this.myPlayer.potionHand.preUpdate();
+		}
+		
 	
 	}
 
@@ -506,21 +504,17 @@ export default class GameScene extends Phaser.Scene
 			callback: enemy.clearTint, 
 			callbackScope: enemy});
 	}
-		
-	
 
 	handlePotionEnemyCollision(potion, enemy)
 	{
 		potion.destroyPotion(enemy);
+		enemy.setVelocity(0,0); 
+		enemy.changeDirection(); // ???
 	}
 
 	handlePlayerTeleporterCollision(player, teleporter) 
 	{
 		teleporter.teleportOnPress(player);
 	}
-
-
-
-
 }
 

@@ -20,33 +20,37 @@ export default class Teleporter extends Phaser.Physics.Arcade.Sprite
 	create()
 	{
 
-
-
 	}
 
 	teleportOnPress(player)
 	{
 		
-		this.scene.input.keyboard.on('keydown-T', () => 
-		{ 
-			this.scene.input.keyboard.resetKeys();
-			this.teleporting(player);
-		});
+
+			this.scene.input.keyboard.on('keydown-T', () => 
+			{ 
+				this.scene.input.keyboard.resetKeys();
+				this.teleporting(player);
+			});
+		
+
 	}
 
 	teleporting(player) // DANGER UZYWA SIE TAK DLUGO JAK TRZYMASZ PRZYCISK MOZE WYJEBAC PERFORMANCE TODO: fix?
 	{
-		if(this.index % 2 === 0)
+		if(Math.abs(player.x - this.x) < 35 && Math.abs(player.y - this.y) < 35)
 		{
-			const toIndex = this.index;
-			player.x = this.scene.currentMap.teleporterLayer.objects[toIndex + 1].x * 2;
-			player.y = this.scene.currentMap.teleporterLayer.objects[toIndex + 1].y * 2;
-		}
-		else
-		{
-			const toIndex = this.index;
-			player.x = this.scene.currentMap.teleporterLayer.objects[toIndex - 1].x * 2;
-			player.y = this.scene.currentMap.teleporterLayer.objects[toIndex - 1].y * 2;
+			if(this.index % 2 === 0)
+			{
+				const toIndex = this.index;
+				player.x = this.scene.currentMap.teleporterLayer.objects[toIndex + 1].x * 2;
+				player.y = this.scene.currentMap.teleporterLayer.objects[toIndex + 1].y * 2;
+			}
+			else
+			{
+				const toIndex = this.index;
+				player.x = this.scene.currentMap.teleporterLayer.objects[toIndex - 1].x * 2;
+				player.y = this.scene.currentMap.teleporterLayer.objects[toIndex - 1].y * 2;
+			}
 		}
 	}
 }
