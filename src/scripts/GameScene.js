@@ -18,7 +18,11 @@ export default class GameScene extends Phaser.Scene
     preload()
     {
 
-
+		this.load.scenePlugin({
+			key: 'DialogModalPlugin',
+			url: 'src/scripts/dialog_plugin.js',
+			sceneKey: 'dialog'
+		});
     }
 
     create()
@@ -38,6 +42,9 @@ export default class GameScene extends Phaser.Scene
 		this.setupFOV();
 		this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.lateUpdate, this)
 		this.createFOW();
+
+		console.log(this.dialog)
+		this.dialog.init();
 	}
 
 	update(time, deltaTime)

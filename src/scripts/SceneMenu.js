@@ -4,6 +4,15 @@ export default class SceneMenu extends Phaser.Scene {
 	{
 		super('SceneMenu');	
 	}
+  
+	preload(){
+		
+		this.load.scenePlugin({
+			key: 'DialogModalPlugin',
+			url: 'src/scripts/dialog_plugin.js',
+			sceneKey: 'dialog'
+		});
+	}
 
 	create()
 	{
@@ -45,5 +54,12 @@ export default class SceneMenu extends Phaser.Scene {
 		this.quitButton.on('pointerout', () => {
 			this.indicator.setVisible(false);
 		})
+
+
+		this.dialog.init();
+		this.dialog.setText('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true);
 	};
+
+
+	
 }
