@@ -153,7 +153,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.potions, this.handlePlayerPickupCollision, undefined, this);
-		this.physics.add.collider(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
+		this.physics.add.overlap(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
 		this.physics.add.collider(this.currentMap.tauroses, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.tauroses, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, EnemyBase, this.handlePlayerEnemyCollision, undefined, this);
@@ -454,23 +454,32 @@ export default class GameScene extends Phaser.Scene
 
 	handlePlayerWorkbenchCollision(player, workbench)
 	{
-
-		this.myPlayer.setWorkbench(workbench)
-		
+	
+		this.myPlayer.setWorkbench(workbench);
 		if(this.myPlayer.currentWorkbench !== undefined)
 		{
 			this.input.keyboard.on('keydown-C',() =>{
-				if(this.scene.isActive('SceneCrafting')){
+				if(this.scene.isActive('SceneCrafting'))
+				{
+					this.myPlayer.healthState = this.myPlayer.unharmed;
 					this.isCraftingActive = false;
-					this.scene.stop('SceneCrafting');
+					this.scene.stop('SceneCrafting');					
 				}
 				else
 				{
-					this.isCraftingActive = true;
-					this.scene.run('SceneCrafting', {mainScene: this});
+					if(Math.abs(player.x - workbench.x) < 35 && Math.abs(player.y - workbench.y) < 35)
+					{
+						this.isCraftingActive = true;
+						this.myPlayer.healthState = this.myPlayer.craftingNow;
+						this.scene.run('SceneCrafting', {mainScene: this});
+					}
 				}
 			});
 		}
+		
+
+
+
 	}
 
 	handlePlayerEnemyCollision(player, enemy)
