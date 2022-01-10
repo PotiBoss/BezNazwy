@@ -7,3 +7,4 @@
 
 -Menu
 -Teleport zablokowany za malo pktow z potworkow
+-potion do reki

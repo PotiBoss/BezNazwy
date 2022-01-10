@@ -17,37 +17,12 @@ export default class GameScene extends Phaser.Scene
 
     preload()
     {
-		this.load.image('projectile', 'assets/bomb.png');
-		this.load.image('potion', 'assets/star.png');
-
-		this.load.image('tiles', 'assets/dungeon_tiles.png');
-		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');	
-
-		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
-		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
-		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');
-
-
-		this.load.image('ui-heart-empty', 'assets/ui_heart_empty.png');
-		this.load.image('ui-heart-full', 'assets/ui_heart_full.png');
-
-		this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
-
-
-		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
-		this.load.spritesheet('tileitem','assets/dungeon_tiles.png',{frameWidth:16,frameHeight:16});
-
-
-
-		this.load.image('middle', 'assets/barHorizontal_green_mid.png')
 
 
     }
 
     create()
     {
-		
-
 		this.currentMap = new Map(this);
 
 		this.hitCounter = 0;
