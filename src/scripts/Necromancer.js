@@ -22,7 +22,7 @@ export default class Necromancer extends EnemyBase
 		
 		this.visionRange = 300;
 
-		this.skeletonSpawnCooldown = 3000;
+		this.skeletonSpawnCooldown = 5000;
 		this.skeletonSpawnFlag = true;
 
 		this.damageTime = 0;
@@ -72,7 +72,8 @@ export default class Necromancer extends EnemyBase
 
 	spawnSkeleton()
 	{
-		console.log("skeleton")
+		this.scene.currentMap.skeletons.get(this.x + this.width, this.y);
+		this.scene.currentMap.skeletons.get(this.x - this.width, this.y);
 		this.skeletonSpawnFlag = true;
 	}
 

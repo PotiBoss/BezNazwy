@@ -48,6 +48,15 @@ export default class Map
 			let workbench = this.workbenches.create(object.x * 2, object.y * 2);
 		})
 
+
+		this.skeletons = this.scene.physics.add.group({
+			classType: Skeleton
+		})
+		const skeletonLayer = this.map.getObjectLayer('skeleton');
+		skeletonLayer.objects.forEach(enemyObject => {
+			this.skeletons.get(enemyObject.x * 2 + enemyObject.width * 0.5, enemyObject.y * 2 + enemyObject.height * 0.5); // * 2 bo skalowalem tilemape
+		})
+
 		this.tauroses = this.scene.physics.add.group({
 			classType: Taurus
 		});
@@ -69,13 +78,7 @@ export default class Map
 		//this.enemies = this.map.createLayer('enemyTile', tileset).setScale(2,2);
 		this.activateColliders();
 
-		this.lizards = this.scene.physics.add.group({
-			classType: Skeleton
-		})
-		const enemyLayer = this.map.getObjectLayer('enemy');
-		enemyLayer.objects.forEach(enemyObject => {
-			this.lizards.get(enemyObject.x * 2 + enemyObject.width * 0.5, enemyObject.y * 2 + enemyObject.height * 0.5); // * 2 bo skalowalem tilemape
-		})
+
 
 		this.teleporters = this.scene.physics.add.group({
 			classType: Teleporter

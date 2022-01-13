@@ -239,7 +239,7 @@
         {
          "draworder":"topdown",
          "id":3,
-         "name":"enemy",
+         "name":"skeleton",
          "objects":[
                 {
                  "gid":489,

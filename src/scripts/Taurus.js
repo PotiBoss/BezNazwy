@@ -13,7 +13,7 @@ export default class Taurus extends EnemyBase
 		this.y = y;
 		this.scene = scene;
 		this.body.onCollide = true;
-		this.setPushable(false)
+		this.setPushable(false);
 		this.scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this);
 		this.setupDirections();
 		//console.log(this.healthbar);

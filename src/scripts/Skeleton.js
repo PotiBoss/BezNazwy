@@ -1,16 +1,15 @@
 import initAnims from './AnimsEnemy'
+import EnemyBase from './EnemyBase';
 import { getTimeStamp } from './GetTimeStamp';
 
-export default class Skeleton extends Phaser.Physics.Arcade.Sprite
+export default class Skeleton extends EnemyBase
 {
 	constructor(scene, x, y)
 	{
 		super(scene, x, y, 'lizard');
 
-		//scene.add.existing(this);
 		scene.physics.add.existing(this);
 
-		//this.scene.scene;
 
 		initAnims(scene.anims);
 		this.anims.play('lizard-idle');
@@ -22,13 +21,12 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite
 		this.create();
 
 		
-		
-		
 	}
 
 	create()
 	{
 		this.enemySpeed = 100;
+		this.enemyMaxHealth = 30;
 		this.enemyHealth = 30;
 		this.visionRange = 200;
 
@@ -44,6 +42,10 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite
 		super.preUpdate(time, deltaTime);
 
 		this.changeDirection()
+
+		this.healthbar.preUpdate();
+
+		this.handleState(deltaTime);
 		//this.chasePlayer(); //TODO: WLACZYC
 	}
 
@@ -107,18 +109,12 @@ export default class Skeleton extends Phaser.Physics.Arcade.Sprite
 
 	}
 
-	updateHP()
+	changeHP()
 	{
-		if(this.enemyHealth <= 0)
-		{
-			this.destroy();
-		}
+		this.healthbar.setMeterPercentage(this.enemyHealth / this.enemyMaxHealth * 100);
 	}
 
-	destroy()
-	{
-		super.destroy();
-	}
+
 
 }
 

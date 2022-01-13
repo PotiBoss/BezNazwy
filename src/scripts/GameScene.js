@@ -147,15 +147,18 @@ export default class GameScene extends Phaser.Scene
 	setColliders()
 	{
 		this.physics.add.collider(this.myPlayer, this.currentMap.walls);
-		this.physics.add.collider(this.currentMap.lizards, this.currentMap.walls);
-		this.physics.add.collider(this.myPlayer, this.currentMap.lizards, this.handlePlayerSkeletonCollision, undefined, this);
-		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.lizards, this.handleProjectilesSkeletonCollision, undefined, this);
+
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.potions, this.handlePlayerPickupCollision, undefined, this);
 		this.physics.add.overlap(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
 		this.physics.add.overlap(this.myPlayer, this.currentMap.teleporters, this.handlePlayerTeleporterCollision, undefined, this);
 
+		//skeleton
+		this.physics.add.collider(this.currentMap.skeletons, this.currentMap.walls);
+		this.physics.add.collider(this.myPlayer, this.currentMap.skeletons, this.handlePlayerSkeletonCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.skeletons, this.handleProjectilesEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.potions, this.currentMap.skeletons, this.handlePotionEnemyCollision, undefined, this);
 		//tauros
 		this.physics.add.collider(this.currentMap.tauroses, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.tauroses, this.handlePlayerEnemyCollision, undefined, this);
