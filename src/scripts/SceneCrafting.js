@@ -12,7 +12,7 @@ export default class SceneInventory extends Phaser.Scene
 		let { mainScene } = scene;
 		this.mainScene = mainScene;
 		this.crafting = this.mainScene.myPlayer.crafting;
-		this.crafting.inventory.subscribe(() => this.updateCraftingSlots());
+		//this.crafting.inventory.subscribe(() => this.updateCraftingSlots()); //winowajca
 		this.crafting.selected = 0;
 	}
 
@@ -33,6 +33,7 @@ export default class SceneInventory extends Phaser.Scene
 			{
 			this.craftingSlots.forEach(slot => slot.destroy());
 			this.updateCraftingSlots();
+			this.scene.stop();
 			}
 
 		});
@@ -64,6 +65,7 @@ export default class SceneInventory extends Phaser.Scene
 				this.craftingSlots[i].materials[j].tint = materialItem.availableMaterial ? 0xffffff : 0x555555; 
 			}
 		}
+		this.updateSelected();
 	}
 
 	refreshCraftingSlot(craftingSlot)
@@ -80,3 +82,4 @@ export default class SceneInventory extends Phaser.Scene
 		}
 	}
 }
+
