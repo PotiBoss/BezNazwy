@@ -88,6 +88,7 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
 		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');
+		this.load.spritesheet('necromancer', 'assets/birdSprite.png',{frameWidth:32,frameHeight:32});
 
 
 		this.load.image('ui-heart-empty', 'assets/ui_heart_empty.png');

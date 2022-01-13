@@ -4,6 +4,7 @@ import Chest from "./Chest";
 import Workbench from "./Workbench";
 import Taurus from "./Taurus";
 import Teleporter from "./Teleporter";
+import Necromancer from "./Necromancer";
 
 export default class Map
 {
@@ -53,6 +54,14 @@ export default class Map
 		const taurosLayer = this.map.getObjectLayer('taurus');
 		taurosLayer.objects.forEach(object => {
 			let tauros = this.tauroses.get(this.scene, object.x * 2, object.y * 2, 'items', 144);
+		})
+
+		this.necromancers = this.scene.physics.add.group({
+			classType: Necromancer
+		});
+		const necromancerLayer = this.map.getObjectLayer('necromancer');
+		necromancerLayer.objects.forEach(object => {
+			let necromancer = this.necromancers.get(this.scene, object.x * 2, object.y * 2, 'items', 144);
 		})
 
 

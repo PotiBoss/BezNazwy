@@ -154,12 +154,18 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.potions, this.handlePlayerPickupCollision, undefined, this);
 		this.physics.add.overlap(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
+		this.physics.add.overlap(this.myPlayer, this.currentMap.teleporters, this.handlePlayerTeleporterCollision, undefined, this);
+
+		//tauros
 		this.physics.add.collider(this.currentMap.tauroses, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.tauroses, this.handlePlayerEnemyCollision, undefined, this);
-		this.physics.add.collider(this.myPlayer, EnemyBase, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.tauroses, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.tauroses, this.handlePotionEnemyCollision, undefined, this);
-		this.physics.add.overlap(this.myPlayer, this.currentMap.teleporters, this.handlePlayerTeleporterCollision, undefined, this);
+		//necro
+		this.physics.add.collider(this.currentMap.necromancers, this.currentMap.walls);
+		this.physics.add.collider(this.myPlayer, this.currentMap.necromancers, this.handlePlayerEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.necromancers, this.handleProjectilesEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.potions, this.currentMap.necromancers, this.handlePotionEnemyCollision, undefined, this);
 	}
 
 	setupRaycast()

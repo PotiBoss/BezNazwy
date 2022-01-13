@@ -37,6 +37,8 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 	setMeterPercentage(percent = 100)
 	{
 
+	if(percent < 0) return;
+
 	const width = this.fullWidth * percent
 
 	if(percent === 100)
