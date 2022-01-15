@@ -178,7 +178,11 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.rangeEnemies, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.rangeEnemies, this.handlePotionEnemyCollision, undefined, this);
 		this.physics.add.collider(this.enemyProj, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
-		
+		//boss
+		this.physics.add.collider(this.currentMap.boss, this.currentMap.walls);
+		this.physics.add.collider(this.myPlayer, this.currentMap.boss, this.handlePlayerEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.boss, this.handleProjectilesEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.potions, this.currentMap.boss, this.handlePotionEnemyCollision, undefined, this);	
 	}
 
 	setupRaycast()

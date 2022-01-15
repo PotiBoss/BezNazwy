@@ -10,3 +10,6 @@
 -potion do reki (kolor jak dominik da)
 
 -BUG? HEALTHBARY NIE SA CENTROWANE
+
+-boss spawn monsters?
+-volley with random?

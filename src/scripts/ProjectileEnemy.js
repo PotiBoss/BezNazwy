@@ -20,4 +20,10 @@ export default class ProjectileEnemy extends Phaser.Physics.Arcade.Sprite
 		this.scene.physics.moveTo(this, player.x, player.y, this.speed);
 	}
 
+	circleProjectile(enemy, targetX, targetY)
+	{	
+
+		this.scene.physics.moveTo(this, enemy.x + targetX, enemy.y + targetY, this.speed);
+	}
+
 }
