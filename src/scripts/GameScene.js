@@ -4,15 +4,16 @@ import Player from './Player';
 import Map from './Map';
 import { sceneEvents } from './EventCommunicator';
 
-
 import { Mrpas } from 'mrpas'
-import EnemyBase from './EnemyBase';
+
+import ProjectileEnemy from './ProjectileEnemy';
 
 export default class GameScene extends Phaser.Scene
 {
     constructor()
     {
 		super("GameScene");
+		
     }
 
     preload()
@@ -22,12 +23,14 @@ export default class GameScene extends Phaser.Scene
 
     create()
     {
+		this.enemyProj = this.physics.add.group({classType:ProjectileEnemy});
 		this.currentMap = new Map(this);
-
+		
 		this.hitCounter = 0;
 		this.isCraftingActive = false;
 		this.fullWidth = 300;
-		this.booli = false;
+
+
 
 		this.spawnPlayer();
 		//this.changeCraftingScene();
@@ -139,21 +142,21 @@ export default class GameScene extends Phaser.Scene
 		this.myPlayer = new Player(this, 250, 250);
 		this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
-	//	this.scene.run('SceneCrafting', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
 		this.setColliders();
 	}
 
 	setColliders()
 	{
+		//player
 		this.physics.add.collider(this.myPlayer, this.currentMap.walls);
-
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.potions, this.handlePlayerPickupCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.rangeEnemies.projectiles, this.handlePlayerProjectilesCollision, undefined, this);
 		this.physics.add.overlap(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
 		this.physics.add.overlap(this.myPlayer, this.currentMap.teleporters, this.handlePlayerTeleporterCollision, undefined, this);
-
+		this.physics.add.collider(this.myPlayer, this.enemyProj, this.handlePlayerProjectilesCollision, undefined, this);
 		//skeleton
 		this.physics.add.collider(this.currentMap.skeletons, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.skeletons, this.handlePlayerSkeletonCollision, undefined, this);
@@ -169,6 +172,13 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer, this.currentMap.necromancers, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.necromancers, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.necromancers, this.handlePotionEnemyCollision, undefined, this);
+		//range
+		this.physics.add.collider(this.currentMap.rangeEnemies, this.currentMap.walls);
+		this.physics.add.collider(this.myPlayer, this.currentMap.rangeEnemies, this.handlePlayerEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.rangeEnemies, this.handleProjectilesEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.potions, this.currentMap.rangeEnemies, this.handlePotionEnemyCollision, undefined, this);
+		this.physics.add.collider(this.enemyProj, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
+		
 	}
 
 	setupRaycast()
@@ -533,6 +543,20 @@ export default class GameScene extends Phaser.Scene
 	handlePlayerTeleporterCollision(player, teleporter) 
 	{
 		teleporter.teleportOnPress(player);
+	}
+
+	handlePlayerProjectilesCollision(player, projectile)
+	{
+		this.xImpactSide = this.myPlayer.x - projectile.x;
+		this.yImpactSide = this.myPlayer.y - projectile.y;
+
+		projectile.destroy();
+
+		this.directionVector = new Phaser.Math.Vector2(this.xImpactSide, this.yImpactSide).normalize().scale(250);
+
+		this.myPlayer.handleDamage(this.directionVector);
+
+		sceneEvents.emit('playerHealthChanged', this.myPlayer.health);
 	}
 }
 

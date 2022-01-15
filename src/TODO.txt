@@ -8,3 +8,5 @@
 -Teleport zablokowany za malo pktow z potworkow
 
 -potion do reki (kolor jak dominik da)
+
+-BUG? HEALTHBARY NIE SA CENTROWANE

@@ -1,6 +1,5 @@
 import initAnims from './AnimsPlayer'
 import Projectile from './Projectile';
-
 import { getTimeStamp } from './GetTimeStamp';
 import Inventory from './Inventory';
 import Crafting from './Crafting'
@@ -43,9 +42,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.potionCooldown = 3000;
 		this.timeFromLastPotion = null;
 
-
-
-
+		
 		this.projectiles = this.scene.physics.add.group({classType:Projectile});
 		this.potions = this.scene.physics.add.group({classType:SkillPotion});
 

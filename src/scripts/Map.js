@@ -1,10 +1,11 @@
-
 import Skeleton from "./Skeleton";
 import Chest from "./Chest";
 import Workbench from "./Workbench";
 import Taurus from "./Taurus";
 import Teleporter from "./Teleporter";
 import Necromancer from "./Necromancer";
+import RangeEnemy from "./RangeEnemy";
+import ProjectileEnemy from "./ProjectileEnemy";
 
 export default class Map
 {
@@ -70,14 +71,20 @@ export default class Map
 		});
 		const necromancerLayer = this.map.getObjectLayer('necromancer');
 		necromancerLayer.objects.forEach(object => {
-			let necromancer = this.necromancers.get(this.scene, object.x * 2, object.y * 2, 'items', 144);
+			let necromancer = this.necromancers.get(this.scene, object.x * 2, object.y * 2);
 		})
 
+		this.rangeEnemies = this.scene.physics.add.group({
+			classType: RangeEnemy
+		});
 
 
-		//this.enemies = this.map.createLayer('enemyTile', tileset).setScale(2,2);
+		const rangeEnemyLayer = this.map.getObjectLayer('range');
+		rangeEnemyLayer.objects.forEach(object => {
+			let ranged = this.rangeEnemies.get(this.scene, object.x * 2, object.y * 2);
+		})
+
 		this.activateColliders();
-
 
 
 		this.teleporters = this.scene.physics.add.group({
