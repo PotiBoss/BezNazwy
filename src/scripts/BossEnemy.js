@@ -10,6 +10,7 @@ export default class BossEnemy extends EnemyBase
 		scene.add.existing(this);
 		this.scene.physics.add.existing(this);
 
+		this.dead = false;
 		this.x;
 		this.y;
 		this.scene = scene;
@@ -112,6 +113,7 @@ export default class BossEnemy extends EnemyBase
 
 	shootCircle()
 	{
+		if(this.dead) { return; }
 		this.circleFlag = true;
 		this.projectile = this.projectilesEnemy.get(this.x, this.y, this);
 		
@@ -150,6 +152,7 @@ export default class BossEnemy extends EnemyBase
 
 	shootPlayerVolley()
 	{
+		if(this.dead) { return; }
 		this.shootFlag = true; 
 		this.projectile = this.projectilesEnemy.get(this.x, this.y, this);
 		this.projectile.fireProjectile(this.myPlayer);
@@ -171,4 +174,9 @@ export default class BossEnemy extends EnemyBase
 		this.healthbar.setMeterPercentage(this.enemyHealth / this.enemyMaxHealth * 100);
 	}
 
+	destroy()
+	{
+		this.dead = true;
+		super.destroy();
+	}
 }

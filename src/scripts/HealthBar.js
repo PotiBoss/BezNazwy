@@ -8,7 +8,7 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 		this.scene = scene;
 		this.gameObject = object;
 
-		this.fullWidth = 30 / 100;
+		this.fullWidth = this.gameObject.width / 100;
 
 		this.create();
 	}	

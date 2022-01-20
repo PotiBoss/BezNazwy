@@ -36,6 +36,11 @@ export default class UI extends Phaser.Scene
 			sceneEvents.off('playerHealthChanged', this.handlePlayerHealthChanged, this);
 		})
 
+		this.welcomeMsg();
+	}
+
+	welcomeMsg()
+	{
 		this.dialog.init();
 		this.dialog.setText('OwO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. UwU 2137', true);
 	}
