@@ -28,17 +28,14 @@ export default class SceneInventory extends Phaser.Scene
 		});
 
 		// Craftowanie
-		this.input.keyboard.on('keydown-E', () =>{
+		this.input.keyboard.on('keydown-F', () =>{
 			if(this.crafting.craft(this.crafting.selected))
 			{
 			this.craftingSlots.forEach(slot => slot.destroy());
 			this.updateCraftingSlots();
 			this.scene.stop();
 			}
-
 		});
-
-
 	}
 
 	updateCraftingSlots()

@@ -221,7 +221,5 @@ setText: function (text, animate) {
 	  this.timedEvent.remove();
 	}
   }
-
-
 };
 

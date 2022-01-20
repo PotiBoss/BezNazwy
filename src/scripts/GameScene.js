@@ -162,27 +162,33 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer, this.currentMap.skeletons, this.handlePlayerSkeletonCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.skeletons, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.skeletons, this.handlePotionEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.skeletons, this.handleBombEnemyCollision, undefined, this);
 		//tauros
 		this.physics.add.collider(this.currentMap.tauroses, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.tauroses, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.tauroses, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.tauroses, this.handlePotionEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.tauroses, this.handleBombEnemyCollision, undefined, this);
+		//this.physics.add.collider(this.myPlayer.bombs.explosion, this.currentMap.tauroses, this.handleExplosionEnemyCollision, undefined, this);
 		//necro
 		this.physics.add.collider(this.currentMap.necromancers, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.necromancers, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.necromancers, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.necromancers, this.handlePotionEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.necromancers, this.handleBombEnemyCollision, undefined, this);
 		//range
 		this.physics.add.collider(this.currentMap.rangeEnemies, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.rangeEnemies, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.rangeEnemies, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.rangeEnemies, this.handlePotionEnemyCollision, undefined, this);
 		this.physics.add.collider(this.enemyProj, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.rangeEnemies, this.handleBombEnemyCollision, undefined, this);
 		//boss
 		this.physics.add.collider(this.currentMap.boss, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.boss, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.boss, this.handleProjectilesEnemyCollision, undefined, this);
-		this.physics.add.collider(this.myPlayer.potions, this.currentMap.boss, this.handlePotionEnemyCollision, undefined, this);	
+		this.physics.add.collider(this.myPlayer.potions, this.currentMap.boss, this.handlePotionEnemyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.boss, this.handleBombEnemyCollision, undefined, this);	
 	}
 
 	setupRaycast()
@@ -499,10 +505,6 @@ export default class GameScene extends Phaser.Scene
 				}
 			});
 		}
-		
-
-
-
 	}
 
 	handlePlayerEnemyCollision(player, enemy)
@@ -561,6 +563,23 @@ export default class GameScene extends Phaser.Scene
 		this.myPlayer.handleDamage(this.directionVector);
 
 		sceneEvents.emit('playerHealthChanged', this.myPlayer.health);
+	}
+
+	handleBombEnemyCollision(bomb, enemy)
+	{
+		bomb.explode(enemy);
+		enemy.enemyHealth -= bomb.damage;
+		enemy.updateHP();
+		enemy.damageTime = 0;
+		this.timerEnemyDamaged = this.time.addEvent({ 
+			delay: 1000, 
+			callback: enemy.clearTint, 
+			callbackScope: enemy});
+	}
+
+	handleExplosionEnemyCollision(explosion, enemy)
+	{
+		explosion.destroy();
 	}
 }
 

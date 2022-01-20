@@ -6,6 +6,7 @@ import Crafting from './Crafting'
 import SkillPotion from './SkillPotion';
 import HealthBar from './HealthBar';
 import PotionInHand from './PotionInHand';
+import SkillBomb from './SkillBomb';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -42,9 +43,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.potionCooldown = 3000;
 		this.timeFromLastPotion = null;
 
+		this.bombCooldown = 5000;
+		this.timeFromLastBomb = null;
 		
 		this.projectiles = this.scene.physics.add.group({classType:Projectile});
 		this.potions = this.scene.physics.add.group({classType:SkillPotion});
+		this.bombs = this.scene.physics.add.group({classType:SkillBomb});
 
 		this.inventory = new Inventory();
 		this.crafting = new Crafting(this);
@@ -405,6 +409,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	{
 		this.fireball();
 		this.potionThrow();
+		this.bombThrow();
 	}
 
 	fireball()
@@ -431,6 +436,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 			this.potion = this.potions.get(this.x, this.y, this);
 			this.potion.throw(this);
+		});
+	}
+
+	bombThrow()
+	{
+		this.scene.input.keyboard.on('keydown-E', () => 
+		{
+			this.date2 = new Date();
+			if(this.timeFromLastBomb && this.timeFromLastBomb + this.bombCooldown >  this.date2){ return; }
+			this.timeFromLastBomb = getTimeStamp();
+
+			this.bomb = this.bombs.get(this.x, this.y, this);
+			this.bomb.throw(this);
 		});
 	}
 

@@ -12,10 +12,7 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 		this.speed = 250;
 		this.potionRange = 1000; //tak naprawde to dlugosc lotu
 		this.timeToDestroy = null;
-		this.index = 0;
-		
 
-		this.projectileDamage = 10;
 
 		this.currentPotion = Math.floor(Math.random() * 2);
 	}
