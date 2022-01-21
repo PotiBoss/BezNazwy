@@ -65,7 +65,6 @@ export default class SceneMenu extends Phaser.Scene {
 			loop: true
 		});
 		this.menuBGM.play();
-
 	}
 
 

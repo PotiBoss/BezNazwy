@@ -13,3 +13,13 @@
 
 -boss spawn monsters?
 -volley with random?
+
+
+sound:
+-menu bgm
+-gra bgm
+-potion skill trzaskanie szkla
+-oof
+-teleport wyspy brrrr
+-teleport skill
+-craftowanie (?)

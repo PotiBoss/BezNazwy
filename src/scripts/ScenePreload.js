@@ -86,6 +86,12 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');	
 
 		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
+
+		this.load.image('playerBase', 'assets/PlayerBase.png');
+		this.load.spritesheet('playerFront', 'assets/PlayerFront.png', {frameWidth:21,frameHeight:41});
+		this.load.spritesheet('playerBack', 'assets/PlayerBack.png', {frameWidth:21,frameHeight:41});
+		this.load.spritesheet('playerSide', 'assets/PlayerSide.png', {frameWidth:23,frameHeight:41});
+
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
 		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');
 		this.load.spritesheet('necromancer', 'assets/birdSprite.png',{frameWidth:32,frameHeight:32});
