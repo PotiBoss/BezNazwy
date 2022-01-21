@@ -4,7 +4,7 @@ export default class TextBox
 	{
 		this.scene = scene;
 
-		this.welcomeMsg()
+		//this.welcomeMsg()
 
 		this.x = x;
 		this.y = y;

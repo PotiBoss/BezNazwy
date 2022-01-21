@@ -37,6 +37,7 @@ export default class SceneMenu extends Phaser.Scene {
 		});
 
 		this.startButton.on('pointerdown', () => {
+			this.menuBGM.stop();
 			this.scene.start('GameScene');
 		});
 
@@ -50,5 +51,14 @@ export default class SceneMenu extends Phaser.Scene {
 		this.quitButton.on('pointerout', () => {
 			this.indicator.setVisible(false);
 		})
-	};
+
+		this.menuBGM = this.sound.add('menuBGM', {
+			volume: 0.1,
+			loop: true
+		});
+		this.menuBGM.play();
+
+	}
+
+
 }

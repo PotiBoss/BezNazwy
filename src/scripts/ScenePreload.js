@@ -109,6 +109,12 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.image('startButton', 'assets/play_button.png');
 		this.load.image('quitButton', 'assets/options_button.png');
 
+		this.load.audio('menuBGM', [
+			'audio/determination.ogg',
+			'audio/determination.mp3'
+		]);
+	
+
 	}
 
 	create() 

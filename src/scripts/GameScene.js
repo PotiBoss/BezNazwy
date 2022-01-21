@@ -19,11 +19,7 @@ export default class GameScene extends Phaser.Scene
 
     preload()
     {
-		this.load.scenePlugin({
-			key: 'DialogModalPlugin',
-			url: 'src/scripts/Dialog.js',
-			sceneKey: 'dialog'
-		});
+
     }
 
     create()
@@ -48,7 +44,7 @@ export default class GameScene extends Phaser.Scene
 
 		this.gameWidth = this.sys.game.config.width;
 		this.gameHeight = this.sys.game.config.height;
-		this.textBox = new TextBox(this, 100, 100);
+		
 	}
 
 	update(time, deltaTime)
@@ -152,10 +148,7 @@ export default class GameScene extends Phaser.Scene
 		this.UI = this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
-		this.setColliders();
-		
-
-		
+		this.setColliders();		
 	}
 
 	setColliders()

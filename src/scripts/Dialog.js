@@ -42,11 +42,8 @@ DialogModalPlugin.prototype = {
     this.closeBtnColor = opts.closeBtnColor || 'darkgoldenrod';
     this.dialogSpeed = opts.dialogSpeed || 4.5;
 
-	//console.log(messages)
 
-	this.textArray = messages;
 	const textArray = messages;
-	console.log(textArray)
 
 	
 
@@ -72,10 +69,12 @@ DialogModalPlugin.prototype = {
   // Creates the dialog window
   _createWindow: function (textArray) {
 	
+
 	  
     const gameHeight = this._getGameHeight();
     const gameWidth = this._getGameWidth();
     const dimensions = this._calculateWindowDimensions(gameWidth, gameHeight);
+
 
     this.graphics = this.scene.add.graphics();
 
@@ -168,7 +167,6 @@ toggleWindow: function () {
 
     // Creates the close dialog window button
 _createNextButton: function (textArray) {
-	console.log(textArray)
 	var self = this;
 	textCounter = 0;
 	this.nextBtn = this.scene.make.text({
@@ -188,7 +186,6 @@ _createNextButton: function (textArray) {
 	  this.clearTint();
 	});
 	this.nextBtn.on('pointerdown', function () {
-		console.log(textArray)
 
 		if(textArray.length - 1 > textCounter)
 		{
