@@ -7,6 +7,7 @@ import Necromancer from "./Necromancer";
 import RangeEnemy from "./RangeEnemy";
 import ProjectileEnemy from "./ProjectileEnemy";
 import BossEnemy from "./BossEnemy";
+import Explosion from "./Explosion";
 
 export default class Map
 {
@@ -90,6 +91,8 @@ export default class Map
 		bossLayer.objects.forEach(object => {
 			let boss = this.boss.get(this.scene, object.x * 2, object.y * 2);
 		})
+
+
 
 
 		this.activateColliders();

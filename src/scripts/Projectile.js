@@ -20,4 +20,9 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite
 		this.scene.physics.moveTo(this, pointer.x + this.scene.cameras.main.scrollX, pointer.y + this.scene.cameras.main.scrollY, this.speed);
 	}
 
+	fireShrapnel(initiator, pointer)
+	{
+		this.scene.physics.moveTo(this, pointer.x + this.scene.cameras.main.scrollX - (initiator.x - this.x), pointer.y + this.scene.cameras.main.scrollY  - (initiator.y - this.y), this.speed);
+	}
+
 }

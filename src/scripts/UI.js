@@ -5,7 +5,7 @@ export default class UI extends Phaser.Scene
 
 	constructor()
 	{
-		super('UI');
+		super('UI');  
 	}
 
 	preload()
@@ -36,17 +36,35 @@ export default class UI extends Phaser.Scene
 			sceneEvents.off('playerHealthChanged', this.handlePlayerHealthChanged, this);
 		})
 
-		this.welcomeMsg();
+		this.gameWidth = this.sys.game.config.width;
+		this.gameHeight = this.sys.game.config.height;
+
+
+		//this.welcomeMsg();
 	}
 
 	welcomeMsg()
 	{
-		this.dialog.init();
-		this.dialog.setText('OwO Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. UwU 2137', true);
+		this.msg = ["1", "2", "3"];
+		this.dialog.init(this.msg);
+		this.dialog.setText(this.msg[0],true);
+
+	}
+
+	secondMsg()
+	{
+		this.msg2 = ["4", "5", "6"];
+		console.log(this.msg2)
+		this.dialog.init(this.ms2g);
+		this.dialog.setText(this.msg2[0],true);
 	}
 
 	handlePlayerHealthChanged(health)
 	{
+
+		this.secondMsg();
+
+
 		this.hearts.children.each((gameObject, index) => {
 			this.heart = gameObject
 			if(index < health)

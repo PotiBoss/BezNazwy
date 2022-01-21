@@ -7,6 +7,7 @@ import { sceneEvents } from './EventCommunicator';
 import { Mrpas } from 'mrpas'
 
 import ProjectileEnemy from './ProjectileEnemy';
+import TextBox from './TextBox';
 
 export default class GameScene extends Phaser.Scene
 {
@@ -18,7 +19,11 @@ export default class GameScene extends Phaser.Scene
 
     preload()
     {
-
+		this.load.scenePlugin({
+			key: 'DialogModalPlugin',
+			url: 'src/scripts/Dialog.js',
+			sceneKey: 'dialog'
+		});
     }
 
     create()
@@ -30,8 +35,6 @@ export default class GameScene extends Phaser.Scene
 		this.isCraftingActive = false;
 		this.fullWidth = 300;
 
-
-
 		this.spawnPlayer();
 		//this.changeCraftingScene();
 		this.setupRaycast();
@@ -41,6 +44,11 @@ export default class GameScene extends Phaser.Scene
 		this.setupFOV();
 		this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.lateUpdate, this)
 		this.createFOW();
+
+
+		this.gameWidth = this.sys.game.config.width;
+		this.gameHeight = this.sys.game.config.height;
+		this.textBox = new TextBox(this, 100, 100);
 	}
 
 	update(time, deltaTime)
@@ -78,6 +86,7 @@ export default class GameScene extends Phaser.Scene
 			{
 				this.isCraftingActive = true;
 				this.scene.run('SceneCrafting', {mainScene: this});
+				sceneEvents.emit('startCrafting');
 			}
 		});
 	}
@@ -140,10 +149,13 @@ export default class GameScene extends Phaser.Scene
 	spawnPlayer()
 	{
 		this.myPlayer = new Player(this, 250, 250);
-		this.scene.run('UI', {mainScene: this});
+		this.UI = this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
 		this.setColliders();
+		
+
+		
 	}
 
 	setColliders()
@@ -157,6 +169,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.overlap(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
 		this.physics.add.overlap(this.myPlayer, this.currentMap.teleporters, this.handlePlayerTeleporterCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.enemyProj, this.handlePlayerProjectilesCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.walls, this.handleBombsWallsCollision, undefined, this);
 		//skeleton
 		this.physics.add.collider(this.currentMap.skeletons, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.skeletons, this.handlePlayerSkeletonCollision, undefined, this);
@@ -169,7 +182,6 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.tauroses, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.tauroses, this.handlePotionEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.tauroses, this.handleBombEnemyCollision, undefined, this);
-		//this.physics.add.collider(this.myPlayer.bombs.explosion, this.currentMap.tauroses, this.handleExplosionEnemyCollision, undefined, this);
 		//necro
 		this.physics.add.collider(this.currentMap.necromancers, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.necromancers, this.handlePlayerEnemyCollision, undefined, this);
@@ -580,6 +592,11 @@ export default class GameScene extends Phaser.Scene
 	handleExplosionEnemyCollision(explosion, enemy)
 	{
 		explosion.destroy();
+	}
+
+	handleBombsWallsCollision(explosion, wall)
+	{
+		explosion.explode(this.myPlayer);
 	}
 }
 

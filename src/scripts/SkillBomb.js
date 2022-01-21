@@ -44,10 +44,6 @@ export default class SkillBomb extends Phaser.Physics.Arcade.Sprite
 	{
 		this.timer.remove();
 
-		//let explosion = new Explosion(this.scene, this.x, this.y);
-		//this.explosions.get(this.x, this.y, this);
-
-
 		for(let i = 0; i <= this.shrapnels; i++)
 		{
 			this.dirX = Math.floor(Math.random() * 960);
@@ -55,7 +51,6 @@ export default class SkillBomb extends Phaser.Physics.Arcade.Sprite
 			let shotDirection = new Phaser.Math.Vector2(this.dirX, this.dirY);
 			this.projectile = this.initiator.projectiles.get(this.x, this.y, this);
 			this.projectile.fireShrapnel(this, shotDirection);
-			console.log(shotDirection)
 		}
 		this.destroy();
 	}

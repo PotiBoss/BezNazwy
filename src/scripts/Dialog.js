@@ -22,13 +22,13 @@ DialogModalPlugin.prototype = {
 
   destroy: function () {
     this.shutdown();
-    this.scene = undefined;
+    //this.scene = undefined;
 	if (this.timedEvent) this.timedEvent.remove();
 	if (this.text) this.text.destroy();
   },
 
   // Initialize the dialog modal
-  init: function (opts) {
+  init: function (messages, opts) {
     // Check to see if any optional parameters were passed
     if (!opts) opts = {};
     // set properties from opts object or use defaults
@@ -42,6 +42,14 @@ DialogModalPlugin.prototype = {
     this.closeBtnColor = opts.closeBtnColor || 'darkgoldenrod';
     this.dialogSpeed = opts.dialogSpeed || 4.5;
 
+	//console.log(messages)
+
+	this.textArray = messages;
+	const textArray = messages;
+	console.log(textArray)
+
+	
+
     // used for animating the text
     this.eventCounter = 0;
     // if the dialog window is shown
@@ -52,13 +60,19 @@ DialogModalPlugin.prototype = {
     this.dialog;
     this.graphics;
     this.closeBtn;
+	this.nextBtn;
+
+
+	console.log("INIT")
 
     // Create the dialog window
-    this._createWindow();
+    this._createWindow(textArray);
   },
 
   // Creates the dialog window
-  _createWindow: function () {
+  _createWindow: function (textArray) {
+	
+	  
     const gameHeight = this._getGameHeight();
     const gameWidth = this._getGameWidth();
     const dimensions = this._calculateWindowDimensions(gameWidth, gameHeight);
@@ -69,6 +83,7 @@ DialogModalPlugin.prototype = {
     this._createInnerWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
 	this._createCloseModalButton();
 	this._createCloseModalButtonBorder();
+	this._createNextButton(textArray);
 
   },
 
@@ -128,40 +143,11 @@ _createCloseModalButton: function () {
 	  this.clearTint();
 	});
 	this.closeBtn.on('pointerdown', function () {
-	    self.toggleWindow();
+		self.nextBtn.destroy();
+		self.toggleWindow();
 	    if (self.timedEvent) self.timedEvent.remove();
 		if (self.text) self.text.destroy();
-	});
-  },
-
-  // Creates the close dialog button border
-_createCloseModalButtonBorder: function () {
-	var x = this._getGameWidth() - this.padding - 20;
-	var y = this._getGameHeight() - this.windowHeight - this.padding;
-	this.graphics.strokeRect(x, y, 20, 20);
-  },
-
-  // Creates the close dialog window button
-_createCloseModalButton: function () {
-	var self = this;
-	this.closeBtn = this.scene.make.text({
-	  x: this._getGameWidth() - this.padding - 14,
-	  y: this._getGameHeight() - this.windowHeight - this.padding + 3,
-	  text: 'X',
-	  style: {
-		font: 'bold 12px Arial',
-		fill: this.closeBtnColor
-	  }
-	});
-	this.closeBtn.setInteractive();
-	this.closeBtn.on('pointerover', function () {
-	  this.setTint(0xff0000);
-	});
-	this.closeBtn.on('pointerout', function () {
-	  this.clearTint();
-	});
-	this.closeBtn.on('pointerdown', function () {
-	  self.toggleWindow();
+		self.destroy();
 	});
   },
 
@@ -175,9 +161,49 @@ _createCloseModalButtonBorder: function () {
   // Hide/Show the dialog window
 toggleWindow: function () {
 	this.visible = !this.visible;
-	if (this.text) this.text.visible = this.visible;
-	if (this.graphics) this.graphics.visible = this.visible;
-	if (this.closeBtn) this.closeBtn.visible = this.visible;
+	if(this.text) this.text.visible = this.visible;
+	if(this.graphics) this.graphics.visible = this.visible;
+	if(this.closeBtn) this.closeBtn.visible = this.visible;
+  },
+
+    // Creates the close dialog window button
+_createNextButton: function (textArray) {
+	console.log(textArray)
+	var self = this;
+	textCounter = 0;
+	this.nextBtn = this.scene.make.text({
+	  x: this._getGameWidth() - this.padding - 32,
+	  y: this._getGameHeight() - this.windowHeight - this.padding + 120,
+	  text: '>>',
+	  style: {
+		font: 'bold 24px Arial',
+		fill: this.closeBtnColor
+	  }
+	});
+	this.nextBtn.setInteractive();
+	this.nextBtn.on('pointerover', function () {
+	  this.setTint(0xff0000);
+	});
+	this.nextBtn.on('pointerout', function () {
+	  this.clearTint();
+	});
+	this.nextBtn.on('pointerdown', function () {
+		console.log(textArray)
+
+		if(textArray.length - 1 > textCounter)
+		{
+			
+			self.setText(textArray[++textCounter], true);
+		}
+		else
+		{
+			self.nextBtn.destroy();
+			self.toggleWindow();
+			if (self.timedEvent) self.timedEvent.remove();
+			if (self.text) self.text.destroy();
+			self.destroy();
+		}
+	});
   },
 
   // Sets the text for the dialog window
@@ -185,10 +211,11 @@ setText: function (text, animate) {
 	// Reset the dialog
 	this.eventCounter = 0;
 	this.dialog = text.split('');
-	if (this.timedEvent) this.timedEvent.remove();
+	if(this.timedEvent) this.timedEvent.remove();
 	var tempText = animate ? '' : text;
 	this._setText(tempText);
-	if (animate) {
+	if(animate) 
+	{
 	  this.timedEvent = this.scene.time.addEvent({
 		delay: 150 - (this.dialogSpeed * 30),
 		callback: this._animateText,
@@ -196,6 +223,7 @@ setText: function (text, animate) {
 		loop: true
 	  });
 	}
+
   },
   // Calcuate the position of the text in the dialog window
   _setText: function (text) {
@@ -215,11 +243,10 @@ setText: function (text, animate) {
 
   _animateText: function () {
 	this.eventCounter++;
-
 	this.text.setText(this.text.text + this.dialog[this.eventCounter - 1]);
 	if (this.eventCounter === this.dialog.length) {
 	  this.timedEvent.remove();
 	}
-  }
+  },
 };
 
