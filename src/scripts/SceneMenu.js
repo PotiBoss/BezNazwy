@@ -7,7 +7,11 @@ export default class SceneMenu extends Phaser.Scene {
   
 	preload()
 	{
-
+		this.load.scenePlugin({
+			key: 'DialogModalPlugin',
+			url: 'src/scripts/Dialog.js',
+			sceneKey: 'dialog'
+		});
 	}
 
 	create()
@@ -52,12 +56,24 @@ export default class SceneMenu extends Phaser.Scene {
 			this.indicator.setVisible(false);
 		})
 
+		this.quitButton.on('pointerdown', () => {
+			this.usedAssets();
+		});
+
 		this.menuBGM = this.sound.add('menuBGM', {
 			volume: 0.1,
 			loop: true
 		});
 		this.menuBGM.play();
 
+	}
+
+
+	usedAssets()
+	{
+		this.msg = ["Used assets \nAsset 1 \nAsset 2", "2", "3"];
+		this.dialog.init(this.msg);
+		this.dialog.setText(this.msg[0], true);
 	}
 
 

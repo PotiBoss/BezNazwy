@@ -59,8 +59,14 @@ DialogModalPlugin.prototype = {
     this.closeBtn;
 	this.nextBtn;
 
-
-	console.log("INIT")
+	// destroy on new textbox
+	if(this.innerWindow)
+	{
+		this.innerWindow.destroy();
+		this.outerWindow.destroy();
+		this.closeBtn.destroy();
+		this.nextBtn.destroy();
+	} 
 
     // Create the dialog window
     this._createWindow(textArray);
@@ -78,11 +84,14 @@ DialogModalPlugin.prototype = {
 
     this.graphics = this.scene.add.graphics();
 
-    this._createOuterWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
-    this._createInnerWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
-	this._createCloseModalButton();
-	this._createCloseModalButtonBorder();
-	this._createNextButton(textArray);
+
+		this._createOuterWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
+		this._createInnerWindow(dimensions.x, dimensions.y, dimensions.rectWidth, dimensions.rectHeight);
+		this._createCloseModalButton();
+		this._createCloseModalButtonBorder();
+		this._createNextButton(textArray);
+	
+
 
   },
 
@@ -113,13 +122,13 @@ DialogModalPlugin.prototype = {
   // Creates the inner dialog window (where the text is displayed)
   _createInnerWindow: function (x, y, rectWidth, rectHeight) {
     this.graphics.fillStyle(this.windowColor, this.windowAlpha);
-    this.graphics.fillRect(x + 1, y + 1, rectWidth - 1, rectHeight - 1);
+    this.innerWindow = this.graphics.fillRect(x + 1, y + 1, rectWidth - 1, rectHeight - 1);
   },
 
   // Creates the border rectangle of the dialog window
   _createOuterWindow: function (x, y, rectWidth, rectHeight) {
     this.graphics.lineStyle(this.borderThickness, this.borderColor, this.borderAlpha);
-    this.graphics.strokeRect(x, y, rectWidth, rectHeight);
+    this.outerWindow = this.graphics.strokeRect(x, y, rectWidth, rectHeight);
   },
 
   // Creates the close dialog window button
@@ -225,6 +234,7 @@ setText: function (text, animate) {
   // Calcuate the position of the text in the dialog window
   _setText: function (text) {
 	// Reset the dialog
+
 	if (this.text) this.text.destroy();
 	var x = this.padding + 10;
 	var y = this._getGameHeight() - this.windowHeight - this.padding + 10;

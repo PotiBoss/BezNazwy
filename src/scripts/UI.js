@@ -10,7 +10,7 @@ export default class UI extends Phaser.Scene
 
 	preload()
 	{
-		this.load.scenePlugin({
+			this.load.scenePlugin({
 			key: 'DialogModalPlugin',
 			url: 'src/scripts/Dialog.js',
 			sceneKey: 'dialog'
