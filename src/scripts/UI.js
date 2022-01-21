@@ -48,6 +48,7 @@ export default class UI extends Phaser.Scene
 		this.msg = ["1", "2", "3"];
 		this.dialog.init(this.msg);
 		this.dialog.setText(this.msg[0], true);
+
 	}
 
 	secondMsg()

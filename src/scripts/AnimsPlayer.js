@@ -34,7 +34,7 @@ export default anims => {
 		key: 'run-Side',
 		frames: anims.generateFrameNames('playerSide'),
 		repeat: -1,
-		frameRate: 12
+		frameRate: 12,
 	})
 
 	anims.create({

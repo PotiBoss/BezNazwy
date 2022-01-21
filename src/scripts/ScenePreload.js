@@ -119,6 +119,30 @@ export default class ScenePreload extends Phaser.Scene
 			'audio/determination.ogg',
 			'audio/determination.mp3'
 		]);
+
+		this.load.audio('gameBGM', [
+			'audio/gameBGM.mp3'
+		]);
+
+		this.load.audio('potionBreak', [
+			'audio/potionBreak.mp3'
+		]);
+
+		this.load.audio('blink', [
+			'audio/blink.mp3'
+		]);
+
+		this.load.audio('skeletonSpawn', [
+			'audio/skeletonSpawn.wav'
+		]);
+
+		this.load.audio('textScroll', [
+			'audio/textScroll.mp3'
+		]);
+
+		this.load.audio('playerDamaged', [
+			'audio/playerDamaged.mp3'
+		]);
 	
 
 	}

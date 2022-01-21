@@ -75,6 +75,11 @@ export default class Necromancer extends EnemyBase
 		this.scene.currentMap.skeletons.get(this.x + this.width, this.y);
 		this.scene.currentMap.skeletons.get(this.x - this.width, this.y);
 		this.skeletonSpawnFlag = true;
+		this.skeletonSound = this.scene.sound.add('skeletonSpawn', {
+			volume: 0.3,
+		});
+		this.skeletonSound.play();
+
 	}
 
 

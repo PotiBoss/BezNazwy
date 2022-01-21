@@ -44,9 +44,7 @@ DialogModalPlugin.prototype = {
 
 
 	const textArray = messages;
-
 	
-
     // used for animating the text
     this.eventCounter = 0;
     // if the dialog window is shown
@@ -151,6 +149,7 @@ _createCloseModalButton: function () {
 	  this.clearTint();
 	});
 	this.closeBtn.on('pointerdown', function () {
+		self.textScroll.stop();
 		self.nextBtn.destroy();
 		self.toggleWindow();
 	    if (self.timedEvent) self.timedEvent.remove();
@@ -195,11 +194,11 @@ _createNextButton: function (textArray) {
 	  this.clearTint();
 	});
 	this.nextBtn.on('pointerdown', function () {
-
+		self.textScroll.stop();
 		if(textArray.length - 1 > textCounter)
 		{
-			
 			self.setText(textArray[++textCounter], true);
+			
 		}
 		else
 		{
@@ -230,6 +229,7 @@ setText: function (text, animate) {
 	  });
 	}
 
+
   },
   // Calcuate the position of the text in the dialog window
   _setText: function (text) {
@@ -246,6 +246,14 @@ setText: function (text, animate) {
 		wordWrap: { width: this._getGameWidth() - (this.padding * 2) - 25 }
 	  }
 	});
+
+	this.textScroll = this.scene.sound.add('textScroll', {
+		volume: 1,
+	});
+
+	this.textScroll.play();
+
+
   },
 
   _animateText: function () {

@@ -331,6 +331,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed) / this.square2;
+			this.blink = this.scene.sound.add('blink', {
+				volume: 0.1,
+			});
+			this.blink.play();
 	}
 
 	teleportLeftDown(playerVelocity, raycastIntersection)
@@ -339,6 +343,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0) / this.square2;
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed) / this.square2;
+			this.blink = this.scene.sound.add('blink', {
+				volume: 0.1,
+			});
+			this.blink.play();
 	}
 
 	teleportLeftUp(playerVelocity, raycastIntersection)
@@ -347,6 +355,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0) / this.square2;
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0) / this.square2;
+			this.blink = this.scene.sound.add('blink', {
+				volume: 0.1,
+			});
+			this.blink.play();
 	}
 
 	teleportRightUp(playerVelocity, raycastIntersection)
@@ -355,6 +367,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0) / this.square2;
+			this.blink = this.scene.sound.add('blink', {
+				volume: 0.1,
+			});
+			this.blink.play();
 	}
 
 	teleportRight(playerVelocity, raycastIntersection)
@@ -362,6 +378,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed);
+			this.blink = this.scene.sound.add('blink', {
+				volume: 0.1,
+			});
+			this.blink.play();
 	}
 
 	teleportLeft(playerVelocity, raycastIntersection)
@@ -369,6 +389,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x+16, -this.playerSpeed, 0);
+			this.blink = this.scene.sound.add('blink', {
+				volume: 0.1,
+			});
+			this.blink.play();
 	}
 
 	teleportUp(playerVelocity, raycastIntersection)
@@ -376,6 +400,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.timeFromLastTeleport = getTimeStamp();
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y+16, -this.playerSpeed, 0);
+			this.blink = this.scene.sound.add('blink', {
+				volume: 0.1,
+			});
+			this.blink.play();
 	}
 
 	teleportDown(playerVelocity, raycastIntersection)
@@ -383,6 +411,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.timeFromLastTeleport = getTimeStamp();
 			this.y += Phaser.Math.Clamp(raycastIntersection.y-this.y-16, 0, this.playerSpeed);
+			this.blink = this.scene.sound.add('blink', {
+				volume: 0.1,
+			});
+			this.blink.play();
 	}
 
 	handleState(deltaTime)
@@ -463,6 +495,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		--this.health;
 
 		this.healthbar.setMeterPercentage(this.health * 100 / this.maxHealth);
+
+		this.playerDamaged = this.scene.sound.add('playerDamaged', {
+			volume: 0.1,
+		});
+		this.playerDamaged.play();
 
 		if (this.health <= 0)
 		{

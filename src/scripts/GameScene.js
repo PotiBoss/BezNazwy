@@ -24,6 +24,7 @@ export default class GameScene extends Phaser.Scene
 
     create()
     {
+
 		this.enemyProj = this.physics.add.group({classType:ProjectileEnemy});
 		this.currentMap = new Map(this);
 		
@@ -45,6 +46,11 @@ export default class GameScene extends Phaser.Scene
 		this.gameWidth = this.sys.game.config.width;
 		this.gameHeight = this.sys.game.config.height;
 		
+		this.gameBGM = this.sound.add('gameBGM', {
+			volume: 0.05,
+			loop: true
+		});
+		this.gameBGM.play();
 	}
 
 	update(time, deltaTime)

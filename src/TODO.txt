@@ -16,10 +16,12 @@
 
 
 sound:
--menu bgm
--gra bgm
--potion skill trzaskanie szkla
--oof
--teleport wyspy brrrr
--teleport skill
+-menu bgm X
+-gra bgm X
+-potion skill trzaskanie szkla X
+-oof (?)
+-teleport wyspy brrrr 
+-teleport skill X
 -craftowanie (?)
+-licz spawn szkielet X
+-typing sound X
