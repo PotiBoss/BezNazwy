@@ -61,6 +61,7 @@ export default class SceneInventory extends Phaser.Scene
 			{
 				this.inventory.drinkPotion(this.inventory.getItem(this.inventory.currentItem).name);
 				this.inventory.removeItem(this.inventory.getItem(this.inventory.currentItem).name);
+				
 			}
 		});
 

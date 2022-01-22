@@ -25,3 +25,6 @@ sound:
 -craftowanie (?)
 -licz spawn szkielet X
 -typing sound X
+
+
+

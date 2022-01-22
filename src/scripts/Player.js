@@ -56,6 +56,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.potionHand = new PotionInHand(this.scene, this);
 
 
+		this.anims.play('run-Down', true);
+
 		//this.setCollideWorldBounds();
 		this.setupMovement();
 		this.setupStates();
@@ -125,7 +127,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		if(this.keyS.isUp)
 		{
 			this.down = 0;
-			this.anims.play('idleDown');
+			//this.anims.play('idleDown');
 		}
 		if(this.keyW.isUp)
 		{
@@ -161,14 +163,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.setVelocityX(this.playerSpeed);
 			this.setVelocityY(-this.playerSpeed);
-			this.anims.play('run-Up', true);
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			{
+				this.anims.play('run-Up', true);
+			}
 		}
 
 		else if(this.keyD.isDown && this.keyS.isDown)
 		{
 			this.setVelocityX(this.playerSpeed);
 			this.setVelocityY(this.playerSpeed);
-			this.anims.play('run-Down', true);
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			{
+				this.anims.play('run-Down', true);
+			}
 		}
 
 		else if(this.keyA.isDown && this.keyS.isDown)
@@ -176,51 +184,69 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.setVelocityX(-this.playerSpeed);
 			this.setVelocityY(this.playerSpeed);
 			this.flipX = true;
-			this.anims.play('run-Down', true);
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			{
+				this.anims.play('run-Down', true);
+			}
 		}
 
 		else if(this.keyA.isDown && this.keyW.isDown)
 		{
 			this.setVelocityX(-this.playerSpeed);
 			this.setVelocityY(-this.playerSpeed);
-			this.anims.play('run-Up', true);
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			{
+				this.anims.play('run-Up', true);
+			}
 		}
 
 		else if(this.keyA.isDown)
 		{
 			this.setVelocityX(-this.playerSpeed);
 			this.flipX = true;
-			this.anims.play('run-Side', true);
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			{
+				this.anims.play('run-Side', true);
+			}
 		}
 
 		else if(this.keyD.isDown)
 		{
 			this.setVelocityX(this.playerSpeed);
 			this.flipX = false;
-			this.anims.play('run-Side', true);
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			{
+				this.anims.play('run-Side', true);
+			}
 		}
 
 		else if(this.keyW.isDown)
 		{
 			this.setVelocityY(-this.playerSpeed);
-			this.anims.play('run-Up', true);
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			{
+				this.anims.play('run-Up', true);
+			}
 		}
 
 		else if(this.keyS.isDown)
 		{
 			this.setVelocityY(this.playerSpeed);
-			this.anims.play('run-Down', true);
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			{
+				this.anims.play('run-Down', true);
+			}
 		}
 		
 		else // NIE RUSZAC to gowno nie dzialalo przez 2 godziny i nagle zaczelo dzialac :)
 		{
-			if(this.anims.currentAnim != null){
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && this.healthState != 2)
+			{
 				const parts = this.anims.currentAnim.key.split('-')
 				parts[0] = 'idle'
 				this.anims.play(parts.join('-'))
 				this.setVelocity(0, 0)
 			}
-
 		}
 
 
@@ -282,46 +308,46 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	lookAtMouse(pointer)
 	{
-		this.angleBetweenPlayerAndMouse = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(this.x, this.y, pointer.x, pointer.y);
+		this.angleBetweenPlayerAndMouse = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(this.x, this.y, pointer.x + this.scene.cameras.main.scrollX, pointer.y + this.scene.cameras.main.scrollY);
 		this.angleDetla = (this.angleBetweenPlayerAndMouse - this.rotation);
-
-		//this.directionPointer(this.angle);
-
+		this.directionPointer();
 	}
 
-	directionPointer(angle)
+	directionPointer()
 	{
 		if(this.angleDetla > -22.5 &&  this.angleDetla <= 22.5)
 		{
-			console.log("prawo");
+			this.flipX = false;
+			this.anims.play('throw-Side', true);
 		}
 		else if( this.angleDetla > 22.5 && this.angleDetla <= 67.5)
 		{
-			console.log("prawodol");
+			this.anims.play('throw-Down', true);
 		}
 		else if( this.angleDetla > 67.5 && this.angleDetla <= 112.5)
 		{
-			console.log("dol");
+			this.anims.play('throw-Down', true);
 		}
 		else if( this.angleDetla > 112.5 && this.angleDetla <= 157.5)
 		{
-			console.log("lewodol");
+			this.anims.play('throw-Down', true);
 		}
 		else if( this.angleDetla > 157.5 || this.angleDetla <= -157.5)
 		{
-			console.log("lewo");
+			this.flipX = true;
+			this.anims.play('throw-Side', true);
 		}
 		else if( this.angleDetla > -157.5 && this.angleDetla <= -112.5)
 		{
-			console.log("lewogora");
+			this.anims.play('throw-Up', true);
 		}
 		else if( this.angleDetla > -112.5 && this.angleDetla <= -67.5)
 		{
-			console.log("gora");
+			this.anims.play('throw-Up', true);
 		}
 		else if( this.angleDetla > -67.5 && this.angleDetla <= -22.5)
 		{
-			console.log("prawogora");
+			this.anims.play('throw-Up', true);
 		}
 	}
 
@@ -468,6 +494,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 			this.potion = this.potions.get(this.x, this.y, this);
 			this.potion.throw(this);
+
+			this.lookAtMouse(this.scene.input.activePointer);
+
+			this.on('animationcomplete', () =>
+			{
+				const parts = this.anims.currentAnim.key.split('-')
+				parts[0] = 'idle'
+				this.anims.play(parts.join('-'))
+			})
 		});
 	}
 
