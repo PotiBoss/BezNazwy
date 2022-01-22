@@ -50,7 +50,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.potions = this.scene.physics.add.group({classType:SkillPotion});
 		this.bombs = this.scene.physics.add.group({classType:SkillBomb});
 
-		this.inventory = new Inventory();
+		this.inventory = new Inventory(this.scene);
 		this.crafting = new Crafting(this);
 		this.healthbar = new HealthBar(this.scene, this);
 		this.potionHand = new PotionInHand(this.scene, this);
@@ -484,8 +484,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		});
 	}
 
-
-
 	handleDamage(knockbackDirection)
 	{
 		if(this.health <= 0) { return; }
@@ -530,7 +528,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	{
 		this.currentWorkbench = workbench;
 	}
-
 
 	getMaxHealth()
 	{

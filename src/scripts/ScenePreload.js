@@ -72,12 +72,7 @@ export default class ScenePreload extends Phaser.Scene
 			assetText.destroy();
 		});
 		
-	//	this.load.image('logo', 'assets/zenvalogo.png');
-	//	for (var i = 0; i < 500; i++) {
-	//		this.load.image('logo'+i, 'assets/zenvalogo.png');
-	//	}
 
-		//load
 
 		this.load.image('projectile', 'assets/bomb.png');
 		this.load.image('potion', 'assets/star.png');

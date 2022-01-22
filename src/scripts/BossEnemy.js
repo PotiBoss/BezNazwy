@@ -54,7 +54,7 @@ export default class BossEnemy extends EnemyBase
 			this.changeDirection()
 		}
 
-		this.chasePlayer();  //TODO: WLACZYC
+		//this.chasePlayer();  //TODO: WLACZYC
 
 		this.healthbar.preUpdate();
 		

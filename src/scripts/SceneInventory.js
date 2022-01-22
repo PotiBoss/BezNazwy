@@ -32,7 +32,6 @@ export default class SceneInventory extends Phaser.Scene
 		//select
 		this.input.on('wheel', (pointer, spriteObject, x, y, z) => {
 			if(this.mainScene.isCraftingActive) {return};
-			console.log(this.mainScene.isCraftingActive)
 			this.inventory.currentItem = Math.max((0, this.inventory.currentItem + (y > 0 ? 1 : -1)) % this.maxColumns);
 			if(this.inventory.currentItem < 0) this.inventory.currentItem = this.maxColumns - 1;
 			this.changeCurrentItem();
@@ -57,6 +56,14 @@ export default class SceneInventory extends Phaser.Scene
 			this.inventory.changeSlot(this.startingSlot, this.hoverSlot);
 			this.refresh();
 		})
+		this.input.keyboard.on('keydown-F', () => {
+			if(this.inventory.getItem(this.inventory.currentItem))
+			{
+				this.inventory.drinkPotion(this.inventory.getItem(this.inventory.currentItem).name);
+				this.inventory.removeItem(this.inventory.getItem(this.inventory.currentItem).name);
+			}
+		});
+
 
 	}
 
@@ -77,6 +84,8 @@ export default class SceneInventory extends Phaser.Scene
 
 
 			let item = this.inventory.getItem(i);
+
+			
 
 			if(item)
 			{

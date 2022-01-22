@@ -2,7 +2,7 @@
 
 export default class Inventory
 {
-	constructor()
+	constructor(scene)
 	{
 		this.items = 
 		{
@@ -14,10 +14,13 @@ export default class Inventory
 		this.maxColumns = 10;
 		this.maxRows = 3;
 
+		this.scene = scene;
+
 		this.currentItem = 0;
 
 		this.addItem({name: 'wood', quantity: 8})
 		this.addItem({name: 'stone', quantity: 8})
+		this.addItem({name: 'healthPotion', quantity: 8})
 	}
 
 	addItem(item)
@@ -87,5 +90,17 @@ export default class Inventory
 	getItemQuantity(itemName)
 	{
 		return Object.values(this.items).filter(i => i.name === itemName).map(j => j.quantity).reduce((totalNumber, numberToAdd) => totalNumber + numberToAdd, 0); //kasper bylby dumny
+	}
+
+	drinkPotion(itemName)
+	{
+		switch(itemName)
+		{
+			case 'healthPotion':
+				this.scene.myPlayer.health++
+				this.scene.myPlayer.healthbar.setMeterPercentage(this.scene.myPlayer.health * 100 / this.scene.myPlayer.maxHealth);
+				break;
+		}
+		
 	}
 }

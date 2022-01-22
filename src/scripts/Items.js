@@ -1,5 +1,5 @@
 let items = {
-    pickaxe: {frame:162, materials:['wood','wood','stone']},
+    healthPotion: {frame:162, materials:['wood','wood','stone']},
     shovel : {frame:163, materials:['wood','stone','stone']},
     wood : {frame:272},
     stone : {frame:273},
@@ -8,8 +8,7 @@ let items = {
     fur : {frame: 280},
     health_potion: {frame: 144, materials:['wood','stone','stone']},
     wand_fire: {frame: 105}
-  }
-;
+  };
 
 export default items; 
 
