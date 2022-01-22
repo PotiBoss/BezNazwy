@@ -16,7 +16,7 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 
 	preUpdate(time, deltaTime)
 	{
-		this.middle.x = this.gameObject.x - this.gameObject.width / 2;
+		this.middle.x = this.gameObject.x;
 		this.middle.y = this.gameObject.y - this.gameObject.height / 1.5;
 	}
 
@@ -27,11 +27,8 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 		const y = 9999 //XD	
 		const x = 9999 //XD
 
-		this.middle = this.scene.add.image(x , y, 'middle').setOrigin(0, 0.5).setScale(1, 0.3)
-		this.setMeterPercentage();
-				
-		this.middle.x = this.gameObject.x - this.gameObject.width / 2;
-		this.middle.y = this.gameObject.y - this.gameObject.height / 2;
+		this.middle = this.scene.add.image(x , y, 'middle').setOrigin(0.5, 0.5).setScale(1, 0.3)
+		this.setMeterPercentage();	
 	}
 
 	setMeterPercentage(percent = 100)
