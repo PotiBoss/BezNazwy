@@ -76,7 +76,7 @@ export default class SceneInventory extends Phaser.Scene
 		{
 			let x = this.offsetToRight + this.slotMargin + i % this.maxColumns * (this.tileSize + this.slotSpacing) + this.tileSize / 2;
 			let y = this.slotMargin + this.tileSize / 2 + Math.floor(i / this.maxColumns) * (this.tileSize + this.slotSpacing);
-			let inventorySlot = this.add.sprite(x, y, 'items', 11);
+			let inventorySlot = this.add.sprite(x, y, 'inventoryBackground');
 
 			inventorySlot.setInteractive();
 			inventorySlot.on('pointerover', (pointer) =>{
@@ -90,7 +90,7 @@ export default class SceneInventory extends Phaser.Scene
 
 			if(item)
 			{
-				inventorySlot.item = this.add.sprite(inventorySlot.x, inventorySlot.y, 'pots', items[item.name].frame);
+				inventorySlot.item = this.add.sprite(inventorySlot.x, inventorySlot.y, 'pots', items[item.name].frame).setScale(0.75,0.75);
 				inventorySlot.quantityText = this.add.text(inventorySlot.x + this.tileSize / 8, inventorySlot.y, item.quantity);
 
 				//drag

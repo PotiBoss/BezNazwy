@@ -9,17 +9,14 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite
 		scene.add.existing(this);
 
 		this.speed = 250;
-		//this.maxDistance = 10;
-		//this.traveledDistance = 0;
 		this.projectileDamage = 10;
 
 	}
 
 	fireProjectile(initiator, pointer)
 	{
-		console.log(this.scene.myPlayer.damageBonus)
 		this.projectileDamage =  this.scene.myPlayer.damageBonus * this.projectileDamage;
-		this.scene.physics.moveTo(this, pointer.x + this.scene.cameras.main.scrollX, pointer.y + this.scene.cameras.main.scrollY, this.speed);
+		this.scene.physics.moveTo(this, pointer.x + this.scene.cameras.main.scrollX, pointer.y + this.scene.cameras.main.scrollY, this.speed * this.scene.myPlayer.projectileSpeedBonus);
 	}
 
 	fireShrapnel(initiator, pointer)

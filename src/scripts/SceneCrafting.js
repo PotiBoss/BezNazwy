@@ -51,7 +51,7 @@ export default class SceneInventory extends Phaser.Scene
 		{
 			if(this.craftingSlots[i]) this.refreshCraftingSlot(this.craftingSlots[i]);
 			const currentCraftableItem = this.crafting.craftableItems[i];
-			let craftingSlot = this.add.sprite(25, 100 + y * i, 'items', 11);
+			let craftingSlot = this.add.sprite(25, 100 + y * i, 'inventoryBackground');
 			this.craftingSlots.push(craftingSlot);
 			this.craftingSlots[i].item = this.add.sprite(25, 100 + y * i, 'pots', currentCraftableItem.frame);
 			this.craftingSlots[i].item.tint = currentCraftableItem.isCraftable ? 0xffffff : 0x555555;

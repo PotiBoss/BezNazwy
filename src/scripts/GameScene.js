@@ -550,7 +550,17 @@ export default class GameScene extends Phaser.Scene
 		
 		enemy.damageTime = 0;
 
-		
+		if(this.myPlayer.lifesteal > 0)
+		{ 
+			this.myPlayer.health += 5;
+			this.myPlayer.healthbar.setMeterPercentage(this.myPlayer.health * 100 / this.myPlayer.maxHealth);
+		}
+
+		if(this.myPlayer.attackCooldownReduction)
+		{
+			this.myPlayer.timeFromLastPotion -= this.myPlayer.potionCooldown / 2;
+			this.myPlayer.timeFromLastBomb -= this.myPlayer.bombCooldown / 2;
+		}
 
 		enemy.enemyHealth -= projectile.projectileDamage;
 		enemy.updateHP();

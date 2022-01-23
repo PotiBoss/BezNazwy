@@ -95,19 +95,14 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.spritesheet('necromancer', 'assets/birdSprite.png',{frameWidth:32,frameHeight:32});
 		this.load.image('boss', 'assets/boss.png');
 
-
-		this.load.image('ui-heart-empty', 'assets/ui_heart_empty.png');
-		this.load.image('ui-heart-full', 'assets/ui_heart_full.png');
-
 		this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
-
 
 		this.load.spritesheet('pots','assets/pots.png',{frameWidth:32,frameHeight:32});
 		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
+		this.load.image('inventoryBackground', 'assets/HudSheet.png');
 		this.load.spritesheet('tileitem','assets/dungeon_tiles.png',{frameWidth:16,frameHeight:16});
 
-
-		this.load.image('middle', 'assets/barHorizontal_green_mid.png');
+		this.load.spritesheet('healthBar', 'assets/HealthBarSheet.png',{frameWidth:16,frameHeight:26});
 
 		this.load.image('titleBackground', 'assets/title_bg.jpg');
 		this.load.image('title', 'assets/logo.png');

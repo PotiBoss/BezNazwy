@@ -18,6 +18,7 @@ export default class Inventory
 
 		this.currentItem = 0;
 
+		this.addItem({name: 'healthPotion', quantity: 30})
 		this.addItem({name: 'speedHerb', quantity: 8})
 		this.addItem({name: 'healthHerb', quantity: 8})
 		this.addItem({name: 'damageHerb', quantity: 8})
@@ -112,7 +113,7 @@ export default class Inventory
 				if(cooldownReductionTimer != undefined) {cooldownReductionTimer.remove()}
 				var cooldownReductionTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
-					callback: this.cooldownReduction, 
+					callback: this.cooldownReductionPotion, 
 					callbackScope: this
 					});
 				break;	
@@ -134,14 +135,44 @@ export default class Inventory
 					callbackScope: this
 					});
 				break;
+			case 'skillDamagePotion':
+					this.scene.myPlayer.skillDamageBonus += 5;
+						break;
 			case 'healthPotion':
 				this.scene.myPlayer.health += 25;
 				this.scene.myPlayer.healthbar.setMeterPercentage(this.scene.myPlayer.health * 100 / this.scene.myPlayer.maxHealth);
 				break;
-			case 'skillDamagePotion':
-			this.scene.myPlayer.skillDamageBonus += 5;
+			case 'lifeStealPotion':
+				this.scene.myPlayer.lifesteal += 8;			
 				break;
-			
+			case 'projectileSpeedPotion':
+				if(projectileSpeedTimer != undefined) {projectileSpeedTimer.remove()}
+				this.scene.myPlayer.projectileSpeedBonus = 1.5;
+				var projectileSpeedTimer = this.scene.time.addEvent({ 
+					delay: 5000, 
+					callback: this.projectileSpeedPotion, 
+					callbackScope: this
+					});
+				break;
+			case 'attackCooldownPotion':
+				if(attackCooldownTimer != undefined) {attackCooldownTimer.remove()}
+				this.scene.myPlayer.attackCooldownReduction = true;
+				var attackCooldownTimer = this.scene.time.addEvent({ 
+					delay: 5000, 
+					callback: this.attackCooldownPotion, 
+					callbackScope: this
+					});
+				break;
+
+			case 'attackSpeedPotion':
+				if(attackSpeedTimer != undefined) {attackSpeedTimer.remove()}
+				this.scene.myPlayer.attackSpeedReduction = 0.4;
+				var attackSpeedTimer = this.scene.time.addEvent({ 
+					delay: 5000, 
+					callback: this.attackSpeedPotion, 
+					callbackScope: this
+					});
+				break;		
 		}
 	}
 
@@ -156,7 +187,7 @@ export default class Inventory
 		this.scene.myPlayer.playerSpeed = 150;
 	}
 
-	cooldownReduction()
+	cooldownReductionPotion()
 	{
 		this.scene.myPlayer.cooldownReduction = 1.0;
 	}
@@ -164,5 +195,20 @@ export default class Inventory
 	attackPotion()
 	{
 		this.scene.myPlayer.damageBonus = 1.0;
+	}
+
+	projectileSpeedPotion()
+	{
+		this.scene.myPlayer.projectileSpeedBonus = 1.0;
+	}
+
+	attackCooldownPotion()
+	{
+		this.scene.myPlayer.attackCooldownReduction = false;
+	}
+
+	attackSpeedPotion()
+	{
+		this.scene.myPlayer.attackSpeedReduction = 1.0;
 	}
 }

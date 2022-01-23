@@ -59,6 +59,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.skillDamageBonus = 0;
 		this.cooldownReduction = 1.0;
 		this.damageBonus = 1.0
+		this.lifesteal = 0;
+		this.projectileSpeedBonus = 1.0;
+		this.attackCooldownReduction = false;
+		this.attackSpeedReduction = 1.0;
 
 		this.anims.play('run-Down', true);
 
@@ -479,9 +483,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.scene.input.on('pointerdown', (pointer) => 
 		{
 			this.date = new Date();
-			if(this.timeFromLastShot && this.timeFromLastShot + this.fireRate >  this.date){ return; }
+			if(this.timeFromLastShot && this.timeFromLastShot + this.fireRate * this.attackSpeedReduction >  this.date){ return; }
 			this.timeFromLastShot = getTimeStamp();
 
+			this.lifesteal--;
 			this.projectile = this.projectiles.get(this.x, this.y, this);
 			this.projectile.fireProjectile(this, pointer);
 		});

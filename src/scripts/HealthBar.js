@@ -26,8 +26,15 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 
 		const y = 9999 //XD	
 		const x = 9999 //XD
-
-		this.middle = this.scene.add.image(x , y, 'middle').setOrigin(0.5, 0.5).setScale(1, 0.3)
+		if(this.gameObject.displayList === null) 
+		{ 
+			this.middle = this.scene.add.image(x , y, 'healthBar', 1).setOrigin(0.5, 0.5).setScale(1, 0.3);
+		}
+		else
+		{
+			this.middle = this.scene.add.image(x , y, 'healthBar', 0).setOrigin(0.5, 0.5).setScale(1, 0.3);
+		}
+		
 		this.setMeterPercentage();	
 	}
 
