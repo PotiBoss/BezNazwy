@@ -35,10 +35,28 @@ export default class Map
 			this.chests.get(chest.x * 2 + chest.width , chest.y * 2 - chest.height).setScale(1.5, 1.5)
 		})
 
-		this.potionLayer = this.map.getObjectLayer('potions');
-		this.potions = this.scene.physics.add.staticGroup();
-		this.potionLayer.objects.forEach(object => {
-			let potion = this.potions.create(object.x * 2, object.y * 2, 'items', 144) ; 
+		this.healthBushLayer = this.map.getObjectLayer('healthBushes');
+		this.healthBush = this.scene.physics.add.staticGroup();
+		this.healthBushLayer.objects.forEach(object => {
+			let healthBush = this.healthBush.create(object.x * 2, object.y * 2, 'pots', 12) ; 
+		})
+
+		this.cooldownBushLayer = this.map.getObjectLayer('cooldownBushes');
+		this.cooldownBush = this.scene.physics.add.staticGroup();
+		this.cooldownBushLayer.objects.forEach(object => {
+			let cooldownBush = this.cooldownBush.create(object.x * 2, object.y * 2, 'pots', 13) ; 
+		})
+
+		this.speedBushLayer = this.map.getObjectLayer('speedBushes');
+		this.speedBush = this.scene.physics.add.staticGroup();
+		this.speedBushLayer.objects.forEach(object => {
+			let speedBush = this.speedBush.create(object.x * 2, object.y * 2, 'pots', 14) ; 
+		})
+
+		this.damageBushLayer = this.map.getObjectLayer('damageBushes');
+		this.damageBush = this.scene.physics.add.staticGroup();
+		this.damageBushLayer.objects.forEach(object => {
+			let damageBush = this.damageBush.create(object.x * 2, object.y * 2, 'pots', 10) ; 
 		})
 
 		this.workbenchLayer = this.map.getObjectLayer('workbenches');

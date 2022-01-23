@@ -161,7 +161,10 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.walls, this.handleProjectilesWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.chests, this.handlePlayerChestCollision, undefined, this);
-		this.physics.add.collider(this.myPlayer, this.currentMap.potions, this.handlePlayerPickupCollision, undefined, this);
+		this.physics.add.overlap(this.myPlayer, this.currentMap.healthBush, this.handlePlayerHealthBushCollision, undefined, this);
+		this.physics.add.overlap(this.myPlayer, this.currentMap.cooldownBush, this.handlePlayerCooldownBushCollision, undefined, this);
+		this.physics.add.overlap(this.myPlayer, this.currentMap.speedBush, this.handlePlayerSpeedBushCollision, undefined, this);
+		this.physics.add.overlap(this.myPlayer, this.currentMap.damageBush, this.handlePlayerDamageBushCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.rangeEnemies.projectiles, this.handlePlayerProjectilesCollision, undefined, this);
 		this.physics.add.overlap(this.myPlayer, this.currentMap.workbenches, this.handlePlayerWorkbenchCollision, undefined, this);
 		this.physics.add.overlap(this.myPlayer, this.currentMap.teleporters, this.handlePlayerTeleporterCollision, undefined, this);
@@ -472,10 +475,31 @@ export default class GameScene extends Phaser.Scene
 		}
 	}
 
-	handlePlayerPickupCollision(player, item)
+	handlePlayerHealthBushCollision(player, item)
 	{	
-		//this.myPlayer.inventory.addItem({name: item.name, quantity: 1});
-		this.myPlayer.inventory.addItem({name: 'health_potion', frame: 11, quantity: 1});
+		this.myPlayer.inventory.addItem({name: 'healthHerb', quantity: 1});
+		this.add.sprite(item.x, item.y, 'pots', 17);
+		item.destroy();
+	}
+
+	handlePlayerCooldownBushCollision(player, item)
+	{	
+		this.myPlayer.inventory.addItem({name: 'cooldownHerb', quantity: 1});
+		this.add.sprite(item.x, item.y, 'pots', 18);
+		item.destroy();
+	}
+
+	handlePlayerSpeedBushCollision(player, item)
+	{	
+		this.myPlayer.inventory.addItem({name: 'speedHerb', quantity: 1});
+		this.add.sprite(item.x, item.y, 'pots', 19);
+		item.destroy();
+	}
+
+	handlePlayerDamageBushCollision(player, item)
+	{	
+		this.myPlayer.inventory.addItem({name: 'damageHerb', quantity: 1});
+		this.add.sprite(item.x, item.y, 'pots', 15);
 		item.destroy();
 	}
 

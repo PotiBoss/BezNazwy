@@ -97,12 +97,14 @@ export default class Inventory
 	{
 		switch(itemName)
 		{
+			case 'regenPotion':
+
+				break;
 			case 'healthPotion':
-				this.scene.myPlayer.health += 10;
+				this.scene.myPlayer.health += 25;
 				this.scene.myPlayer.healthbar.setMeterPercentage(this.scene.myPlayer.health * 100 / this.scene.myPlayer.maxHealth);
 				break;
-			case 'regenPotion':
-				break;
+
 		}
 		
 	}

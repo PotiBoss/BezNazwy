@@ -180,7 +180,7 @@
         {
          "draworder":"topdown",
          "id":7,
-         "name":"potions",
+         "name":"healthBushes",
          "objects":[
                 {
                  "gid":467,
@@ -195,30 +195,6 @@
                  "y":158
                 }, 
                 {
-                 "gid":468,
-                 "height":16,
-                 "id":14,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":31.3333,
-                 "y":399.333
-                }, 
-                {
-                 "gid":469,
-                 "height":16,
-                 "id":15,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":16,
-                 "x":65.3333,
-                 "y":47.3333
-                }, 
-                {
                  "gid":467,
                  "height":16,
                  "id":16,
@@ -227,8 +203,77 @@
                  "type":"",
                  "visible":true,
                  "width":16,
-                 "x":30,
-                 "y":190.667
+                 "x":48,
+                 "y":176.667
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":14,
+         "name":"cooldownBushes",
+         "objects":[
+                {
+                 "gid":468,
+                 "height":16,
+                 "id":28,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":64,
+                 "y":175
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":15,
+         "name":"speedBushes",
+         "objects":[
+                {
+                 "gid":470,
+                 "height":16,
+                 "id":29,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":81,
+                 "y":175
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":17,
+         "name":"damageBushes",
+         "objects":[
+                {
+                 "gid":469,
+                 "height":16,
+                 "id":30,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":96,
+                 "y":175
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -365,8 +410,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":14,
- "nextobjectid":28,
+ "nextlayerid":18,
+ "nextobjectid":31,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

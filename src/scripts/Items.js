@@ -15,6 +15,9 @@ let items = {
     healthHerb: {frame:21},
     cooldownHerb: {frame:22},
 	speedHerb: {frame:23},
+
+	healthBushFull: {frame:12},
+	healthBushEmpty: {frame:17},
   };
 
 export default items; 
