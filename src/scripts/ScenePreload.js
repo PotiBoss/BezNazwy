@@ -86,9 +86,12 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.spritesheet('playerFront', 'assets/PlayerFront.png', {frameWidth:21,frameHeight:41});
 		this.load.spritesheet('playerBack', 'assets/PlayerBack.png', {frameWidth:21,frameHeight:41});
 		this.load.spritesheet('playerSide', 'assets/PlayerSide.png', {frameWidth:23,frameHeight:41});
-		this.load.spritesheet('throwFront', 'assets/ThrowFront.png', {frameWidth:26,frameHeight:41}); //25.8
-		this.load.spritesheet('throwBack', 'assets/ThrowBack.png', {frameWidth:25,frameHeight:41}); // 24.8
+		this.load.spritesheet('throwFront', 'assets/ThrowFront.png', {frameWidth:25.8,frameHeight:41}); //25.8
+		this.load.spritesheet('throwBack', 'assets/ThrowBack.png', {frameWidth:24.8,frameHeight:41}); // 24.8
 		this.load.spritesheet('throwSide', 'assets/ThrowSide.png', {frameWidth:36.8,frameHeight:48}); // 36.8
+
+		this.load.spritesheet('potionFront', 'assets/PotionFront.png', {frameWidth:9,frameHeight:13});
+		this.load.spritesheet('potionSide', 'assets/PotionSide.png', {frameWidth:14,frameHeight:13});
 
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
 		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');
@@ -119,7 +122,7 @@ export default class ScenePreload extends Phaser.Scene
 		]);
 
 		this.load.audio('potionBreak', [
-			'audio/potionBreak.mp3'
+			'audio/potionBreak.ogg'
 		]);
 
 		this.load.audio('blink', [
@@ -127,7 +130,7 @@ export default class ScenePreload extends Phaser.Scene
 		]);
 
 		this.load.audio('skeletonSpawn', [
-			'audio/skeletonSpawn.wav'
+			'audio/skeletonSpawn.ogg'
 		]);
 
 		this.load.audio('textScroll', [
@@ -137,8 +140,6 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.audio('playerDamaged', [
 			'audio/playerDamaged.mp3'
 		]);
-	
-
 	}
 
 	create() 

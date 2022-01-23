@@ -53,7 +53,7 @@ export default class Necromancer extends EnemyBase
 		if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
 		{
 
-		//	this.seenPlayer();
+			this.seenPlayer();
 		}
 	}
 
@@ -77,6 +77,7 @@ export default class Necromancer extends EnemyBase
 		this.skeletonSpawnFlag = true;
 		this.skeletonSound = this.scene.sound.add('skeletonSpawn', {
 			volume: 0.3,
+			repeat: 5
 		});
 		this.skeletonSound.play();
 

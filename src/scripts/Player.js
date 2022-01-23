@@ -42,6 +42,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		this.potionCooldown = 3000;
 		this.timeFromLastPotion = null;
+		this.potionAnimation = "potionSide";
 
 		this.bombCooldown = 5000;
 		this.timeFromLastBomb = null;
@@ -327,35 +328,43 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.flipX = false;
 			this.anims.play('throw-Side', true);
+			this.potionAnimation = 'potionSide';
 		}
 		else if( this.angleDetla > 22.5 && this.angleDetla <= 67.5)
 		{
 			this.anims.play('throw-Down', true);
+			this.potionAnimation = 'potionFront';
 		}
 		else if( this.angleDetla > 67.5 && this.angleDetla <= 112.5)
 		{
 			this.anims.play('throw-Down', true);
+			this.potionAnimation = 'potionFront';
 		}
 		else if( this.angleDetla > 112.5 && this.angleDetla <= 157.5)
 		{
 			this.anims.play('throw-Down', true);
+			this.potionAnimation = 'potionFront';
 		}
 		else if( this.angleDetla > 157.5 || this.angleDetla <= -157.5)
 		{
 			this.flipX = true;
 			this.anims.play('throw-Side', true);
+			this.potionAnimation = 'potionSide';
 		}
 		else if( this.angleDetla > -157.5 && this.angleDetla <= -112.5)
 		{
 			this.anims.play('throw-Up', true);
+			this.potionAnimation = 'potionFront';
 		}
 		else if( this.angleDetla > -112.5 && this.angleDetla <= -67.5)
 		{
 			this.anims.play('throw-Up', true);
+			this.potionAnimation = 'potionFront';
 		}
 		else if( this.angleDetla > -67.5 && this.angleDetla <= -22.5)
 		{
 			this.anims.play('throw-Up', true);
+			this.potionAnimation = 'potionFront';
 		}
 	}
 
@@ -486,7 +495,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastShot && this.timeFromLastShot + this.fireRate * this.attackSpeedReduction >  this.date){ return; }
 			this.timeFromLastShot = getTimeStamp();
 
-			this.lifesteal--;
+			if(this.lifesteal > 0)
+			{
+				this.lifesteal--;
+			}
+
 			this.projectile = this.projectiles.get(this.x, this.y, this);
 			this.projectile.fireProjectile(this, pointer);
 		});
@@ -500,11 +513,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastPotion && this.timeFromLastPotion + this.potionCooldown * this.cooldownReduction >  this.date){ return; }
 			//this.potionHand = new PotionInHand(this.scene, this);
 			this.timeFromLastPotion = getTimeStamp();
-
+			
+			this.lookAtMouse(this.scene.input.activePointer);
 			this.potion = this.potions.get(this.x, this.y, this);
 			this.potion.throw(this);
 
-			this.lookAtMouse(this.scene.input.activePointer);
+			
 
 			this.on('animationcomplete', () =>
 			{

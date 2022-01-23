@@ -1,18 +1,22 @@
-
+import initAnims from './AnimsPotion'
 
 export default class SkillPotion extends Phaser.Physics.Arcade.Sprite 
 {
 	constructor(scene, x, y)
 	{
-		super(scene, x , y, 'potion');
+		super(scene, x , y, 'potionFront', 3);
 
 		scene.add.existing(this);
+
+		this.setScale(1.35, 1.35);
 
 		this.scene = scene;
 		this.speed = 250;
 		this.potionRange = 1000; //tak naprawde to dlugosc lotu
 		this.timeToDestroy = null;
 
+
+		initAnims(scene.anims);
 
 		this.currentPotion = Math.floor(Math.random() * 2);
 	}
@@ -22,6 +26,8 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 		this.scene.physics.moveTo(this, this.scene.input.x + this.scene.cameras.main.scrollX, this.scene.input.y + this.scene.cameras.main.scrollY, this.speed);
 
 		initiator.destroyPotion();
+
+		this.anims.play(this.scene.myPlayer.potionAnimation, true);
 
 		this.timer = this.scene.time.addEvent({ 
 			delay: 1000, 

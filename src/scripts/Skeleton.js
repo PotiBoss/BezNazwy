@@ -18,9 +18,7 @@ export default class Skeleton extends EnemyBase
 
 		this.scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this);
 
-		this.create();
-
-		
+		this.create();	
 	}
 
 	create()

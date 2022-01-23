@@ -91,7 +91,7 @@ export default class SceneInventory extends Phaser.Scene
 			if(item)
 			{
 				inventorySlot.item = this.add.sprite(inventorySlot.x, inventorySlot.y, 'pots', items[item.name].frame).setScale(0.75,0.75);
-				inventorySlot.quantityText = this.add.text(inventorySlot.x + this.tileSize / 8, inventorySlot.y, item.quantity);
+				inventorySlot.quantityText = this.add.text(inventorySlot.x - this.tileSize / 3, inventorySlot.y, item.quantity);
 
 				//drag
 
