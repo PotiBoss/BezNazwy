@@ -28,8 +28,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	create()
 	{
 		this.playerSpeed = 150;
-		this.health = 3;
-		this.maxHealth = 3;
+		this.health = 100;
+		this.maxHealth = 100;
 		this.healthState = 0;
 		this.damageTime = 0;
 		this.damagedInvulnerability = 500;
@@ -519,13 +519,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		});
 	}
 
-	handleDamage(knockbackDirection)
+	handleDamage(knockbackDirection, damage)
 	{
 		if(this.health <= 0) { return; }
 
 		if(this.healthState === this.damaged) { return ;}
 
-		--this.health;
+		this.health -= damage
 
 		this.healthbar.setMeterPercentage(this.health * 100 / this.maxHealth);
 

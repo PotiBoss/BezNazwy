@@ -43,8 +43,8 @@ export default class SceneInventory extends Phaser.Scene
 	{
 
 		this.crafting.updateItems();
-		let y = 25;
-		let x = 25;
+		let y = 32;
+		let x = 32;
 		
 		for(let i = 0; i < this.crafting.craftableItems.length; i++) //item wynikowy
 		{
@@ -52,14 +52,14 @@ export default class SceneInventory extends Phaser.Scene
 			const currentCraftableItem = this.crafting.craftableItems[i];
 			let craftingSlot = this.add.sprite(25, 100 + y * i, 'items', 11);
 			this.craftingSlots.push(craftingSlot);
-			this.craftingSlots[i].item = this.add.sprite(25, 100 + y * i, 'items', currentCraftableItem.frame);
+			this.craftingSlots[i].item = this.add.sprite(25, 100 + y * i, 'pots', currentCraftableItem.frame);
 			this.craftingSlots[i].item.tint = currentCraftableItem.isCraftable ? 0xffffff : 0x555555;
 
 			this.craftingSlots[i].materials = [];
 			for(let j = 0; j < currentCraftableItem.materialDetails.length; j++)
 			{
 				const materialItem = currentCraftableItem.materialDetails[j];
-				this.craftingSlots[i].materials[j] = this.add.sprite(60 + x * j, 100 + y * i, 'items', materialItem.frame);
+				this.craftingSlots[i].materials[j] = this.add.sprite(60 + x * j, 100 + y * i, 'pots', materialItem.frame);
 				this.craftingSlots[i].materials[j].tint = materialItem.availableMaterial ? 0xffffff : 0x555555; 
 			}
 		}

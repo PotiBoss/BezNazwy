@@ -102,6 +102,7 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
 
 
+		this.load.spritesheet('pots','assets/pots.png',{frameWidth:32,frameHeight:32});
 		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
 		this.load.spritesheet('tileitem','assets/dungeon_tiles.png',{frameWidth:16,frameHeight:16});
 

@@ -18,9 +18,10 @@ export default class Inventory
 
 		this.currentItem = 0;
 
-		this.addItem({name: 'wood', quantity: 8})
-		this.addItem({name: 'stone', quantity: 8})
-		this.addItem({name: 'healthPotion', quantity: 8})
+		this.addItem({name: 'speedHerb', quantity: 8})
+		this.addItem({name: 'healthHerb', quantity: 8})
+		this.addItem({name: 'damageHerb', quantity: 8})
+		this.addItem({name: 'cooldownHerb', quantity: 8})
 	}
 
 	addItem(item)
@@ -97,8 +98,10 @@ export default class Inventory
 		switch(itemName)
 		{
 			case 'healthPotion':
-				this.scene.myPlayer.health++
+				this.scene.myPlayer.health += 10;
 				this.scene.myPlayer.healthbar.setMeterPercentage(this.scene.myPlayer.health * 100 / this.scene.myPlayer.maxHealth);
+				break;
+			case 'regenPotion':
 				break;
 		}
 		

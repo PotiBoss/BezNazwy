@@ -62,7 +62,7 @@ export default class RangeEnemy extends EnemyBase
 			if(Math.abs(this.x - this.myPlayer.x) < this.attackRange && Math.abs(this.y - this.myPlayer.y) < this.attackRange)
 			{
 				this.setVelocity(0,0);
-			//	this.inRangePlayer();  TODO: WLACZ
+				//this.inRangePlayer();  //TODO: WLACZ
 			}
 
 			

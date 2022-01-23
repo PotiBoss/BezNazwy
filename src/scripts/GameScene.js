@@ -169,7 +169,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.walls, this.handleBombsWallsCollision, undefined, this);
 		//skeleton
 		this.physics.add.collider(this.currentMap.skeletons, this.currentMap.walls);
-		this.physics.add.collider(this.myPlayer, this.currentMap.skeletons, this.handlePlayerSkeletonCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.skeletons, this.handlePlayerEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.projectiles, this.currentMap.skeletons, this.handleProjectilesEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.skeletons, this.handlePotionEnemyCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.skeletons, this.handleBombEnemyCollision, undefined, this);
@@ -453,17 +453,6 @@ export default class GameScene extends Phaser.Scene
 		
 	}
 
-	handleProjectilesSkeletonCollision(projectile, enemy)
-	{
-		projectile.destroy();
-
-		enemy.setVelocity(0,0); // wyzerowac knockback
-		enemy.timeFromLastDirectionChange = enemy.directionChangeCooldown; // zmienic kierunek (i tak pewnie useless bo ma gonic)
-
-		enemy.enemyHealth -= projectile.projectileDamage;
-		enemy.updateHP();
-		console.log(enemy.enemyHealth)
-	}
 
 	handleProjectilesWallsCollision(projectile, wall)
 	{
@@ -523,7 +512,7 @@ export default class GameScene extends Phaser.Scene
 
 		this.directionVector = new Phaser.Math.Vector2(this.xImpactSide, this.yImpactSide).normalize().scale(250);
 
-		this.myPlayer.handleDamage(this.directionVector);
+		this.myPlayer.handleDamage(this.directionVector, enemy.collisionDamage);
 
 		sceneEvents.emit('playerHealthChanged', this.myPlayer.health);
 	}
@@ -569,7 +558,7 @@ export default class GameScene extends Phaser.Scene
 
 		this.directionVector = new Phaser.Math.Vector2(this.xImpactSide, this.yImpactSide).normalize().scale(250);
 
-		this.myPlayer.handleDamage(this.directionVector);
+		this.myPlayer.handleDamage(this.directionVector, projectile.projectileDamage);
 
 		sceneEvents.emit('playerHealthChanged', this.myPlayer.health);
 	}

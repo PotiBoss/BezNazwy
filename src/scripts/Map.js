@@ -5,9 +5,7 @@ import Taurus from "./Taurus";
 import Teleporter from "./Teleporter";
 import Necromancer from "./Necromancer";
 import RangeEnemy from "./RangeEnemy";
-import ProjectileEnemy from "./ProjectileEnemy";
 import BossEnemy from "./BossEnemy";
-import Explosion from "./Explosion";
 
 export default class Map
 {
