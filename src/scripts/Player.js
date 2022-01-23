@@ -56,6 +56,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.potionHand = new PotionInHand(this.scene, this);
 
 
+		this.skillDamageBonus = 0;
+		this.cooldownReduction = 1.0;
+		this.damageBonus = 1.0
+
 		this.anims.play('run-Down', true);
 
 		//this.setCollideWorldBounds();
@@ -488,7 +492,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.scene.input.keyboard.on('keydown-Q', () => 
 		{
 			this.date = new Date();
-			if(this.timeFromLastPotion && this.timeFromLastPotion + this.potionCooldown >  this.date){ return; }
+			if(this.timeFromLastPotion && this.timeFromLastPotion + this.potionCooldown * this.cooldownReduction >  this.date){ return; }
 			//this.potionHand = new PotionInHand(this.scene, this);
 			this.timeFromLastPotion = getTimeStamp();
 
@@ -511,7 +515,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.scene.input.keyboard.on('keydown-E', () => 
 		{
 			this.date2 = new Date();
-			if(this.timeFromLastBomb && this.timeFromLastBomb + this.bombCooldown >  this.date2){ return; }
+			if(this.timeFromLastBomb && this.timeFromLastBomb + this.bombCooldown * this.cooldownReduction >  this.date2){ return; }
 			this.timeFromLastBomb = getTimeStamp();
 
 			this.bomb = this.bombs.get(this.x, this.y, this);
@@ -585,7 +589,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.potionHand = undefined;
 
 		var timer = this.scene.time.addEvent({ 
-			delay: 3000, 
+			delay: this.potionCooldown * this.cooldownReduction, 
 			callback: this.addPotion, 
 			callbackScope: this});
 	}

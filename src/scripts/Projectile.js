@@ -17,6 +17,8 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite
 
 	fireProjectile(initiator, pointer)
 	{
+		console.log(this.scene.myPlayer.damageBonus)
+		this.projectileDamage =  this.scene.myPlayer.damageBonus * this.projectileDamage;
 		this.scene.physics.moveTo(this, pointer.x + this.scene.cameras.main.scrollX, pointer.y + this.scene.cameras.main.scrollY, this.speed);
 	}
 

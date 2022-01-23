@@ -95,17 +95,74 @@ export default class Inventory
 
 	drinkPotion(itemName)
 	{
+		console.log(itemName)
 		switch(itemName)
 		{
 			case 'regenPotion':
-
+				if(regenPotionTimer != undefined) {regenPotionTimer.remove()} // ??
+				var regenPotionTimer = this.scene.time.addEvent({ 
+					delay: 3000, 
+					callback: this.healthRegenPotion, 
+					repeat: 4,
+					callbackScope: this
+					});
+				break;
+			case 'cooldownPotion':
+				this.scene.myPlayer.cooldownReduction = 0.6;	
+				if(cooldownReductionTimer != undefined) {cooldownReductionTimer.remove()}
+				var cooldownReductionTimer = this.scene.time.addEvent({ 
+					delay: 5000, 
+					callback: this.cooldownReduction, 
+					callbackScope: this
+					});
+				break;	
+			case 'speedPotion':
+				if(moveSpeedTimer != undefined) {moveSpeedTimer.remove()}
+				this.scene.myPlayer.playerSpeed = 250;
+				var moveSpeedTimer = this.scene.time.addEvent({ 
+					delay: 5000, 
+					callback: this.speedPotion, 
+					callbackScope: this
+					});
+				break;
+			case 'damagePotion':
+				if(attackDamageTimer != undefined) {attackDamageTimer.remove()}
+				this.scene.myPlayer.damageBonus = 1.5;
+				var attackDamageTimer = this.scene.time.addEvent({ 
+					delay: 5000, 
+					callback: this.attackPotion, 
+					callbackScope: this
+					});
 				break;
 			case 'healthPotion':
 				this.scene.myPlayer.health += 25;
 				this.scene.myPlayer.healthbar.setMeterPercentage(this.scene.myPlayer.health * 100 / this.scene.myPlayer.maxHealth);
 				break;
-
+			case 'skillDamagePotion':
+			this.scene.myPlayer.skillDamageBonus += 5;
+				break;
+			
 		}
-		
+	}
+
+	healthRegenPotion()
+	{
+		this.scene.myPlayer.health += 5;
+		this.scene.myPlayer.healthbar.setMeterPercentage(this.scene.myPlayer.health * 100 / this.scene.myPlayer.maxHealth);
+	}
+
+	speedPotion()
+	{
+		this.scene.myPlayer.playerSpeed = 150;
+	}
+
+	cooldownReduction()
+	{
+		this.scene.myPlayer.cooldownReduction = 1.0;
+	}
+
+	attackPotion()
+	{
+		this.scene.myPlayer.damageBonus = 1.0;
 	}
 }

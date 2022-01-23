@@ -32,6 +32,7 @@ export default class SceneInventory extends Phaser.Scene
 			if(this.crafting.craft(this.crafting.selected))
 			{
 			this.craftingSlots.forEach(slot => slot.destroy());
+			this.mainScene.isCraftingActive = false;
 			this.updateCraftingSlots();
 			this.scene.stop();
 			this.mainScene.myPlayer.healthState = 0; // wlaczenie movementu

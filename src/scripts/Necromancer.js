@@ -53,7 +53,7 @@ export default class Necromancer extends EnemyBase
 		if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
 		{
 
-			this.seenPlayer();
+		//	this.seenPlayer();
 		}
 	}
 

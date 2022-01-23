@@ -4,10 +4,10 @@ let items = {
 	speedPotion: {frame:2, materials:['speedHerb','speedHerb']},
 	damagePotion: {frame:3, materials:['damageHerb','damageHerb']},
 	
-	skillLifeStealPotion: {frame:6, materials:['healthHerb','cooldownHerb']},
+	skillDamagePotion: {frame:6, materials:['healthHerb','cooldownHerb']},
 	healthPotion: {frame:7, materials:['healthHerb','speedHerb']},
 	lifeStealPotion: {frame:8, materials:['healthHerb','damageHerb']},
-	skillPotion: {frame:0, materials:['cooldownHerb','speedHerb']},
+	skillCooldownPotion: {frame:0, materials:['cooldownHerb','speedHerb']},
 	attackCooldownPotion: {frame:5, materials:['cooldownHerb','damageHerb']},
 	attackSpeedPotion: {frame:9, materials:['damageHerb','speedHerb']},
 

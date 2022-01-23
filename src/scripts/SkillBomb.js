@@ -2,9 +2,9 @@ import Explosion from "./Explosion";
 
 export default class SkillBomb extends Phaser.Physics.Arcade.Sprite 
 {
-	constructor(scene, x, y)
+	constructor(scene, x, y,owner )
 	{
-		super(scene, x , y, 'potion');
+		super(scene, x , y,'potion');
 
 		scene.add.existing(this);
 
@@ -13,22 +13,32 @@ export default class SkillBomb extends Phaser.Physics.Arcade.Sprite
 		this.potionRange = 1000; //tak naprawde to dlugosc lotu
 		this.timeToDestroy = null;
 
+		this.player = owner;
+
 		this.damage = 10;
 		this.shrapnels = 8;
 
-		this.explosions = this.scene.physics.add.group({classType:Explosion});
+		this.potionDamage = 0;
+
 
 		this.currentPotion = Math.floor(Math.random() * 2);
 	}
 
 	throw(initiator)
 	{
+		
 		this.scene.physics.moveTo(this, this.scene.input.x + this.scene.cameras.main.scrollX, this.scene.input.y + this.scene.cameras.main.scrollY, this.speed);
 	
 		this.scene = initiator.scene;
 
 		this.initiator = initiator;
-
+		if(this.player.skillDamageBonus > 0)
+		{
+			this.player.skillDamageBonus--;
+			this.damage = 20;
+		}
+		
+		console.log(this.damage)
 		this.timer = this.scene.time.addEvent({ 
 			delay: 1000, 	
 			callback: this.explode,
