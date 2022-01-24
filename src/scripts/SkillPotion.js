@@ -49,7 +49,7 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 			enemy.frozen = true;
 		}
 
-		else if( this.currentPotion === 1 && enemy !== undefined)
+		else if(this.currentPotion === 1 && enemy !== undefined)
 		{
 			enemy.justBurned = true;
 			enemy.burned = true;

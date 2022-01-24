@@ -23,7 +23,6 @@ export default class GameScene extends Phaser.Scene
 
     create()
     {
-
 		this.enemyProj = this.physics.add.group({classType:ProjectileEnemy});
 		this.currentMap = new Map(this);
 		
@@ -39,7 +38,7 @@ export default class GameScene extends Phaser.Scene
 
 		this.setupFOV();
 		this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.lateUpdate, this)
-		this.createFOW();
+		//this.createFOW();
 
 
 		this.gameWidth = this.sys.game.config.width;
@@ -60,7 +59,7 @@ export default class GameScene extends Phaser.Scene
 		this.myPlayer.handleAttack();
 
 		this.updateFOV();
-		this.updateFOW();
+		//this.updateFOW();
 
 	}
 
@@ -71,8 +70,22 @@ export default class GameScene extends Phaser.Scene
 		{
 			this.myPlayer.potionHand.preUpdate();
 		}
-		
-	
+		if(this.myPlayer.skillUI !== undefined)
+		{
+			this.myPlayer.skillUI.preUpdate();
+		}
+		if(this.myPlayer.attackUI !== undefined)
+		{
+			this.myPlayer.attackUI.preUpdate();
+		}
+		if(this.myPlayer.bombUI !== undefined)
+		{
+			this.myPlayer.bombUI.preUpdate();
+		}
+		if(this.myPlayer.teleportUI !== undefined)
+		{
+			this.myPlayer.teleportUI.preUpdate();
+		}
 	}
 
 	changeCraftingScene()
@@ -152,7 +165,7 @@ export default class GameScene extends Phaser.Scene
 		this.UI = this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
-		this.setColliders();		
+		this.setColliders();			
 	}
 
 	setColliders()

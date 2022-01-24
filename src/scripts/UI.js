@@ -1,11 +1,14 @@
-import { sceneEvents } from "./EventCommunicator";
+
 
 export default class UI extends Phaser.Scene
 {
 
 	constructor()
 	{
-		super('UI');  
+		super('UI');
+		
+		this.fullWidth = 1;
+		
 	}
 
 	preload()
@@ -19,15 +22,9 @@ export default class UI extends Phaser.Scene
 
 	create()
 	{
-		sceneEvents.on('playerHealthChanged', this.handlePlayerHealthChanged, this);
-
-		this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
-			sceneEvents.off('playerHealthChanged', this.handlePlayerHealthChanged, this);
-		})
 
 		this.gameWidth = this.sys.game.config.width;
 		this.gameHeight = this.sys.game.config.height;
-
 
 		this.welcomeMsg();
 	}
@@ -49,9 +46,6 @@ export default class UI extends Phaser.Scene
 
 	handlePlayerHealthChanged(health)
 	{
-
 		this.secondMsg();
-
-
 	}
 }

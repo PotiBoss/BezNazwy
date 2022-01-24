@@ -14,8 +14,8 @@ export default class PotionInHand extends Phaser.Physics.Arcade.Sprite
 
 	preUpdate(time, deltaTime)
 	{
-		this.potion.x = this.gameObject.x - this.gameObject.width / 2;
-		this.potion.y = this.gameObject.y + this.gameObject.height / 3;
+		this.potion.x = this.gameObject.x - 400;
+		this.potion.y = this.gameObject.y + 300;
 	}
 
 
@@ -24,7 +24,7 @@ export default class PotionInHand extends Phaser.Physics.Arcade.Sprite
 		const y = 9999 //XD	
 		const x = 9999 //XD
 
-		this.potion = this.scene.add.image(x , y, 'potion').setScale(0.4, 0.4);
+		this.potion = this.scene.add.image(x , y, 'potionFront', 5).setScale(2, 2);	
 	}
 
 	destroy()

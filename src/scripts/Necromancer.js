@@ -76,15 +76,18 @@ export default class Necromancer extends EnemyBase
 
 	spawnSkeleton()
 	{
-		this.scene.currentMap.skeletons.get(this.x + this.width, this.y);
-		this.scene.currentMap.skeletons.get(this.x - this.width, this.y);
-		this.skeletonSpawnFlag = true;
-		this.skeletonSound = this.scene.sound.add('skeletonSpawn', {
-			volume: 0.3,
-			repeat: 5
-		});
-		this.skeletonSound.play();
 
+		if(this.scene != undefined)
+		{
+			this.scene.currentMap.skeletons.get(this.x + this.width, this.y);
+			this.scene.currentMap.skeletons.get(this.x - this.width, this.y);
+			this.skeletonSpawnFlag = true;
+			this.skeletonSound = this.scene.sound.add('skeletonSpawn', {
+				volume: 0.3,
+				repeat: 5
+			});
+			this.skeletonSound.play();
+		}
 	}
 
 	handleTileCollision(go = Phaser.GameObjects.GameObject, tile = Phaser.Tilemaps.Tile)

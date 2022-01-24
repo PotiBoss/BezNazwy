@@ -71,10 +71,7 @@ export default class ScenePreload extends Phaser.Scene
 			percentText.destroy();
 			assetText.destroy();
 		});
-		
 
-
-		this.load.image('projectile', 'assets/bomb.png');
 		this.load.image('potion', 'assets/star.png');
 
 		this.load.image('tiles', 'assets/dungeon_tiles.png');
@@ -87,13 +84,14 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.spritesheet('playerBack', 'assets/PlayerBack.png', {frameWidth:21,frameHeight:41});
 		this.load.spritesheet('playerSide', 'assets/PlayerSide.png', {frameWidth:23,frameHeight:41});
 		this.load.spritesheet('throwFront', 'assets/ThrowFront.png', {frameWidth:25.8,frameHeight:41}); //25.8
-		this.load.spritesheet('throwBack', 'assets/ThrowBack.png', {frameWidth:24.8,frameHeight:41}); // 24.8
-		this.load.spritesheet('throwSide', 'assets/ThrowSide.png', {frameWidth:36.8,frameHeight:48}); // 36.8
+		this.load.spritesheet('throwBack', 'assets/ThrowBack.png', {frameWidth:24.8,frameHeight:45}); // 24.8
+		this.load.spritesheet('throwSide', 'assets/ThrowSide.png', {frameWidth:37,frameHeight:47}); // 36.8
 
 		this.load.spritesheet('potionFront', 'assets/PotionFront.png', {frameWidth:9,frameHeight:13});
 		this.load.spritesheet('potionSide', 'assets/PotionSide.png', {frameWidth:14,frameHeight:13});
 
 		this.load.spritesheet('projectiles', 'assets/BulletsSheet.png', {frameWidth:16,frameHeight:16});
+		this.load.spritesheet('bombs', 'assets/bomb.png', {frameWidth:16,frameHeight:16});
 
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
 		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');

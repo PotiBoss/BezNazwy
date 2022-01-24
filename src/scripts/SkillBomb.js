@@ -1,12 +1,14 @@
-import Explosion from "./Explosion";
+import initAnims from './AnimsBomb'
 
 export default class SkillBomb extends Phaser.Physics.Arcade.Sprite 
 {
 	constructor(scene, x, y,owner )
 	{
-		super(scene, x , y,'potion');
+		super(scene, x , y,'bombs', 1);
 
 		scene.add.existing(this);
+
+		initAnims(scene.anims);
 
 		this.scene = scene;
 		this.speed = 250;
@@ -38,7 +40,8 @@ export default class SkillBomb extends Phaser.Physics.Arcade.Sprite
 			this.damage = 20;
 		}
 		
-		console.log(this.damage)
+		this.anims.play('bombAnimation', true);
+
 		this.timer = this.scene.time.addEvent({ 
 			delay: 1000, 	
 			callback: this.explode,

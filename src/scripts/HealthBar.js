@@ -16,13 +16,29 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 
 	preUpdate(time, deltaTime)
 	{
-		this.middle.x = this.gameObject.x;
-		this.middle.y = this.gameObject.y - this.gameObject.height / 1.5;
+		if(this.gameObject == this.scene.myPlayer)
+		{
+	
+			this.middle.x = this.gameObject.x;
+			this.middle.y = this.gameObject.y + 300;
+		}
+		else
+		{
+			this.middle.x = this.gameObject.x;
+			this.middle.y = this.gameObject.y - this.gameObject.height / 1.5;
+		}
+
 	}
 
 
 	create()
 	{
+
+		if(this.gameObject.displayList !== null)
+		{
+			this.fullWidth = this.gameObject.width / 10;
+			console.log("width:" + this.fullWidth);
+		}
 
 		const y = 9999 //XD	
 		const x = 9999 //XD
@@ -34,7 +50,7 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 		{
 			this.middle = this.scene.add.image(x , y, 'healthBar', 0).setOrigin(0.5, 0.5).setScale(1, 0.3);
 		}
-		
+		console.log("height:" + this.middle.height);
 		this.setMeterPercentage();	
 	}
 

@@ -7,6 +7,10 @@ import SkillPotion from './SkillPotion';
 import HealthBar from './HealthBar';
 import PotionInHand from './PotionInHand';
 import SkillBomb from './SkillBomb';
+import SkillBackgroundUI from './SkillBackgroundUI';
+import ProjectileUI from './ProjectileUI';
+import BombUI from './BombUI';
+import TeleportUI from './TeleportUI';
 
 export default class Player extends Phaser.Physics.Arcade.Sprite
 {
@@ -53,8 +57,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		this.inventory = new Inventory(this.scene);
 		this.crafting = new Crafting(this);
-		this.healthbar = new HealthBar(this.scene, this);
+		this.healthbar = new HealthBar(this.scene, this);	
+
+		this.skillUI = new SkillBackgroundUI(this.scene, this);
+
+		this.attackUI = new ProjectileUI(this.scene, this);
 		this.potionHand = new PotionInHand(this.scene, this);
+		this.bombUI = new BombUI(this.scene, this);
+		this.teleportUI = new TeleportUI(this.scene, this);
 
 
 		this.skillDamageBonus = 0;
@@ -378,6 +388,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				volume: 0.1,
 			});
 			this.blink.play();
+			this.destroyTeleport();
 	}
 
 	teleportLeftDown(playerVelocity, raycastIntersection)
@@ -390,6 +401,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				volume: 0.1,
 			});
 			this.blink.play();
+			this.destroyTeleport();
 	}
 
 	teleportLeftUp(playerVelocity, raycastIntersection)
@@ -402,6 +414,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				volume: 0.1,
 			});
 			this.blink.play();
+			this.destroyTeleport();
 	}
 
 	teleportRightUp(playerVelocity, raycastIntersection)
@@ -414,6 +427,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				volume: 0.1,
 			});
 			this.blink.play();
+			this.destroyTeleport();
 	}
 
 	teleportRight(playerVelocity, raycastIntersection)
@@ -425,6 +439,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				volume: 0.1,
 			});
 			this.blink.play();
+			this.destroyTeleport();
 	}
 
 	teleportLeft(playerVelocity, raycastIntersection)
@@ -436,6 +451,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				volume: 0.1,
 			});
 			this.blink.play();
+			this.destroyTeleport();
 	}
 
 	teleportUp(playerVelocity, raycastIntersection)
@@ -447,6 +463,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				volume: 0.1,
 			});
 			this.blink.play();
+			this.destroyTeleport();
 	}
 
 	teleportDown(playerVelocity, raycastIntersection)
@@ -458,6 +475,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				volume: 0.1,
 			});
 			this.blink.play();
+			this.destroyTeleport();
 	}
 
 	handleState(deltaTime)
@@ -502,6 +520,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 			this.projectile = this.projectiles.get(this.x, this.y, this);
 			this.projectile.fireProjectile(this, pointer);
+			this.destroyProjectile();
 		});
 	}
 
@@ -547,6 +566,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 			this.bomb = this.bombs.get(this.x, this.y, this);
 			this.bomb.throw(this);
+			this.destroyBomb();
 		});
 	}
 
@@ -610,14 +630,74 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.potionHand = new PotionInHand(this.scene, this);
 	}
 
+	addProjectile()
+	{
+		this.attackUI = new ProjectileUI(this.scene, this);
+	}
+
+	addBomb()
+	{
+		this.bombUI = new BombUI(this.scene, this);
+	}
+
+	addTeleport()
+	{
+		this.teleportUI = new TeleportUI(this.scene, this);
+	}
+
 	destroyPotion()
 	{
-		this.potionHand.destroy();
-		this.potionHand = undefined;
+		if(this.potionHand != undefined)
+		{
+			this.potionHand.destroy();
+			this.potionHand = undefined;
+		}
 
-		var timer = this.scene.time.addEvent({ 
+		var timerPotion = this.scene.time.addEvent({ 
 			delay: this.potionCooldown * this.cooldownReduction, 
 			callback: this.addPotion, 
+			callbackScope: this});
+	}
+
+	destroyProjectile()
+	{
+		if(this.attackUI != undefined)
+		{
+			this.attackUI.destroy();
+			this.attackUI = undefined;
+		}
+
+		var timerProjectile = this.scene.time.addEvent({ 
+			delay: this.fireRate * this.cooldownReduction, 
+			callback: this.addProjectile, 
+			callbackScope: this});
+	}
+
+	destroyBomb()
+	{
+		if(this.bombUI != undefined)
+		{
+			this.bombUI.destroy();
+			this.bombUI = undefined;
+		}
+
+		var timerBomb = this.scene.time.addEvent({ 
+			delay: this.bombCooldown * this.cooldownReduction, 
+			callback: this.addBomb, 
+			callbackScope: this});
+	}
+
+	destroyTeleport()
+	{
+		if(this.teleportUI != undefined)
+		{
+			this.teleportUI.destroy();
+			this.teleportUI = undefined;
+		}
+
+		var timerTeleport = this.scene.time.addEvent({ 
+			delay: this.teleportCooldown - 50 * this.cooldownReduction, 
+			callback: this.addTeleport, 
 			callbackScope: this});
 	}
 }

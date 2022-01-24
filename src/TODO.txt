@@ -23,7 +23,7 @@ przy spawnie szkieleta czasem bug? // moze fixed?
 
 PRIO
 zmienic scrapnela
-final tp
+final tp // chyba done
 UI
 
 
