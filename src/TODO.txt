@@ -19,7 +19,8 @@ sound:
 
 
 BUGS:
-przy spawnie szkieleta czasem bug? // moze fixed?
+przy spawnie szkieleta czasem bug? // fixed
+losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
 PRIO
 zmienic scrapnela

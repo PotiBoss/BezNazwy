@@ -47,6 +47,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.potionCooldown = 3000;
 		this.timeFromLastPotion = null;
 		this.potionAnimation = "potionSide";
+		this.bombAnimation = "bombSide";
 
 		this.bombCooldown = 5000;
 		this.timeFromLastBomb = null;
@@ -259,7 +260,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		
 		else // NIE RUSZAC to gowno nie dzialalo przez 2 godziny i nagle zaczelo dzialac :)
 		{
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && this.healthState != 2)
+			if(this.anims.currentAnim != null 
+				&& (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side')
+				&& (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side')
+				&& this.healthState != 2)
 			{
 				const parts = this.anims.currentAnim.key.split('-')
 				parts[0] = 'idle'
@@ -332,6 +336,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.directionPointer();
 	}
 
+	lookAtMouse2(pointer)
+	{
+		this.angleBetweenPlayerAndMouse = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(this.x, this.y, pointer.x + this.scene.cameras.main.scrollX, pointer.y + this.scene.cameras.main.scrollY);
+		this.angleDetla = (this.angleBetweenPlayerAndMouse - this.rotation);
+		this.directionPointer2();
+	}
+
 	directionPointer()
 	{
 		if(this.angleDetla > -22.5 &&  this.angleDetla <= 22.5)
@@ -339,42 +350,96 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.flipX = false;
 			this.anims.play('throw-Side', true);
 			this.potionAnimation = 'potionSide';
+			this.bombAnimation = 'bombSide';
 		}
 		else if( this.angleDetla > 22.5 && this.angleDetla <= 67.5)
 		{
 			this.anims.play('throw-Down', true);
 			this.potionAnimation = 'potionFront';
+			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > 67.5 && this.angleDetla <= 112.5)
 		{
 			this.anims.play('throw-Down', true);
 			this.potionAnimation = 'potionFront';
+			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > 112.5 && this.angleDetla <= 157.5)
 		{
 			this.anims.play('throw-Down', true);
 			this.potionAnimation = 'potionFront';
+			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > 157.5 || this.angleDetla <= -157.5)
 		{
 			this.flipX = true;
 			this.anims.play('throw-Side', true);
 			this.potionAnimation = 'potionSide';
+			this.bombAnimation = 'bombSide';
 		}
 		else if( this.angleDetla > -157.5 && this.angleDetla <= -112.5)
 		{
 			this.anims.play('throw-Up', true);
 			this.potionAnimation = 'potionFront';
+			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > -112.5 && this.angleDetla <= -67.5)
 		{
 			this.anims.play('throw-Up', true);
 			this.potionAnimation = 'potionFront';
+			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > -67.5 && this.angleDetla <= -22.5)
 		{
 			this.anims.play('throw-Up', true);
 			this.potionAnimation = 'potionFront';
+			this.bombAnimation = 'bombFront';
+		}
+	}
+
+	directionPointer2()
+	{
+		if(this.angleDetla > -22.5 &&  this.angleDetla <= 22.5)
+		{
+			this.flipX = false;
+			this.anims.play('2throw-Side', true);
+			this.bombAnimation = 'bombSide';
+		}
+		else if( this.angleDetla > 22.5 && this.angleDetla <= 67.5)
+		{
+			this.anims.play('2throw-Down', true);
+			this.bombAnimation = 'bombFront';
+		}
+		else if( this.angleDetla > 67.5 && this.angleDetla <= 112.5)
+		{
+			this.anims.play('2throw-Down', true);
+			this.bombAnimation = 'bombFront';
+		}
+		else if( this.angleDetla > 112.5 && this.angleDetla <= 157.5)
+		{
+			this.anims.play('2throw-Down', true);
+			this.bombAnimation = 'bombFront';
+		}
+		else if( this.angleDetla > 157.5 || this.angleDetla <= -157.5)
+		{
+			this.flipX = true;
+			this.anims.play('2throw-Side', true);
+			this.bombAnimation = 'bombSide';
+		}
+		else if( this.angleDetla > -157.5 && this.angleDetla <= -112.5)
+		{
+			this.anims.play('2throw-Up', true);
+			this.bombAnimation = 'bombFront';
+		}
+		else if( this.angleDetla > -112.5 && this.angleDetla <= -67.5)
+		{
+			this.anims.play('2throw-Up', true);
+			this.bombAnimation = 'bombFront';
+		}
+		else if( this.angleDetla > -67.5 && this.angleDetla <= -22.5)
+		{
+			this.anims.play('2throw-Up', true);
+			this.bombAnimation = 'bombFront';
 		}
 	}
 
@@ -564,10 +629,28 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastBomb && this.timeFromLastBomb + this.bombCooldown * this.cooldownReduction >  this.date2){ return; }
 			this.timeFromLastBomb = getTimeStamp();
 
-			this.bomb = this.bombs.get(this.x, this.y, this);
-			this.bomb.throw(this);
+			this.lookAtMouse2(this.scene.input.activePointer);
+
+			var bombTimer = this.scene.time.addEvent({ 
+				delay: 60, 
+				callback: this.bombDelay,  
+				callbackScope: this});
+
 			this.destroyBomb();
+
+			this.on('animationcomplete', () =>
+			{
+				const parts = this.anims.currentAnim.key.split('-')
+				parts[0] = 'idle'
+				this.anims.play(parts.join('-'))
+			})
 		});
+	}
+
+	bombDelay()
+	{
+		this.bomb = this.bombs.get(this.x, this.y, this);
+		this.bomb.throw(this);
 	}
 
 	handleDamage(knockbackDirection, damage)

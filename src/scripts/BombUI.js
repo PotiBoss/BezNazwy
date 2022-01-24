@@ -22,7 +22,7 @@ export default class BombUI extends Phaser.Physics.Arcade.Sprite
 		const y = 9999 //XD	
 		const x = 9999 //XD
 
-		this.projectile = this.scene.add.image(x , y, 'projectiles', 4);	
+		this.projectile = this.scene.add.image(x , y, 'bombs', 0);	
 	}
 
 	destroy()

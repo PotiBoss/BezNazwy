@@ -56,6 +56,24 @@ export default anims => {
 	})
 
 	anims.create({
+		key: '2throw-Down',
+		frames: anims.generateFrameNames('throwFront2'),
+		frameRate: 12, 
+	})
+
+	anims.create({
+		key: '2throw-Up',
+		frames: anims.generateFrameNames('throwBack2'),
+		frameRate: 12,
+	})
+
+	anims.create({
+		key: '2throw-Side',
+		frames: anims.generateFrameNames('throwSide2'),
+		frameRate: 12,
+	})
+
+	anims.create({
 		key: 'faint',
 		frames: anims.generateFrameNames('player', { start: 1, end: 4, prefix: 'faint-', suffix: '.png' }),
 		frameRate: 15

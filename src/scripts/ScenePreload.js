@@ -87,6 +87,10 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.spritesheet('throwBack', 'assets/ThrowBack.png', {frameWidth:24.8,frameHeight:45}); // 24.8
 		this.load.spritesheet('throwSide', 'assets/ThrowSide.png', {frameWidth:37,frameHeight:47}); // 36.8
 
+		this.load.spritesheet('throwFront2', 'assets/ThrowFront2.png', {frameWidth:25.8,frameHeight:41}); //25.8
+		this.load.spritesheet('throwBack2', 'assets/ThrowBack2.png', {frameWidth:24.8,frameHeight:45}); // 24.8
+		this.load.spritesheet('throwSide2', 'assets/ThrowSide2.png', {frameWidth:37,frameHeight:47}); // 36.8
+
 		this.load.spritesheet('potionFront', 'assets/PotionFront.png', {frameWidth:9,frameHeight:13});
 		this.load.spritesheet('potionSide', 'assets/PotionSide.png', {frameWidth:14,frameHeight:13});
 
