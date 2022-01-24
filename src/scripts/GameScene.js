@@ -543,7 +543,11 @@ export default class GameScene extends Phaser.Scene
 
 	handleProjectilesEnemyCollision(projectile, enemy)
 	{
+		projectile.destroyAnimation();
 		projectile.destroy();
+
+
+		//projectile.destroy();
 
 		enemy.setVelocity(0,0); // wyzerowac knockback
 		enemy.timeFromLastDirectionChange = enemy.directionChangeCooldown; // zmienic kierunek (i tak pewnie useless bo ma gonic)

@@ -45,6 +45,11 @@ export default class Necromancer extends EnemyBase
 		this.healthbar.preUpdate();
 		
 		this.handleState(deltaTime);
+
+		if(this == undefined)
+		{
+			this.timerPlayerSeen.remove(); // moze fixuje buga z undefined przy spawnie szkieleta??
+		}
 	}
 
 	chasePlayer()
@@ -67,7 +72,6 @@ export default class Necromancer extends EnemyBase
 				callback: this.spawnSkeleton, 
 				callbackScope: this});
 		}
-
 	}
 
 	spawnSkeleton()
@@ -82,10 +86,6 @@ export default class Necromancer extends EnemyBase
 		this.skeletonSound.play();
 
 	}
-
-
-
-
 
 	handleTileCollision(go = Phaser.GameObjects.GameObject, tile = Phaser.Tilemaps.Tile)
 	{
@@ -104,6 +104,4 @@ export default class Necromancer extends EnemyBase
 		this.healthbar.setMeterPercentage(this.enemyHealth / this.enemyMaxHealth * 100);
 	//	console.log(this.enemyHealth)
 	}
-
-	
 }

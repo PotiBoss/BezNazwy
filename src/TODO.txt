@@ -1,18 +1,9 @@
--UI na dole
--Crafting w hubie
--Inni przeciwnicy
--Boss room
 
--skille
 
--Teleport zablokowany za malo pktow z potworkow
 
--potion do reki (kolor jak dominik da)
-
--BUG? HEALTHBARY NIE SA CENTROWANE
 
 -boss spawn monsters?
--volley with random?
+
 
 
 sound:
@@ -27,7 +18,22 @@ sound:
 -typing sound X
 
 
+BUGS:
+przy spawnie szkieleta czasem bug? // moze fixed?
 
-POTIONEK dodac lecacy
-
+PRIO
+zmienic scrapnela
+final tp
 UI
+
+
+NON PRIO
+offset dla rzutu potka
+
+DLA DOMINIKA XD
+
+PRIO
+przeciwnicy
+NONPRIO
+animacja potka kolor freeza
+przeciwnicy animacja bop

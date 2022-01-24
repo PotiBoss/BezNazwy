@@ -515,10 +515,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.timeFromLastPotion = getTimeStamp();
 			
 			this.lookAtMouse(this.scene.input.activePointer);
-			this.potion = this.potions.get(this.x, this.y, this);
-			this.potion.throw(this);
 
-			
+
+			var potionTimer = this.scene.time.addEvent({ 
+				delay: 60, 
+				callback: this.potionDelay,  
+				callbackScope: this});
 
 			this.on('animationcomplete', () =>
 			{
@@ -527,6 +529,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				this.anims.play(parts.join('-'))
 			})
 		});
+	}
+
+	potionDelay()
+	{
+		this.potion = this.potions.get(this.x, this.y, this);
+		this.potion.throw(this);
 	}
 
 	bombThrow()

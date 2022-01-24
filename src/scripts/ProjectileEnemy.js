@@ -4,9 +4,11 @@ export default class ProjectileEnemy extends Phaser.Physics.Arcade.Sprite
 {
 	constructor(scene, x, y)
 	{
-		super(scene, x , y, 'projectile');
+		super(scene, x , y, 'projectiles', 3);
 
 		scene.add.existing(this);
+ 
+		this.setScale(0.75, 0.75);
 
 		this.speed = 250;
 		//this.maxDistance = 10;
