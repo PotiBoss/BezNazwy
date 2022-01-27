@@ -1,11 +1,12 @@
 import EnemyBase from "./EnemyBase";
+import initAnims from './AnimsRanged'
 
 
 export default class RangeEnemy extends EnemyBase
 {
 	constructor(scene, name, x, y)
 		{
-		super(scene, x, y, 'treasure');
+		super(scene, x, y, 'ranged', 10);
 
 		scene.add.existing(this);
 		this.scene.physics.add.existing(this);
@@ -13,6 +14,10 @@ export default class RangeEnemy extends EnemyBase
 		this.x;
 		this.y;
 		this.scene = scene;
+
+		initAnims(scene.anims);
+
+		this.anims.currentAnim = 1;
 
 		this.body.onCollide = true;
 		//this.setPushable(false);
@@ -23,8 +28,9 @@ export default class RangeEnemy extends EnemyBase
 		this.enemyHealth = 30;	
 		this.enemySpeed = 60;
 		
-		this.visionRange = 300;
-		this.attackRange = 200;
+		this.visionRange = 500;
+		this.attackRange = 150;
+		
 
 		this.damageTime = 0;
 		this.damagedInvulnerability = 500;
@@ -34,7 +40,6 @@ export default class RangeEnemy extends EnemyBase
 		
 		this.projectilesEnemy = this.scene.enemyProj; // nie wiem czemu undefined jest ale zrobienie tego w scenie na poczatku naprawia 
 
-		this.setScale(2, 2);
 	}
 
 	preUpdate(time, deltaTime)
@@ -46,6 +51,8 @@ export default class RangeEnemy extends EnemyBase
 			this.changeDirection()
 		}
 
+
+
 		this.chasePlayer();  //TODO: WLACZYC
 
 		this.healthbar.preUpdate();
@@ -54,7 +61,31 @@ export default class RangeEnemy extends EnemyBase
 	}
 
 	chasePlayer()
-	{
+	{	
+		this.enemyPlayerOffsetX = this.x - this.scene.myPlayer.x;
+		this.enemyPlayerOffsetY = this.y - this.scene.myPlayer.y;
+
+		if(this.enemyPlayerOffsetX >= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Up' && this.anims.currentAnim.key != 'rangedAttack-Side')) //lewo
+		{
+			this.flipX = true;
+			this.anims.play('ranged-Side', true);
+		} 
+		else if(this.enemyPlayerOffsetY <= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down')) //dol
+		{
+			this.anims.play('ranged-Down', true);
+		} 
+		else if(this.enemyPlayerOffsetX <= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down')) //prawo
+		{
+			this.flipX = false;
+			this.anims.play('ranged-Side', true);
+		}
+		else if(this.enemyPlayerOffsetY >= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down')) //gora
+		{
+			this.anims.play('ranged-Up', true);
+		} 
+
+		//console.log(this.currentAnim.key)
+
 		this.myPlayer = this.scene.myPlayer;
 		if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
 		{
@@ -62,10 +93,8 @@ export default class RangeEnemy extends EnemyBase
 			if(Math.abs(this.x - this.myPlayer.x) < this.attackRange && Math.abs(this.y - this.myPlayer.y) < this.attackRange)
 			{
 				this.setVelocity(0,0);
-				//this.inRangePlayer();  //TODO: WLACZ
+				this.inRangePlayer();  //TODO: WLACZ
 			}
-
-			
 		}
 	}
 
@@ -78,6 +107,10 @@ export default class RangeEnemy extends EnemyBase
 				delay: this.shootCooldown, 
 				callback: this.shootPlayer, 
 				callbackScope: this});
+
+			this.anims.play('rangedAttack-Down', true);
+
+			
 		}
 	}
 
@@ -86,6 +119,8 @@ export default class RangeEnemy extends EnemyBase
 		this.shootFlag = true; 
 		this.projectile = this.projectilesEnemy.get(this.x, this.y, this);
 		this.projectile.fireProjectile(this.myPlayer);
+
+		this.anims.play('ranged-Down', true);
 	}
 
 	handleTileCollision(go = Phaser.GameObjects.GameObject, tile = Phaser.Tilemaps.Tile)

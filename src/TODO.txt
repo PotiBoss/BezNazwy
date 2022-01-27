@@ -1,35 +1,19 @@
 
 
 
-
--boss spawn monsters?
-
-
-
-sound:
--menu bgm X
--gra bgm X
--potion skill trzaskanie szkla X
--oof (?)
--teleport wyspy brrrr 
--teleport skill X
--craftowanie (?)
--licz spawn szkielet X
--typing sound X
-
-
 BUGS:
 przy spawnie szkieleta czasem bug? // fixed
 losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
 PRIO
-zmienic scrapnela
 final tp // chyba done
-UI
+ending screen
+quit button
 
 
 NON PRIO
 offset dla rzutu potka
+dodac animacje przeciwnikow przy atakach w zaleznosci od strony
 
 DLA DOMINIKA XD
 

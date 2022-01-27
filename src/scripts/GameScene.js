@@ -40,7 +40,6 @@ export default class GameScene extends Phaser.Scene
 		this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.lateUpdate, this)
 		//this.createFOW();
 
-
 		this.gameWidth = this.sys.game.config.width;
 		this.gameHeight = this.sys.game.config.height;
 		

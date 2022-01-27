@@ -97,6 +97,8 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.spritesheet('projectiles', 'assets/BulletsSheet.png', {frameWidth:16,frameHeight:16});
 		this.load.spritesheet('bombs', 'assets/bomb.png', {frameWidth:16,frameHeight:16});
 
+		this.load.spritesheet('ranged', 'assets/RangedSheet.png', {frameWidth:32,frameHeight:32});
+
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
 		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');
 		this.load.spritesheet('necromancer', 'assets/birdSprite.png',{frameWidth:32,frameHeight:32});

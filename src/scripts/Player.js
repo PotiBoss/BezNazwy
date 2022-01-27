@@ -178,7 +178,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		if(this.healthState === this.damaged || this.healthState === this.dead || this.healthState === this.craftingNow) {return;}
 
 
-
 		if(this.keyD.isDown && this.keyW.isDown)
 		{
 			this.setVelocityX(this.playerSpeed);
