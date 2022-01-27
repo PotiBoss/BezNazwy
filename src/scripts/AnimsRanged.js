@@ -25,21 +25,21 @@ export default anims => {
 		key: 'rangedAttack-Down',
 		frames: anims.generateFrameNames('ranged', { start: 10, end: 14}),
 		//repeat: -1,
-		frameRate: 5
+		frameRate: 4
 	})
 
 	anims.create({
 		key: 'rangedAttack-Up',
 		frames: anims.generateFrameNames('ranged', { start: 5, end: 9}),
 		//repeat: -1,
-		frameRate: 10
+		frameRate: 4
 	})
 
 	anims.create({
 		key: 'rangedAttack-Side',
 		frames: anims.generateFrameNames('ranged', { start: 0, end: 4}),
 		//repeat: -1,
-		frameRate: 10
+		frameRate: 4
 	})
 }
 

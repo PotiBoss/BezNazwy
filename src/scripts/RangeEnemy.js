@@ -70,16 +70,16 @@ export default class RangeEnemy extends EnemyBase
 			this.flipX = true;
 			this.anims.play('ranged-Side', true);
 		} 
-		else if(this.enemyPlayerOffsetY <= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down')) //dol
+		else if(this.enemyPlayerOffsetY <= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Up' && this.anims.currentAnim.key != 'rangedAttack-Side')) //dol
 		{
 			this.anims.play('ranged-Down', true);
 		} 
-		else if(this.enemyPlayerOffsetX <= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down')) //prawo
+		else if(this.enemyPlayerOffsetX <= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Up' && this.anims.currentAnim.key != 'rangedAttack-Side')) //prawo
 		{
 			this.flipX = false;
 			this.anims.play('ranged-Side', true);
 		}
-		else if(this.enemyPlayerOffsetY >= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Down')) //gora
+		else if(this.enemyPlayerOffsetY >= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Up' && this.anims.currentAnim.key != 'rangedAttack-Side')) //gora
 		{
 			this.anims.play('ranged-Up', true);
 		} 
@@ -108,9 +108,24 @@ export default class RangeEnemy extends EnemyBase
 				callback: this.shootPlayer, 
 				callbackScope: this});
 
-			this.anims.play('rangedAttack-Down', true);
-
-			
+				if(this.enemyPlayerOffsetX >= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Up' && this.anims.currentAnim.key != 'rangedAttack-Side')) //lewo
+				{
+					this.flipX = true;
+					this.anims.play('rangedAttack-Side', true);
+				} 
+				else if(this.enemyPlayerOffsetY <= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Up' && this.anims.currentAnim.key != 'rangedAttack-Side')) //dol
+				{
+					this.anims.play('rangedAttack-Down', true);
+				} 
+				else if(this.enemyPlayerOffsetX <= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Up' && this.anims.currentAnim.key != 'rangedAttack-Side')) //prawo
+				{
+					this.anims.play('rangedAttack-Side', true);
+					this.flipX = false;
+				}
+				else if(this.enemyPlayerOffsetY >= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX) && (this.anims.currentAnim.key != 'rangedAttack-Down' && this.anims.currentAnim.key != 'rangedAttack-Up' && this.anims.currentAnim.key != 'rangedAttack-Side')) //gora
+				{
+					this.anims.play('rangedAttack-Up', true);
+				} 		
 		}
 	}
 
