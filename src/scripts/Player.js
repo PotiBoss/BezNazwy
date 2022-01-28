@@ -731,7 +731,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	addPotion()
 	{
-		this.potionHand = new PotionInHand(this.scene, this);
+		this.potionHand.potion.setTint(0xffffff);
+		//this.potionHand = new PotionInHand(this.scene, this);
 	}
 
 	addProjectile()
@@ -751,11 +752,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	destroyPotion()
 	{
-		if(this.potionHand != undefined)
-		{
-			this.potionHand.destroy();
-			this.potionHand = undefined;
-		}
+
+		this.potionHand.cooldown();
+
 
 		var timerPotion = this.scene.time.addEvent({ 
 			delay: this.potionCooldown * this.cooldownReduction, 
@@ -765,12 +764,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	destroyProjectile()
 	{
-		if(this.attackUI != undefined)
-		{
-			this.attackUI.cooldown();
-			//this.attackUI = undefined;
-		}
 
+		this.attackUI.cooldown();
+	
 		var timerProjectile = this.scene.time.addEvent({ 
 			delay: this.fireRate * this.cooldownReduction, 
 			callback: this.addProjectile, 
