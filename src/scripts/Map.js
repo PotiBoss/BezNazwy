@@ -20,7 +20,8 @@ export default class Map
 
 	createMap()
 	{
-		this.map = this.scene.make.tilemap({ key: 'dungeon' });
+		this.map = this.scene.make.tilemap({ key: 'dungeon'});
+		
 		const tileset = this.map.addTilesetImage('dungeon', 'tiles');
 		
 
@@ -66,7 +67,6 @@ export default class Map
 		this.workbenchLayer.objects.forEach(object => {
 			let workbench = this.workbenches.create(object.x * 2, object.y * 2);
 		})
-
 
 		this.skeletons = this.scene.physics.add.group({
 			classType: Skeleton

@@ -2,7 +2,9 @@
 
 
 BUGS:
-RAYCAST NIE DZIALA NIE UPDATUJE // chyba updatuje ale sciany musza byc bo brrrrr
+
+DODAC WIECEJ RAYCASTOW W BASIC KIERUNKACH BO GLITCH PRZEZ SCIANE
+
 przy spawnie szkieleta czasem bug? // fixed
 losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
@@ -13,7 +15,6 @@ ending screen
 quit button
 tp do huba?
 
-DIALOG F5 
 
 NON PRIO
 offset dla rzutu potka

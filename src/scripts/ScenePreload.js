@@ -74,10 +74,10 @@ export default class ScenePreload extends Phaser.Scene
 
 		this.load.image('potion', 'assets/star.png');
 
-		//this.load.image('tiles', 'assets/dungeon_tiles.png');
-		//this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');
-		this.load.tilemapTiledJSON('dungeon', 'assets/owo4.json');
-		this.load.image('tiles', 'assets/tileset.png');
+	//	this.load.image('tiles', 'assets/dungeon_tiles.png'); //TESTMAPA
+	//	this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json'); //TESTMAPA
+		this.load.tilemapTiledJSON('dungeon', 'assets/owo9.json'); //NORMALNA
+		this.load.image('tiles', 'assets/tileset.png'); //NORMALNA
 
 		this.load.spritesheet('tilesSheet', 'assets/tileset.png',{frameWidth:16,frameHeight:16});
 
@@ -103,6 +103,10 @@ export default class ScenePreload extends Phaser.Scene
 
 		this.load.spritesheet('ranged', 'assets/RangedSheet.png', {frameWidth:32,frameHeight:32});
 		this.load.spritesheet('chargeBall', 'assets/ChargeBallSheet.png', {frameWidth:32,frameHeight:32});
+
+		this.load.spritesheet('skeletonFront', 'assets/SkeletonFrontSheet.png', {frameWidth:23,frameHeight:41})
+		this.load.spritesheet('skeletonBack', 'assets/SkeletonBackSheet.png', {frameWidth:23,frameHeight:41})
+		this.load.spritesheet('skeletonSide', 'assets/SkeletonSideSheet.png', {frameWidth:23,frameHeight:41})
 
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
 		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');

@@ -6,13 +6,13 @@ export default class Skeleton extends EnemyBase
 {
 	constructor(scene, x, y)
 	{
-		super(scene, x, y, 'lizard');
+		super(scene, x, y, 'skeletonFront');
 
 		scene.physics.add.existing(this);
 
 
 		initAnims(scene.anims);
-		this.anims.play('lizard-idle');
+		//this.anims.play('lizard-idle');
 
 		this.body.onCollide = true;
 
