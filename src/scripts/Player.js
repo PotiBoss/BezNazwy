@@ -60,7 +60,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.crafting = new Crafting(this);
 		this.healthbar = new HealthBar(this.scene, this);	
 
-		this.skillUI = new SkillBackgroundUI(this.scene, this);
+		//this.skillUI = new SkillBackgroundUI(this.scene, this);
 
 		this.attackUI = new ProjectileUI(this.scene, this);
 		this.potionHand = new PotionInHand(this.scene, this);
@@ -736,17 +736,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	addProjectile()
 	{
-		this.attackUI = new ProjectileUI(this.scene, this);
+		this.attackUI.projectile.setTint(0xffffff);
 	}
 
 	addBomb()
 	{
-		this.bombUI = new BombUI(this.scene, this);
+		this.bombUI.projectile.setTint(0xffffff);
 	}
 
 	addTeleport()
 	{
-		this.teleportUI = new TeleportUI(this.scene, this);
+		this.teleportUI.teleport.setTint(0xffffff);
 	}
 
 	destroyPotion()
@@ -767,8 +767,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	{
 		if(this.attackUI != undefined)
 		{
-			this.attackUI.destroy();
-			this.attackUI = undefined;
+			this.attackUI.cooldown();
+			//this.attackUI = undefined;
 		}
 
 		var timerProjectile = this.scene.time.addEvent({ 
@@ -779,11 +779,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	destroyBomb()
 	{
-		if(this.bombUI != undefined)
-		{
-			this.bombUI.destroy();
-			this.bombUI = undefined;
-		}
+		this.bombUI.cooldown();
 
 		var timerBomb = this.scene.time.addEvent({ 
 			delay: this.bombCooldown * this.cooldownReduction, 
@@ -793,11 +789,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	destroyTeleport()
 	{
-		if(this.teleportUI != undefined)
-		{
-			this.teleportUI.destroy();
-			this.teleportUI = undefined;
-		}
+		this.teleportUI.cooldown();
 
 		var timerTeleport = this.scene.time.addEvent({ 
 			delay: this.teleportCooldown - 50 * this.cooldownReduction, 

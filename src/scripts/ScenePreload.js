@@ -115,6 +115,8 @@ export default class ScenePreload extends Phaser.Scene
 
 		this.load.spritesheet('healthBar', 'assets/HealthBarSheet.png',{frameWidth:16,frameHeight:26});
 
+		this.load.spritesheet('skillHud', 'assets/SkillHud.png',{frameWidth:32,frameHeight:35});
+
 		this.load.image('titleBackground', 'assets/title_bg.jpg');
 		this.load.image('title', 'assets/logo.png');
 		this.load.image('startButton', 'assets/play_button.png');

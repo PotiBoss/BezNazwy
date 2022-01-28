@@ -8,8 +8,8 @@ losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
 PRIO
 tp do huba?
-MAXHP
-zielony przeciwnik chuj wie po co 
+hud skille
+zielony przeciwnik
 final tp // chyba done
 ending screen
 quit button

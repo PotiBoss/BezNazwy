@@ -22,7 +22,12 @@ export default class ProjectileUI extends Phaser.Physics.Arcade.Sprite
 		const y = 9999 //XD	
 		const x = 9999 //XD
 
-		this.projectile = this.scene.add.image(x , y, 'projectiles', 4);	
+		this.projectile = this.scene.add.image(x , y, 'skillHud', 7);	
+	}
+
+	cooldown()
+	{
+		this.projectile.setTint(0x0a2948)
 	}
 
 	destroy()

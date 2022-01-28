@@ -22,7 +22,12 @@ export default class TeleportUI extends Phaser.Physics.Arcade.Sprite
 		const y = 9999 //XD	
 		const x = 9999 //XD
 
-		this.teleport = this.scene.add.image(x , y, 'projectiles', 4);	
+		this.teleport = this.scene.add.image(x , y, 'skillHud', 3);	
+	}
+
+	cooldown()
+	{
+		this.teleport.setTint(0x0a2948);
 	}
 
 	destroy()
