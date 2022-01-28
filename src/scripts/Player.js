@@ -444,6 +444,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	teleportRightDown(playerVelocity, raycastIntersection)
 	{
+
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.timeFromLastTeleport = getTimeStamp();
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed) / this.square2;
@@ -496,8 +497,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	teleportRight(playerVelocity, raycastIntersection)
 	{
+		//raycastIntersection.x = 10000;
+		//raycastIntersection.y = 10000;
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.timeFromLastTeleport = getTimeStamp();
+			console.log(raycastIntersection.x)
+			console.log(this.x)
 			this.x += Phaser.Math.Clamp(raycastIntersection.x-this.x-16, 0, this.playerSpeed);
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
@@ -582,6 +587,15 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				this.lifesteal--;
 			}
 
+			if(this.scene.lifeStealBuff != undefined)
+			{
+				if(this.lifesteal <= 0)
+				{
+					this.inventory.removeLifeStealPotion();
+				}
+			}
+			
+
 			this.projectile = this.projectiles.get(this.x, this.y, this);
 			this.projectile.fireProjectile(this, pointer);
 			this.destroyProjectile();
@@ -636,6 +650,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 				callbackScope: this});
 
 			this.destroyBomb();
+
+			if(this.scene.skillDamageBuff != undefined)
+			{
+				if(this.skillDamageBonus <= 0)
+				{
+					this.inventory.removeSkillDamagePotion();
+				}
+			}
 
 			this.on('animationcomplete', () =>
 			{

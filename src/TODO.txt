@@ -2,10 +2,14 @@
 
 
 BUGS:
+RAYCAST NIE DZIALA NIE UPDATUJE // chyba updatuje ale sciany musza byc bo brrrrr
 przy spawnie szkieleta czasem bug? // fixed
 losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
 PRIO
+tp do huba?
+MAXHP
+zielony przeciwnik chuj wie po co 
 final tp // chyba done
 ending screen
 quit button

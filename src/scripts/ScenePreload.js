@@ -75,7 +75,9 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.image('potion', 'assets/star.png');
 
 		this.load.image('tiles', 'assets/dungeon_tiles.png');
-		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');	
+		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');
+		//this.load.tilemapTiledJSON('dungeon', 'assets/owo3.json');
+		//this.load.image('tiles', 'assets/tileset.png');
 
 		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
 
@@ -117,6 +119,8 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.image('title', 'assets/logo.png');
 		this.load.image('startButton', 'assets/play_button.png');
 		this.load.image('quitButton', 'assets/options_button.png');
+
+		this.load.image('ciastko', 'assets/Ciastko.png')
 
 		this.load.audio('menuBGM', [
 			'audio/determination.ogg',

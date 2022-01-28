@@ -5,10 +5,7 @@ export default class UI extends Phaser.Scene
 
 	constructor()
 	{
-		super('UI');
-		
-		this.fullWidth = 1;
-		
+		super('UI');	
 	}
 
 	preload()
@@ -18,6 +15,12 @@ export default class UI extends Phaser.Scene
 			url: 'src/scripts/Dialog.js',
 			sceneKey: 'dialog'
 		});
+	}
+
+	init(scene)
+	{
+		let { mainScene } = scene;
+		this.mainScene = mainScene;
 	}
 
 	create()

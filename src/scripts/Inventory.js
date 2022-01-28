@@ -107,10 +107,18 @@ export default class Inventory
 					repeat: 4,
 					callbackScope: this
 					});
+				this.scene.regenBuff = this.scene.add.image(this.scene.backgroundRegen.x, this.scene.backgroundRegen.y, 'pots', 1);
+
+				var removeRegenPotion = this.scene.time.addEvent({ 
+					delay: 3000 * 4, 
+					callback: this.removeHealthRegenPotion, 
+					callbackScope: this
+					});
 				break;
 			case 'cooldownPotion':
 				this.scene.myPlayer.cooldownReduction = 0.6;	
 				if(cooldownReductionTimer != undefined) {cooldownReductionTimer.remove()}
+				this.scene.cooldownBuff = this.scene.add.image(this.scene.backgroundCooldown.x, this.scene.backgroundCooldown.y, 'pots', 4);
 				var cooldownReductionTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
 					callback: this.cooldownReductionPotion, 
@@ -125,6 +133,7 @@ export default class Inventory
 					callback: this.speedPotion, 
 					callbackScope: this
 					});
+				this.scene.speedBuff = this.scene.add.image(this.scene.backgroundSpeed.x, this.scene.backgroundSpeed.y, 'pots', 2);
 				break;
 			case 'damagePotion':
 				if(attackDamageTimer != undefined) {attackDamageTimer.remove()}
@@ -134,16 +143,20 @@ export default class Inventory
 					callback: this.attackPotion, 
 					callbackScope: this
 					});
+				this.scene.damageBuff = this.scene.add.image(this.scene.backgroundDamage.x, this.scene.backgroundDamage.y, 'pots', 3);
 				break;
 			case 'skillDamagePotion':
 					this.scene.myPlayer.skillDamageBonus += 5;
+					this.scene.skillDamageBuff = this.scene.add.image(this.scene.backgroundSkillDamage.x, this.scene.backgroundSkillDamage.y, 'pots', 6);
 						break;
 			case 'healthPotion':
 				this.scene.myPlayer.health += 25;
+				if(this.scene.myPlayer.health > this.scene.myPlayer.maxHealth) {this.scene.myPlayer.health = this.scene.myPlayer.maxHealth}
 				this.scene.myPlayer.healthbar.setMeterPercentage(this.scene.myPlayer.health * 100 / this.scene.myPlayer.maxHealth);
 				break;
 			case 'lifeStealPotion':
-				this.scene.myPlayer.lifesteal += 8;			
+				this.scene.myPlayer.lifesteal += 8;	
+				this.scene.lifeStealBuff = this.scene.add.image(this.scene.backgroundLifeSteal.x, this.scene.backgroundLifeSteal.y, 'pots', 8);		
 				break;
 			case 'projectileSpeedPotion':
 				if(projectileSpeedTimer != undefined) {projectileSpeedTimer.remove()}
@@ -179,22 +192,32 @@ export default class Inventory
 	healthRegenPotion()
 	{
 		this.scene.myPlayer.health += 5;
+		if(this.scene.myPlayer.health > this.scene.myPlayer.maxHealth) {this.scene.myPlayer.health = this.scene.myPlayer.maxHealth}
 		this.scene.myPlayer.healthbar.setMeterPercentage(this.scene.myPlayer.health * 100 / this.scene.myPlayer.maxHealth);
 	}
 
 	speedPotion()
 	{
 		this.scene.myPlayer.playerSpeed = 150;
+		this.scene.speedBuff.x = 9999;
+		this.scene.speedBuff.y = 9999; 
+		this.scene.speedBuff = undefined;
 	}
 
 	cooldownReductionPotion()
 	{
 		this.scene.myPlayer.cooldownReduction = 1.0;
+		this.scene.cooldownBuff.x = 9999;
+		this.scene.cooldownBuff.y = 9999; 
+		this.scene.cooldownBuff = undefined;
 	}
 
 	attackPotion()
 	{
 		this.scene.myPlayer.damageBonus = 1.0;
+		this.scene.damageBuff.x = 9999;
+		this.scene.damageBuff.y = 9999; 
+		this.scene.damageBuff = undefined;
 	}
 
 	projectileSpeedPotion()
@@ -210,5 +233,26 @@ export default class Inventory
 	attackSpeedPotion()
 	{
 		this.scene.myPlayer.attackSpeedReduction = 1.0;
+	}
+
+	removeHealthRegenPotion()
+	{
+		this.scene.regenBuff.x = 9999;
+		this.scene.regenBuff.y = 9999; 
+		this.scene.regenBuff = undefined;
+	}
+
+	removeSkillDamagePotion()
+	{
+		this.scene.skillDamageBuff.x = 9999;
+		this.scene.skillDamageBuff.y = 9999; 
+		this.scene.skillDamageBuff = undefined;
+	}
+
+	removeLifeStealPotion()
+	{
+		this.scene.lifeStealBuff.x = 9999;
+		this.scene.lifeStealBuff.y = 9999; 
+		this.scene.lifeStealBuff = undefined;
 	}
 }

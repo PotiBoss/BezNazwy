@@ -53,11 +53,12 @@ export default class RangeEnemy extends EnemyBase
 
 
 
-		this.chasePlayer();  //TODO: WLACZYC
+		//this.chasePlayer();  //TODO: WLACZYC
 
 		this.healthbar.preUpdate();
 		
 		this.handleState(deltaTime);
+
 	}
 
 	chasePlayer()
@@ -135,7 +136,10 @@ export default class RangeEnemy extends EnemyBase
 		this.projectile = this.projectilesEnemy.get(this.x, this.y, this);
 		this.projectile.fireProjectile(this.myPlayer);
 
-		this.anims.play('ranged-Down', true);
+		if(this.anims != undefined)
+		{
+			this.anims.play('ranged-Down', true);
+		}
 	}
 
 	handleTileCollision(go = Phaser.GameObjects.GameObject, tile = Phaser.Tilemaps.Tile)

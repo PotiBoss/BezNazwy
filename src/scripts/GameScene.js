@@ -48,6 +48,8 @@ export default class GameScene extends Phaser.Scene
 			loop: true
 		});
 		this.gameBGM.play();
+
+		this.addBackgroundBuffs();
 	}
 
 	update(time, deltaTime)
@@ -59,6 +61,8 @@ export default class GameScene extends Phaser.Scene
 
 		this.updateFOV();
 		//this.updateFOW();
+
+		//console.log(this.myPlayer.x)
 
 	}
 
@@ -84,6 +88,57 @@ export default class GameScene extends Phaser.Scene
 		if(this.myPlayer.teleportUI !== undefined)
 		{
 			this.myPlayer.teleportUI.preUpdate();
+		}
+
+		this.backgroundRegen.x = this.myPlayer.x - 456;  
+		this.backgroundCooldown.x = this.myPlayer.x - 420;	
+		this.backgroundSpeed.x = this.myPlayer.x - 384;
+		this.backgroundDamage.x = this.myPlayer.x - 348;	
+		this.backgroundSkillDamage.x = this.myPlayer.x - 312;	
+		this.backgroundLifeSteal.x = this.myPlayer.x - 276; 
+		this.backgroundProjectileSpeed.x = this.myPlayer.x - 240;	
+		this.backgroundAttackCooldown.x = this.myPlayer.x - 204; 
+		this.backgroundAttackSpeed.x = this.myPlayer.x - 168;	
+		this.backgroundRegen.y = this.myPlayer.y - 360; 
+		this.backgroundCooldown.y = this.myPlayer.y - 360;	
+		this.backgroundSpeed.y = this.myPlayer.y - 360;
+		this.backgroundDamage.y = this.myPlayer.y - 360; 
+		this.backgroundSkillDamage.y = this.myPlayer.y - 360;	
+		this.backgroundLifeSteal.y = this.myPlayer.y - 360; 
+		this.backgroundProjectileSpeed.y = this.myPlayer.y - 360;	
+		this.backgroundAttackCooldown.y = this.myPlayer.y - 360; 
+		this.backgroundAttackSpeed.y = this.myPlayer.y - 360;
+	
+		
+		if(this.regenBuff !== undefined)
+		{
+			this.regenBuff.x = this.backgroundRegen.x;
+			this.regenBuff.y = this.backgroundRegen.y;
+		}
+		if(this.speedBuff !== undefined)
+		{
+			this.speedBuff.x = this.backgroundSpeed.x;
+			this.speedBuff.y = this.backgroundSpeed.y;
+		}
+		if(this.cooldownBuff !== undefined)
+		{
+			this.cooldownBuff.x = this.backgroundCooldown.x;
+			this.cooldownBuff.y = this.backgroundCooldown.y;
+		}
+		if(this.damageBuff !== undefined)
+		{
+			this.damageBuff.x = this.backgroundDamage.x;
+			this.damageBuff.y = this.backgroundDamage.y;
+		}
+		if(this.skillDamageBuff !== undefined)
+		{
+			this.skillDamageBuff.x = this.backgroundSkillDamage.x;
+			this.skillDamageBuff.y = this.backgroundSkillDamage.y;
+		}
+		if(this.lifeStealBuff !== undefined)
+		{
+			this.lifeStealBuff.x = this.backgroundLifeSteal.x;
+			this.lifeStealBuff.y = this.backgroundLifeSteal.y;
 		}
 	}
 
@@ -160,11 +215,11 @@ export default class GameScene extends Phaser.Scene
 
 	spawnPlayer()
 	{
-		this.myPlayer = new Player(this, 250, 250);
+		this.myPlayer = new Player(this, 500, 500);
 		this.UI = this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
-		this.setColliders();			
+		this.setColliders();	
 	}
 
 	setColliders()
@@ -336,6 +391,10 @@ export default class GameScene extends Phaser.Scene
 		this.rayLeft.setOrigin(this.myPlayer.x, this.myPlayer.y);
 		this.rayUp.setOrigin(this.myPlayer.x, this.myPlayer.y);
 		this.rayDown.setOrigin(this.myPlayer.x, this.myPlayer.y);
+		this.rayFOV.setOrigin(this.myPlayer.x, this.myPlayer.y);
+
+
+			
 
 		this.intersectionRightDown = this.rayRightDown.cast();
 		this.intersectionLeftDown = this.rayLeftDown.cast();
@@ -344,11 +403,8 @@ export default class GameScene extends Phaser.Scene
 		this.intersectionRight = this.rayRight.cast();
 		this.intersectionLeft = this.rayLeft.cast();
 		this.intersectionUp = this.rayUp.cast();
-		this.intersectionDown = this.rayDown.cast();
-
-		this.rayFOV.setOrigin(this.myPlayer.x, this.myPlayer.y);
-		this.intersectionFOV = this.rayFOV.castCircle();
-		
+		this.intersectionDown = this.rayDown.cast();		
+		this.intersectionFOV = this.rayFOV.castCircle();		
 	}
 
 	
@@ -445,6 +501,20 @@ export default class GameScene extends Phaser.Scene
 			tile.alpha =  alpha
 		}
 	)
+	}
+
+	addBackgroundBuffs()
+	{
+		this.backgroundRegen = this.add.image(24 + 0 * 32, 24, 'inventoryBackground');	
+		this.backgroundCooldown = this.add.image(24 + 1 * 32, 24, 'inventoryBackground');	
+		this.backgroundSpeed = this.add.image(24 + 2 * 32, 24, 'inventoryBackground');
+		this.backgroundDamage = this.add.image(24 + 3 * 32, 24, 'inventoryBackground');	
+		this.backgroundSkillDamage = this.add.image(24 + 4 * 32, 24, 'inventoryBackground');	
+		this.backgroundLifeSteal = this.add.image(24 + 5 * 32, 24, 'inventoryBackground');	
+		this.backgroundProjectileSpeed = this.add.image(24 + 6 * 32, 24, 'inventoryBackground');	
+		this.backgroundAttackCooldown = this.add.image(24 + 7 * 32, 24, 'inventoryBackground');	
+		this.backgroundAttackSpeed = this.add.image(24 + 8 * 32, 24, 'inventoryBackground');	
+			
 	}
 
 	setFollowingCamera(player)
@@ -568,7 +638,9 @@ export default class GameScene extends Phaser.Scene
 
 		if(this.myPlayer.lifesteal > 0)
 		{ 
+			
 			this.myPlayer.health += 5;
+			if(this.myPlayer.health > this.myPlayer.maxHealth) {this.myPlayer.health = this.myPlayer.maxHealth}
 			this.myPlayer.healthbar.setMeterPercentage(this.myPlayer.health * 100 / this.myPlayer.maxHealth);
 		}
 

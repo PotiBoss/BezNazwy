@@ -46,11 +46,10 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 		if(this.gameObject.displayList === null) 
 		{ 
 			this.middle = this.scene.add.image(x, y, 'healthBar', 1).setOrigin(0.5, 0.5).setScale(1, 0.3); //enemy
-			
 		}
 		else
 		{
-			this.border = this.scene.add.image(x, y, 'healthBar', 1).setOrigin(0.5, 0.5).setScale(1, 0.3);
+			this.border = this.scene.add.image(x, y, 'healthBar', 2).setOrigin(0.5, 0.5).setScale(1, 0.3);
 			this.middle = this.scene.add.image(x, y, 'healthBar', 0).setOrigin(0, 0.5).setScale(1, 0.3); //gracz
 			this.border.displayHeight = 20;
 			this.border.displayWidth = this.fullWidth * 100 + 10;
@@ -79,10 +78,7 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 		{
 			
 		}
-
 	}
-
-
 }
 
 
