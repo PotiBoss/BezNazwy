@@ -2,7 +2,7 @@ import EnemyBase from "./EnemyBase";
 import initAnims from './AnimsRanged'
 
 
-export default class RangeEnemy extends EnemyBase
+export default class RangeSkeleton extends EnemyBase
 {
 	constructor(scene, name, x, y)
 		{
@@ -51,7 +51,9 @@ export default class RangeEnemy extends EnemyBase
 			this.changeDirection()
 		}
 
-	//	this.chasePlayer();  //TODO: WLACZYC
+
+
+		this.chasePlayer();  //TODO: WLACZYC
 
 		this.healthbar.preUpdate();
 		
@@ -132,28 +134,22 @@ export default class RangeEnemy extends EnemyBase
 	{
 		this.shootFlag = true; 
 
-		if(this.scene != undefined)
+
+		this.timerPlayerSeen2 = this.scene.time.addEvent({ 
+			delay: 0, 
+			callback: this.shootPlayerSpread,
+			callbackScope: this});
+
+		if(this.anims != undefined)
 		{
-			this.timerPlayerSeen2 = this.scene.time.addEvent({ 
-				delay: 100, 
-				callback: this.shootPlayerSpread,
-				repeat: 2,
-				callbackScope: this});
-	
-			if(this.anims != undefined)
-			{
-				this.anims.play('ranged-Down', true);
-			}
+			this.anims.play('ranged-Down', true);
 		}
 	}
 
 	shootPlayerSpread()
 	{
-		if(this.scene != undefined)
-		{
-			this.projectile = this.projectilesEnemy.get(this.x, this.y, this);
-			this.projectile.fireProjectile(this.myPlayer);
-		}
+		this.projectile = this.projectilesEnemy.get(this.x, this.y, this);
+		this.projectile.fireProjectile(this.myPlayer);
 	}
 
 	handleTileCollision(go = Phaser.GameObjects.GameObject, tile = Phaser.Tilemaps.Tile)

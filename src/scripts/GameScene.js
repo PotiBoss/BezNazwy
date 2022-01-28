@@ -30,6 +30,8 @@ export default class GameScene extends Phaser.Scene
 		this.isCraftingActive = false;
 		this.fullWidth = 300;
 
+		this.deathFlag = false;
+
 		this.spawnPlayer();
 		//this.changeCraftingScene();
 		this.setupRaycast();
@@ -55,7 +57,7 @@ export default class GameScene extends Phaser.Scene
 	update(time, deltaTime)
 	{
 		this.myPlayer.updateMovement2();
-		this.updateRaycast();
+		//this.updateRaycast(); JAK TO WLONCZE TO FPSY ROBIA BRRRRRRRRRRR
 		this.myPlayer.handleState(deltaTime);
 		this.myPlayer.handleAttack();
 
@@ -63,7 +65,17 @@ export default class GameScene extends Phaser.Scene
 		//this.updateFOW();
 
 		//console.log(this.myPlayer.x)
+		this.checkDialog();
+	}
 
+	checkDialog()
+	{
+		if(this.myPlayer.health <= 0  && this.deathFlag == false)
+		{
+			this.deathFlag = true;
+			sceneEvents.emit('playerDeath');
+		}
+		
 	}
 
 	lateUpdate(time, deltaTime)
@@ -140,6 +152,21 @@ export default class GameScene extends Phaser.Scene
 			this.lifeStealBuff.x = this.backgroundLifeSteal.x;
 			this.lifeStealBuff.y = this.backgroundLifeSteal.y;
 		}
+		if(this.projectileSpeedBuff !== undefined)
+		{
+			this.projectileSpeedBuff.x = this.backgroundProjectileSpeed.x;
+			this.projectileSpeedBuff.y = this.backgroundProjectileSpeed.y;
+		}
+		if(this.attackCooldownBuff !== undefined)
+		{
+			this.attackCooldownBuff.x = this.backgroundAttackCooldown.x;
+			this.attackCooldownBuff.y = this.backgroundAttackCooldown.y;
+		}
+		if(this.attackSpeedBuff !== undefined)
+		{
+			this.attackSpeedBuff.x = this.backgroundAttackSpeed.x;
+			this.attackSpeedBuff.y = this.backgroundAttackSpeed.y;
+		}
 	}
 
 	changeCraftingScene()
@@ -215,7 +242,7 @@ export default class GameScene extends Phaser.Scene
 
 	spawnPlayer()
 	{
-		this.myPlayer = new Player(this, 500, 500);
+		this.myPlayer = new Player(this, 5500, 5500);
 		this.UI = this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
@@ -372,7 +399,14 @@ export default class GameScene extends Phaser.Scene
 
 
 		this.raycaster.mapGameObjects(this.currentMap.walls, false, {
-			collisionTiles: [1,2,3,33,34,35,224,225,226,227,256,257,258,259,260,261,288,289,290,291,292,293,322,323] //ID tilow z Tiled
+			collisionTiles: [1,2,3,33,34,35,224,225,226,227,256,257,258,259,260,261,288,289,290,291,292,293,322,323,361,362,363,364,365,366,367,368,369,
+				370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,
+				408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,
+				446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,
+				484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,
+				522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,
+				560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587
+			] //ID tilow z Tiled NA 323 KONEIC
 		});
 
 		
@@ -505,15 +539,15 @@ export default class GameScene extends Phaser.Scene
 
 	addBackgroundBuffs()
 	{
-		this.backgroundRegen = this.add.image(24 + 0 * 32, 24, 'inventoryBackground');	
-		this.backgroundCooldown = this.add.image(24 + 1 * 32, 24, 'inventoryBackground');	
-		this.backgroundSpeed = this.add.image(24 + 2 * 32, 24, 'inventoryBackground');
-		this.backgroundDamage = this.add.image(24 + 3 * 32, 24, 'inventoryBackground');	
-		this.backgroundSkillDamage = this.add.image(24 + 4 * 32, 24, 'inventoryBackground');	
-		this.backgroundLifeSteal = this.add.image(24 + 5 * 32, 24, 'inventoryBackground');	
-		this.backgroundProjectileSpeed = this.add.image(24 + 6 * 32, 24, 'inventoryBackground');	
-		this.backgroundAttackCooldown = this.add.image(24 + 7 * 32, 24, 'inventoryBackground');	
-		this.backgroundAttackSpeed = this.add.image(24 + 8 * 32, 24, 'inventoryBackground');	
+		this.backgroundRegen = this.add.image(24 + 0 * 32, 24, 'buffBackground');	
+		this.backgroundCooldown = this.add.image(24 + 1 * 32, 24, 'buffBackground');	
+		this.backgroundSpeed = this.add.image(24 + 2 * 32, 24, 'buffBackground');
+		this.backgroundDamage = this.add.image(24 + 3 * 32, 24, 'buffBackground');	
+		this.backgroundSkillDamage = this.add.image(24 + 4 * 32, 24, 'buffBackground');	
+		this.backgroundLifeSteal = this.add.image(24 + 5 * 32, 24, 'buffBackground');	
+		this.backgroundProjectileSpeed = this.add.image(24 + 6 * 32, 24, 'buffBackground');	
+		this.backgroundAttackCooldown = this.add.image(24 + 7 * 32, 24, 'buffBackground');	
+		this.backgroundAttackSpeed = this.add.image(24 + 8 * 32, 24, 'buffBackground');	
 			
 	}
 

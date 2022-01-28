@@ -12,8 +12,8 @@ export default class ProjectileUI extends Phaser.Physics.Arcade.Sprite
 
 	preUpdate(time, deltaTime)
 	{
-		this.projectile.x = this.gameObject.x - 450;
-		this.projectile.y = this.gameObject.y + 300;
+		this.projectile.x = this.gameObject.x - 90;
+		this.projectile.y = this.gameObject.y + 275;
 	}
 
 
@@ -22,7 +22,7 @@ export default class ProjectileUI extends Phaser.Physics.Arcade.Sprite
 		const y = 9999 //XD	
 		const x = 9999 //XD
 
-		this.projectile = this.scene.add.image(x , y, 'skillHud', 7);	
+		this.projectile = this.scene.add.image(x , y, 'skillHud', 2).setScale(1.5);	
 	}
 
 	cooldown()

@@ -74,10 +74,12 @@ export default class ScenePreload extends Phaser.Scene
 
 		this.load.image('potion', 'assets/star.png');
 
-		this.load.image('tiles', 'assets/dungeon_tiles.png');
-		this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');
-		//this.load.tilemapTiledJSON('dungeon', 'assets/owo3.json');
-		//this.load.image('tiles', 'assets/tileset.png');
+		//this.load.image('tiles', 'assets/dungeon_tiles.png');
+		//this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json');
+		this.load.tilemapTiledJSON('dungeon', 'assets/owo4.json');
+		this.load.image('tiles', 'assets/tileset.png');
+
+		this.load.spritesheet('tilesSheet', 'assets/tileset.png',{frameWidth:16,frameHeight:16});
 
 		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
 
@@ -100,6 +102,7 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.spritesheet('bombs', 'assets/bomb.png', {frameWidth:16,frameHeight:16});
 
 		this.load.spritesheet('ranged', 'assets/RangedSheet.png', {frameWidth:32,frameHeight:32});
+		this.load.spritesheet('chargeBall', 'assets/ChargeBallSheet.png', {frameWidth:32,frameHeight:32});
 
 		this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
 		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');
@@ -107,10 +110,14 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.image('boss', 'assets/boss.png');
 
 		this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
+		this.load.image('workbench', 'assets/workbench.png');
 
 		this.load.spritesheet('pots','assets/pots.png',{frameWidth:32,frameHeight:32});
 		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
+
 		this.load.image('inventoryBackground', 'assets/HudSheet.png');
+		this.load.image('buffBackground', 'assets/BuffSheet.png');
+
 		this.load.spritesheet('tileitem','assets/dungeon_tiles.png',{frameWidth:16,frameHeight:16});
 
 		this.load.spritesheet('healthBar', 'assets/HealthBarSheet.png',{frameWidth:16,frameHeight:26});

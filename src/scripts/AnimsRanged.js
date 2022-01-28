@@ -1,4 +1,3 @@
-
 export default anims => {
 	anims.create({
 		key: 'ranged-Down',

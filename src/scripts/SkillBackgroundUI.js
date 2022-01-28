@@ -14,13 +14,13 @@ export default class SkillBackgroundUI extends Phaser.Physics.Arcade.Sprite
 	preUpdate(time, deltaTime)
 	{
 		this.backgroundAttack.x = this.gameObject.x - 450;
-		this.backgroundAttack.y = this.gameObject.y + 300;
+		this.backgroundAttack.y = this.gameObject.y + 325;
 		this.backgroundPotion.x = this.gameObject.x - 400;
-		this.backgroundPotion.y = this.gameObject.y + 300;
+		this.backgroundPotion.y = this.gameObject.y + 325;
 		this.backgroundBomb.x = this.gameObject.x - 350;
-		this.backgroundBomb.y = this.gameObject.y + 300;
+		this.backgroundBomb.y = this.gameObject.y + 325;
 		this.backgroundTeleport.x = this.gameObject.x - 300;
-		this.backgroundTeleport.y = this.gameObject.y + 300;
+		this.backgroundTeleport.y = this.gameObject.y + 325;
 	}
 
 

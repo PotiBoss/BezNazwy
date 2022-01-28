@@ -12,8 +12,8 @@ export default class BombUI extends Phaser.Physics.Arcade.Sprite
 
 	preUpdate(time, deltaTime)
 	{
-		this.projectile.x = this.gameObject.x - 350;
-		this.projectile.y = this.gameObject.y + 300;
+		this.projectile.x = this.gameObject.x + 30;
+		this.projectile.y = this.gameObject.y + 275;
 	}
 
 
@@ -22,7 +22,7 @@ export default class BombUI extends Phaser.Physics.Arcade.Sprite
 		const y = 9999 //XD	
 		const x = 9999 //XD
 
-		this.projectile = this.scene.add.image(x , y, 'skillHud', 1);	
+		this.projectile = this.scene.add.image(x , y, 'skillHud', 1).setScale(1.5);	
 	}
 
 	cooldown()

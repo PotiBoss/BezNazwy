@@ -7,13 +7,13 @@ przy spawnie szkieleta czasem bug? // fixed
 losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
 PRIO
-tp do huba?
-hud skille
-zielony przeciwnik
+
 final tp // chyba done
 ending screen
 quit button
+tp do huba?
 
+DIALOG F5 
 
 NON PRIO
 offset dla rzutu potka

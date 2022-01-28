@@ -161,6 +161,7 @@ export default class Inventory
 			case 'projectileSpeedPotion':
 				if(projectileSpeedTimer != undefined) {projectileSpeedTimer.remove()}
 				this.scene.myPlayer.projectileSpeedBonus = 1.5;
+				this.scene.projectileSpeedBuff = this.scene.add.image(this.scene.backgroundProjectileSpeed.x, this.scene.backgroundProjectileSpeed.y, 'pots', 0);	
 				var projectileSpeedTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
 					callback: this.projectileSpeedPotion, 
@@ -170,6 +171,7 @@ export default class Inventory
 			case 'attackCooldownPotion':
 				if(attackCooldownTimer != undefined) {attackCooldownTimer.remove()}
 				this.scene.myPlayer.attackCooldownReduction = true;
+				this.scene.attackCooldownBuff = this.scene.add.image(this.scene.backgroundAttackCooldown.x, this.scene.backgroundAttackCooldown.y, 'pots', 5);	
 				var attackCooldownTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
 					callback: this.attackCooldownPotion, 
@@ -180,6 +182,7 @@ export default class Inventory
 			case 'attackSpeedPotion':
 				if(attackSpeedTimer != undefined) {attackSpeedTimer.remove()}
 				this.scene.myPlayer.attackSpeedReduction = 0.4;
+				this.scene.attackSpeedBuff = this.scene.add.image(this.scene.backgroundAttackSpeed.x, this.scene.backgroundAttackSpeed.y, 'pots', 9);	
 				var attackSpeedTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
 					callback: this.attackSpeedPotion, 
@@ -223,16 +226,25 @@ export default class Inventory
 	projectileSpeedPotion()
 	{
 		this.scene.myPlayer.projectileSpeedBonus = 1.0;
+		this.scene.projectileSpeedBuff.x = 9999;
+		this.scene.projectileSpeedBuff.y = 9999; 
+		this.scene.projectileSpeedBuff = undefined;
 	}
 
 	attackCooldownPotion()
 	{
 		this.scene.myPlayer.attackCooldownReduction = false;
+		this.scene.attackCooldownBuff.x = 9999;
+		this.scene.attackCooldownBuff.y = 9999; 
+		this.scene.attackCooldownBuff = undefined;
 	}
 
 	attackSpeedPotion()
 	{
 		this.scene.myPlayer.attackSpeedReduction = 1.0;
+		this.scene.attackSpeedBuff.x = 9999;
+		this.scene.attackSpeedBuff.y = 9999; 
+		this.scene.attackSpeedBuff = undefined;
 	}
 
 	removeHealthRegenPotion()

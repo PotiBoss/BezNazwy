@@ -12,8 +12,8 @@ export default class TeleportUI extends Phaser.Physics.Arcade.Sprite
 
 	preUpdate(time, deltaTime)
 	{
-		this.teleport.x = this.gameObject.x - 300;
-		this.teleport.y = this.gameObject.y + 300;
+		this.teleport.x = this.gameObject.x + 90;
+		this.teleport.y = this.gameObject.y + 275;
 	}
 
 
@@ -22,7 +22,7 @@ export default class TeleportUI extends Phaser.Physics.Arcade.Sprite
 		const y = 9999 //XD	
 		const x = 9999 //XD
 
-		this.teleport = this.scene.add.image(x , y, 'skillHud', 3);	
+		this.teleport = this.scene.add.image(x , y, 'skillHud', 3).setScale(1.5);	
 	}
 
 	cooldown()

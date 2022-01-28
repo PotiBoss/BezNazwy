@@ -6,10 +6,10 @@ let items = {
 	
 	skillDamagePotion: {frame:6, materials:['healthHerb','cooldownHerb']}, //done
 	healthPotion: {frame:7, materials:['healthHerb','speedHerb']}, //done
-	lifeStealPotion: {frame:8, materials:['healthHerb','damageHerb']}, // done // tutaj
+	lifeStealPotion: {frame:8, materials:['healthHerb','damageHerb']}, // done // 
 	projectileSpeedPotion: {frame:0, materials:['cooldownHerb','speedHerb']}, // done
-	attackCooldownPotion: {frame:5, materials:['cooldownHerb','damageHerb']}, // done i hope
-	attackSpeedPotion: {frame:9, materials:['damageHerb','speedHerb']}, // done
+	attackCooldownPotion: {frame:5, materials:['cooldownHerb','damageHerb']}, // done i hope 
+	attackSpeedPotion: {frame:9, materials:['damageHerb','speedHerb']}, // done X
 
 	damageHerb: {frame:20},
     healthHerb: {frame:21},

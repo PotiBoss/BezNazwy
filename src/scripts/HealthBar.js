@@ -20,9 +20,9 @@ export default class HealthBar extends Phaser.Physics.Arcade.Sprite
 		{
 	
 			this.middle.x = this.gameObject.x - 100;
-			this.middle.y = this.gameObject.y + 300;
+			this.middle.y = this.gameObject.y + 320;
 			this.border.x = this.gameObject.x;
-			this.border.y = this.gameObject.y + 300;
+			this.border.y = this.gameObject.y + 320;
 		}
 		else
 		{

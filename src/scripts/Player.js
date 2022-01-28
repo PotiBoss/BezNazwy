@@ -284,41 +284,49 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 		if(this.keyD.isDown && this.keyS.isDown && this.keySpace.isDown)
 		{
+			this.scene.updateRaycast();
 			this.teleportRightDown(this.body.velocity, this.scene.intersectionRightDown);
 		}
 
 		else if(this.keyA.isDown && this.keyS.isDown && this.keySpace.isDown)
 		{
+			this.scene.updateRaycast();
 			this.teleportLeftDown(this.body.velocity, this.scene.intersectionLeftDown);
 		}
 
 		else if(this.keyA.isDown && this.keyW.isDown && this.keySpace.isDown)
 		{
+			this.scene.updateRaycast();
 			this.teleportLeftUp(this.body.velocity, this.scene.intersectionLeftUp);
 		}
 
 		else if(this.keyD.isDown && this.keyW.isDown && this.keySpace.isDown)
 		{
+			this.scene.updateRaycast();
 			this.teleportRightUp(this.body.velocity, this.scene.intersectionRightUp);
 		}
 
 		else if(this.keyD.isDown && this.keySpace.isDown)
 		{
+			this.scene.updateRaycast();
 			this.teleportRight(this.body.velocity, this.scene.intersectionRight);
 		}
 		
 		else if(this.keyA.isDown && this.keySpace.isDown)
 		{
+			this.scene.updateRaycast();
 			this.teleportLeft(this.body.velocity, this.scene.intersectionLeft);
 		}
 
 		else if(this.keyW.isDown && this.keySpace.isDown)
 		{
+			this.scene.updateRaycast();
 			this.teleportUp(this.body.velocity, this.scene.intersectionUp);
 		}
 
 		else if(this.keyS.isDown && this.keySpace.isDown)
 		{
+			this.scene.updateRaycast();
 			this.teleportDown(this.body.velocity, this.scene.intersectionDown);
 		}
 
@@ -695,7 +703,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.setVelocity(0, 0)
 			this.setImmovable();
 			this.anims.play('faint');
-			console.log('DEAD');
+
+
 		}
 
 		else

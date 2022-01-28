@@ -1,4 +1,4 @@
-
+import { sceneEvents } from "./EventCommunicator";
 
 export default class UI extends Phaser.Scene
 {
@@ -30,6 +30,12 @@ export default class UI extends Phaser.Scene
 		this.gameHeight = this.sys.game.config.height;
 
 		this.welcomeMsg();
+
+		sceneEvents.on('playerDeath', this.pressF5, this);
+
+		this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
+			sceneEvents.off('playerDeath', this.pressF5, this);
+		})
 	}
 
 	welcomeMsg()
@@ -37,7 +43,6 @@ export default class UI extends Phaser.Scene
 		this.msg = ["1", "2", "3"];
 		this.dialog.init(this.msg);
 		this.dialog.setText(this.msg[0], true);
-
 	}
 
 	secondMsg()
@@ -45,6 +50,13 @@ export default class UI extends Phaser.Scene
 		this.msg2 = ["4", "5", "6"];
 		this.dialog.init(this.msg2);
 		this.dialog.setText(this.msg2[0], true);
+	}
+
+	pressF5()
+	{
+		this.msg3 = ["Game Over \nPlease refresh this page UwU"];
+		this.dialog.init(this.msg3);
+		this.dialog.setText(this.msg3[0], true);
 	}
 
 	handlePlayerHealthChanged(health)

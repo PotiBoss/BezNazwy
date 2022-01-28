@@ -1,12 +1,11 @@
 import EnemyBase from "./EnemyBase";
-import initAnims from './AnimsTaurus'
 import { getTimeStamp } from './GetTimeStamp';
 
 export default class Taurus extends EnemyBase
 {
 	constructor(scene, name, x, y)
 		{
-		super(scene, x, y, 'chargeBall', 0);
+		super(scene, x, y, 'taurus');
 
 		this.scene.physics.add.existing(this);
 
@@ -19,8 +18,6 @@ export default class Taurus extends EnemyBase
 		this.setupDirections();
 		//console.log(this.healthbar);
 		this.enemyMaxHealth = 50;
-
-		initAnims(scene.anims);
 				
 		this.enemySpeed = 80;
 		this.enemyHealth = 50;
@@ -28,7 +25,7 @@ export default class Taurus extends EnemyBase
 		this.visionRange = 300;
 
 		this.chargeRange = 150;
-		this.chargeTime = 500; // cooldown miedzy szarzami
+		this.chargeTime = 1500; // cooldown miedzy szarzami
 		this.timeFromLastCharge = null;
 		this.chargeSpeed = 300;
 		this.isCharging = false;
@@ -39,8 +36,9 @@ export default class Taurus extends EnemyBase
 
 		this.damageTime = 0;
 		this.damagedInvulnerability = 500;
-
 	}
+
+
 
 	preUpdate(time, deltaTime)
 	{
@@ -60,7 +58,7 @@ export default class Taurus extends EnemyBase
 
 	chasePlayer()
 	{
-		this.anims.play('chargeBallAnim', true);
+	
 		this.myPlayer = this.scene.myPlayer;
 		if(this.firstTimeInRange)
 		{
@@ -71,8 +69,10 @@ export default class Taurus extends EnemyBase
 		
 		if(this.myPlayer != undefined)
 		{
+
 			if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
 			{
+
 				if(!this.isCharging)
 				{
 					this.scene.physics.moveToObject(this, this.myPlayer, 100);
@@ -93,7 +93,6 @@ export default class Taurus extends EnemyBase
 				this.firstTimeInRange = true;
 			}
 		}
-
 	}
 
 	setupChargeLocation()
@@ -103,23 +102,23 @@ export default class Taurus extends EnemyBase
 
 		if(this.myPlayer.x >= this.x && this.myPlayer.y >= this.y)
 		{
-			this.chargeLocation.x = this.myPlayer.x
-			this.chargeLocation.y = this.myPlayer.y
+			this.chargeLocation.x = this.myPlayer.x + Math.abs(this.myPlayer.x - this.x);
+			this.chargeLocation.y = this.myPlayer.y + Math.abs(this.myPlayer.y - this.y);
 		}
 		else if(this.myPlayer.x < this.x && this.myPlayer.y > this.y)
 		{
-			this.chargeLocation.x = this.myPlayer.x
-			this.chargeLocation.y = this.myPlayer.y
+			this.chargeLocation.x = this.myPlayer.x - Math.abs(this.myPlayer.x - this.x);
+			this.chargeLocation.y = this.myPlayer.y + Math.abs(this.myPlayer.y - this.y);
 		}
 		else if(this.myPlayer.x < this.x && this.myPlayer.y < this.y)
 		{
-			this.chargeLocation.x = this.myPlayer.x
-			this.chargeLocation.y = this.myPlayer.y
+			this.chargeLocation.x = this.myPlayer.x - Math.abs(this.myPlayer.x - this.x);
+			this.chargeLocation.y = this.myPlayer.y - Math.abs(this.myPlayer.y - this.y);
 		}
 		else if(this.myPlayer.x > this.x && this.myPlayer.y < this.y)
 		{
-			this.chargeLocation.x = this.myPlayer.x
-			this.chargeLocation.y = this.myPlayer.y
+			this.chargeLocation.x = this.myPlayer.x + Math.abs(this.myPlayer.x - this.x);
+			this.chargeLocation.y = this.myPlayer.y - Math.abs(this.myPlayer.y - this.y);
 		}
 	}
 
