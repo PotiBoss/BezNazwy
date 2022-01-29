@@ -1,6 +1,4 @@
 
-
-
 BUGS:
 
 DODAC WIECEJ RAYCASTOW W BASIC KIERUNKACH BO GLITCH PRZEZ SCIANE
@@ -11,8 +9,11 @@ losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 PRIO
 
 final tp
-po zabiciu bossa podziekowania
 muzyka
+
+naprawic movement
+teleport od klawiszy nie velocity
+naprawic text scroll
 
 NON PRIO
 offset dla rzutu potka

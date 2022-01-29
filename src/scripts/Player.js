@@ -776,8 +776,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.setVelocity(0, 0)
 			this.setImmovable();
 			this.anims.play('faint');
-
-
 		}
 
 		else

@@ -162,7 +162,7 @@ export default class ScenePreload extends Phaser.Scene
 		]);
 
 		this.load.audio('playerDamaged', [
-			'audio/playerDamaged.mp3'
+			'audio/playerDamaged.ogg'
 		]);
 
 		this.load.audio('pickUp', [

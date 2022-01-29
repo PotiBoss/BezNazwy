@@ -870,7 +870,7 @@ export default class GameScene extends Phaser.Scene
 		enemy.updateHP();
 
 		this.collsionSound = this.sound.add('projectileHit', {
-			volume: 0.1,
+			volume: 0.065,
 		});
 		this.collsionSound.play();
 
