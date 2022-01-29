@@ -51,7 +51,7 @@ export default class RangeEnemy extends EnemyBase
 			this.changeDirection()
 		}
 
-	//	this.chasePlayer();  //TODO: WLACZYC
+		this.chasePlayer();  //TODO: WLACZYC
 
 		this.healthbar.preUpdate();
 		

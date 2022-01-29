@@ -44,7 +44,7 @@ export default class Skeleton extends EnemyBase
 		this.healthbar.preUpdate();
 
 		this.handleState(deltaTime);
-		//this.chasePlayer(); //TODO: WLACZYC
+		this.chasePlayer(); //TODO: WLACZYC
 	}
 
 	setupDirections()

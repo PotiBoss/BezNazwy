@@ -40,7 +40,7 @@ export default class UI extends Phaser.Scene
 
 	welcomeMsg()
 	{
-		this.msg = ["1", "2", "3"];
+		this.msg = ["STEROWANIE:\nC - opens crafting menu on workbench\nV - crafts potion in crafting menu\nT - teleports on teleport", "I - opens bigger inventory\nF - drinks a potion"];
 		this.dialog.init(this.msg);
 		this.dialog.setText(this.msg[0], true);
 	}
