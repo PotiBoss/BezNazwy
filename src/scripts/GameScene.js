@@ -394,6 +394,87 @@ export default class GameScene extends Phaser.Scene
 		  });
 
 
+		  //
+		  this.rayRightUpper = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y-16
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayRightUpper.setAngleDeg(0);
+
+		  this.rayRightLower = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y+16
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayRightLower.setAngleDeg(0);
+
+		  this.rayDownLeft = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x-16,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayDownLeft.setAngleDeg(90);
+
+		  this.rayDownRight = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x+16,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayDownRight.setAngleDeg(90);
+
+		  this.rayLeftUpper = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y-16
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayLeftUpper.setAngleDeg(180)
+
+		  this.rayLeftLower = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x,
+			  y: this.myPlayer.y+16
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayLeftLower.setAngleDeg(180);
+
+		  this.rayUpLeft = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x-16,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayUpLeft.setAngleDeg(270);
+
+		  this.rayUpRight = this.raycaster.createRay({
+			origin: {
+			  x: this.myPlayer.x+16,
+			  y: this.myPlayer.y
+			},
+			autoSlice: true, 
+			collisionRange: this.myPlayer.playerSpeed, 
+		  });
+		  this.rayUpRight.setAngleDeg(270);
+
 		this.raycaster.debugOptions.enabled = true;
 
 
@@ -406,7 +487,7 @@ export default class GameScene extends Phaser.Scene
 				484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,
 				522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,
 				560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,
-				601,602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,620,621,622,623,632,633,634,635,636,637
+				598,601,602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,618,620,621,622,623,624,632,633,634,635,636,637,638
 			] //ID tilow z Tiled NA 323 KONEIC 81 100 119
 		});
 		
@@ -419,7 +500,6 @@ export default class GameScene extends Phaser.Scene
 
 	updateRaycast()
 	{ 
-		console.log("XD")
 		this.rayRightDown.setOrigin(this.myPlayer.x, this.myPlayer.y); //
 		this.rayLeftDown.setOrigin(this.myPlayer.x, this.myPlayer.y);
 		this.rayLeftUp.setOrigin(this.myPlayer.x, this.myPlayer.y);
@@ -470,24 +550,40 @@ export default class GameScene extends Phaser.Scene
 	{
 		this.rayRight.setOrigin(this.myPlayer.x, this.myPlayer.y);
 		this.intersectionRight = this.rayRight.cast();
+		this.rayRightUpper.setOrigin(this.myPlayer.x, this.myPlayer.y-16);
+		this.intersectionRightUpper = this.rayRightUpper.cast();
+		this.rayRightLower.setOrigin(this.myPlayer.x, this.myPlayer.y+16);
+		this.intersectionRightLower = this.rayRightLower.cast();
 	}
 
 	updateRaycastLeft()
 	{
 		this.rayLeft.setOrigin(this.myPlayer.x, this.myPlayer.y);
 		this.intersectionLeft = this.rayLeft.cast();
+		this.rayLeftUpper.setOrigin(this.myPlayer.x, this.myPlayer.y-16);
+		this.intersectionLeftUpper = this.rayLeftUpper.cast();
+		this.rayLeftLower.setOrigin(this.myPlayer.x, this.myPlayer.y+16);
+		this.intersectionLeftLower = this.rayLeftLower.cast();
 	}
 
 	updateRaycastUp()
 	{
 		this.rayUp.setOrigin(this.myPlayer.x, this.myPlayer.y);
 		this.intersectionUp = this.rayUp.cast();
+		this.rayUpLeft.setOrigin(this.myPlayer.x-16, this.myPlayer.y);
+		this.intersectionUpLeft = this.rayUpLeft.cast();
+		this.rayUpRight.setOrigin(this.myPlayer.x+16, this.myPlayer.y);
+		this.intersectionUpRight = this.rayUpRight.cast();
 	}
 
 	updateRaycastDown()
 	{
 		this.rayDown.setOrigin(this.myPlayer.x, this.myPlayer.y);
 		this.intersectionDown = this.rayDown.cast();
+		this.rayDownLeft.setOrigin(this.myPlayer.x-16, this.myPlayer.y);
+		this.intersectionDownLeft = this.rayDownLeft.cast();
+		this.rayDownRight.setOrigin(this.myPlayer.x+16, this.myPlayer.y);
+		this.intersectionDownRight = this.rayDownRight.cast();
 	}
 
 

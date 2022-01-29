@@ -121,7 +121,7 @@ export default class Map
 
 		this.teleportIndex = 0;
 		this.teleporterLayer.objects.forEach(teleporterObject => {
-			this.teleporters.get(teleporterObject.x * 2 + teleporterObject.width * 0.5, teleporterObject.y * 2 + teleporterObject.height * 0.5, this.teleportIndex++); // * 2 bo skalowalem tilemape
+			this.teleporters.get(teleporterObject.x * 2 + teleporterObject.width, teleporterObject.y * 2 - teleporterObject.height, this.teleportIndex++); // * 2 bo skalowalem tilemape
 		})
 
 	}

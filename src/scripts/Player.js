@@ -321,7 +321,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		else if(this.keyW.isDown && this.keySpace.isDown)
 		{
 			//this.scene.updateRaycast();
-			//this.teleportUp(this.body.velocity, this.scene.intersectionUp);
+			this.teleportUp(this.body.velocity, this.scene.intersectionUp);
 		}
 
 		else if(this.keyS.isDown && this.keySpace.isDown)
@@ -456,8 +456,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.scene.updateRaycastRightDown();
 			this.timeFromLastTeleport = getTimeStamp();
-			this.x += Phaser.Math.Clamp(this.scene.intersectionRightDown.x-this.x-16, 0, this.playerSpeed) / this.square2;
-			this.y += Phaser.Math.Clamp(this.scene.intersectionRightDown.y-this.y-16, 0, this.playerSpeed) / this.square2;
+			this.x += Phaser.Math.Clamp(this.scene.intersectionRightDown.x-this.x-16, 0, 150) / this.square2;
+			this.y += Phaser.Math.Clamp(this.scene.intersectionRightDown.y-this.y-16, 0, 150) / this.square2;
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
 			});
@@ -470,8 +470,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.scene.updateRaycastLeftDown();
 			this.timeFromLastTeleport = getTimeStamp();
-			this.x += Phaser.Math.Clamp(this.scene.intersectionLeftDown.x-this.x+16, -this.playerSpeed, 0) / this.square2;
-			this.y += Phaser.Math.Clamp(this.scene.intersectionLeftDown.y-this.y-16, 0, this.playerSpeed) / this.square2;
+			this.x += Phaser.Math.Clamp(this.scene.intersectionLeftDown.x-this.x+16, -150, 0) / this.square2;
+			this.y += Phaser.Math.Clamp(this.scene.intersectionLeftDown.y-this.y-16, 0, 150) / this.square2;
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
 			});
@@ -484,8 +484,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.scene.updateRaycastLeftUp();
 			this.timeFromLastTeleport = getTimeStamp();
-			this.x += Phaser.Math.Clamp(this.scene.intersectionLeftUp.x-this.x+16, -this.playerSpeed, 0) / this.square2;
-			this.y += Phaser.Math.Clamp(this.scene.intersectionLeftUp.y-this.y+16, -this.playerSpeed, 0) / this.square2;
+			this.x += Phaser.Math.Clamp(this.scene.intersectionLeftUp.x-this.x+16, -150, 0) / this.square2;
+			this.y += Phaser.Math.Clamp(this.scene.intersectionLeftUp.y-this.y+16, -150, 0) / this.square2;
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
 			});
@@ -498,13 +498,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.scene.updateRaycastRightUp();
 			this.timeFromLastTeleport = getTimeStamp();
-			this.x += Phaser.Math.Clamp(this.scene.intersectionRightUp.x-this.x-16, 0, this.playerSpeed) / this.square2;
-			this.y += Phaser.Math.Clamp(this.scene.intersectionRightUp.y-this.y+16, -this.playerSpeed, 0) / this.square2;
+			this.x += Phaser.Math.Clamp(this.scene.intersectionRightUp.x-this.x-16, 0, 150) / this.square2;
+			this.y += Phaser.Math.Clamp(this.scene.intersectionRightUp.y-this.y+16, -150, 0) / this.square2;
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
 			});
 			this.blink.play();
-			this.destroyTeleport();
+			this.destroyTeleport();	
 	}
 
 	teleportRight(playerVelocity, raycastIntersection)
@@ -512,13 +512,29 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.scene.updateRaycastRight();
 			this.timeFromLastTeleport = getTimeStamp();
-			console.log(raycastIntersection.x)
-			console.log(this.x)
-			this.x += Phaser.Math.Clamp(this.scene.intersectionRight.x-this.x-16, 0, this.playerSpeed);
+
+			if(Math.abs(this.scene.intersectionRightUpper.x - this.x) < 150 && Math.abs(this.x - this.scene.intersectionRightLower.x) > Math.abs(this.scene.intersectionRightUpper.x - this.x) && this.scene.intersectionRightUpper.x !== this.scene.intersectionRight.x)
+			{
+				console.log("upper")
+				this.x += Phaser.Math.Clamp(this.scene.intersectionRight.x-this.x-16, 0, 150);
+				this.y += 16;
+			}
+			else if(Math.abs(this.x - this.scene.intersectionRightLower.x) < 150 && Math.abs(this.x - this.scene.intersectionRightLower.x) < Math.abs(this.scene.intersectionRightUpper.x - this.x) && this.scene.intersectionRightLower.x !== this.scene.intersectionRight.x)
+			{
+				console.log("lower")
+				this.x += Phaser.Math.Clamp(this.scene.intersectionRight.x-this.x-16, 0, 150);
+				this.y -= 16;	
+			}
+			else
+			{
+				this.x += Phaser.Math.Clamp(this.scene.intersectionRight.x-this.x-16, 0, 150);
+			}
+
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
 			});
 			this.blink.play();
+
 			this.destroyTeleport();
 	}
 
@@ -527,7 +543,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.scene.updateRaycastLeft();
 			this.timeFromLastTeleport = getTimeStamp();
-			this.x += Phaser.Math.Clamp(this.scene.intersectionLeft.x-this.x+16, -this.playerSpeed, 0);
+
+			if(Math.abs(this.scene.intersectionLeftUpper.x - this.x) < 150 && Math.abs(this.x - this.scene.intersectionLeftLower.x) > Math.abs(this.scene.intersectionLeftUpper.x - this.x) && this.scene.intersectionLeftUpper.x !== this.scene.intersectionLeft.x)
+			{
+				this.x += Phaser.Math.Clamp(this.scene.intersectionLeft.x-this.x+16, -150, 0);
+				this.y += 16;
+			}
+			else if(Math.abs(this.x - this.scene.intersectionLeftLower.x) < 150 && Math.abs(this.x - this.scene.intersectionLeftLower.x) < Math.abs(this.scene.intersectionLeftUpper.x - this.x) && this.scene.intersectionLeftLower.x !== this.scene.intersectionLeft.x)
+			{
+				this.x += Phaser.Math.Clamp(this.scene.intersectionLeft.x-this.x+16, -150, 0);
+				this.y -= 16;
+			}
+			else 
+			{
+				this.x += Phaser.Math.Clamp(this.scene.intersectionLeft.x-this.x+16, -150, 0);
+			}
+
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
 			});
@@ -540,7 +571,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.scene.updateRaycastUp();
 			this.timeFromLastTeleport = getTimeStamp();
-			this.y += Phaser.Math.Clamp(this.scene.intersectionUp.y-this.y+16, -this.playerSpeed, 0);
+
+			if(Math.abs(this.scene.intersectionUpLeft.y - this.y) < 150 && Math.abs(this.y - this.scene.intersectionUpLeft.y) < Math.abs(this.y - this.scene.intersectionUpRight.y) && this.scene.intersectionUpLeft.y !== this.scene.intersectionUp.y)
+			{
+				this.y += Phaser.Math.Clamp(this.scene.intersectionUp.y-this.y+16, -150, 0);
+				this.x += 16;	
+			}
+			else if(Math.abs(this.scene.intersectionUpRight.y - this.y) < 150 && Math.abs(this.y - this.scene.intersectionUpLeft.y) > Math.abs(this.y - this.scene.intersectionUpRight.y) && this.scene.intersectionUpRight.y !== this.scene.intersectionUp.y)
+			{
+				this.y += Phaser.Math.Clamp(this.scene.intersectionUp.y-this.y+16, -150, 0);
+				this.x -= 16;	
+			}
+			else
+			{
+				this.y += Phaser.Math.Clamp(this.scene.intersectionUp.y-this.y+16, -150, 0);
+			}
+
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
 			});
@@ -553,7 +599,23 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastTeleport && this.timeFromLastTeleport + this.teleportCooldown >  getTimeStamp()){ return; }
 			this.scene.updateRaycastDown();
 			this.timeFromLastTeleport = getTimeStamp();
-			this.y += Phaser.Math.Clamp(this.scene.intersectionDown.y-this.y-16, 0, this.playerSpeed);
+
+			if(Math.abs(this.scene.intersectionDownLeft.y - this.y) < 150 && Math.abs(this.y - this.scene.intersectionDownLeft.y) < Math.abs(this.y - this.scene.intersectionDownRight.y) && this.scene.intersectionDownLeft.y !== this.scene.intersectionDown.y)
+			{
+				this.y += Phaser.Math.Clamp(this.scene.intersectionDown.y-this.y-16, 0, 150);
+				this.x += 16;
+			}
+			else if(Math.abs(this.scene.intersectionDownRight.y - this.y) < 150 && Math.abs(this.y - this.scene.intersectionDownLeft.y) > Math.abs(this.y - this.scene.intersectionDownRight.y) && this.scene.intersectionDownRight.y !== this.scene.intersectionDown.y)
+			{
+				this.y += Phaser.Math.Clamp(this.scene.intersectionDown.y-this.y-16, 0, 150);
+				this.x -= 16;
+			}
+			else
+			{
+				this.y += Phaser.Math.Clamp(this.scene.intersectionDown.y-this.y-16, 0, 150);
+			}
+
+
 			this.blink = this.scene.sound.add('blink', {
 				volume: 0.1,
 			});
