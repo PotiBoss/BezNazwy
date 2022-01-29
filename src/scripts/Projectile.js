@@ -31,6 +31,7 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite
 
 	destroyAnimation()
 	{
+		if(this.anims == undefined) {return;}
 		this.anims.play('projectileExplosion', true);
 	}
 

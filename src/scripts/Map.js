@@ -24,6 +24,15 @@ export default class Map
 		
 		const tileset = this.map.addTilesetImage('dungeon', 'tiles');
 		
+		this.teleporters = this.scene.physics.add.group({
+			classType: Teleporter
+		})
+		this.teleporterLayer = this.map.getObjectLayer('teleporter');
+
+		this.teleportIndex = 0;
+		this.teleporterLayer.objects.forEach(teleporterObject => {
+			this.teleporters.get(teleporterObject.x * 2 + teleporterObject.width, teleporterObject.y * 2 - teleporterObject.height, this.teleportIndex++); // * 2 bo skalowalem tilemape
+		})
 
 		this.ground = this.map.createLayer('ground', tileset).setScale(2,2);
 		this.walls = this.map.createLayer('walls', tileset).setScale(2,2);
@@ -114,15 +123,7 @@ export default class Map
 		this.activateColliders();
 
 
-		this.teleporters = this.scene.physics.add.group({
-			classType: Teleporter
-		})
-		this.teleporterLayer = this.map.getObjectLayer('teleporter');
 
-		this.teleportIndex = 0;
-		this.teleporterLayer.objects.forEach(teleporterObject => {
-			this.teleporters.get(teleporterObject.x * 2 + teleporterObject.width, teleporterObject.y * 2 - teleporterObject.height, this.teleportIndex++); // * 2 bo skalowalem tilemape
-		})
 
 	}
 

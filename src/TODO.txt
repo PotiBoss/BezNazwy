@@ -10,10 +10,11 @@ losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
 PRIO
 
-final tp // chyba done
-ending screen
-quit button
-tp do huba?
+final tp
+po zabiciu bossa podziekowania
+animacja szkieleta
+
+
 
 
 NON PRIO

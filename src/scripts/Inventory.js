@@ -107,7 +107,10 @@ export default class Inventory
 					repeat: 4,
 					callbackScope: this
 					});
-				this.scene.regenBuff = this.scene.add.image(this.scene.backgroundRegen.x, this.scene.backgroundRegen.y, 'pots', 1);
+				if(this.scene.regenBuff == undefined)
+				{
+					this.scene.regenBuff = this.scene.add.image(this.scene.backgroundRegen.x, this.scene.backgroundRegen.y, 'pots', 1);
+				}
 
 				var removeRegenPotion = this.scene.time.addEvent({ 
 					delay: 3000 * 4, 
@@ -118,7 +121,11 @@ export default class Inventory
 			case 'cooldownPotion':
 				this.scene.myPlayer.cooldownReduction = 0.6;	
 				if(cooldownReductionTimer != undefined) {cooldownReductionTimer.remove()}
-				this.scene.cooldownBuff = this.scene.add.image(this.scene.backgroundCooldown.x, this.scene.backgroundCooldown.y, 'pots', 4);
+				if(this.scene.cooldownBuff == undefined)
+				{
+					this.scene.cooldownBuff = this.scene.add.image(this.scene.backgroundCooldown.x, this.scene.backgroundCooldown.y, 'pots', 4);
+				}
+
 				var cooldownReductionTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
 					callback: this.cooldownReductionPotion, 
@@ -133,7 +140,10 @@ export default class Inventory
 					callback: this.speedPotion, 
 					callbackScope: this
 					});
-				this.scene.speedBuff = this.scene.add.image(this.scene.backgroundSpeed.x, this.scene.backgroundSpeed.y, 'pots', 2);
+				if(this.scene.speedBuff == undefined)
+				{
+					this.scene.speedBuff = this.scene.add.image(this.scene.backgroundSpeed.x, this.scene.backgroundSpeed.y, 'pots', 2);
+				}	
 				break;
 			case 'damagePotion':
 				if(attackDamageTimer != undefined) {attackDamageTimer.remove()}
@@ -143,11 +153,17 @@ export default class Inventory
 					callback: this.attackPotion, 
 					callbackScope: this
 					});
-				this.scene.damageBuff = this.scene.add.image(this.scene.backgroundDamage.x, this.scene.backgroundDamage.y, 'pots', 3);
+				if(this.scene.skillDamageBuff)
+				{
+					this.scene.damageBuff = this.scene.add.image(this.scene.backgroundDamage.x, this.scene.backgroundDamage.y, 'pots', 3);
+				}
 				break;
 			case 'skillDamagePotion':
 					this.scene.myPlayer.skillDamageBonus += 5;
-					this.scene.skillDamageBuff = this.scene.add.image(this.scene.backgroundSkillDamage.x, this.scene.backgroundSkillDamage.y, 'pots', 6);
+					if(this.scene.skillDamageBuff == undefined)
+					{
+						this.scene.skillDamageBuff = this.scene.add.image(this.scene.backgroundSkillDamage.x, this.scene.backgroundSkillDamage.y, 'pots', 6);
+					}
 						break;
 			case 'healthPotion':
 				this.scene.myPlayer.health += 25;
@@ -156,12 +172,22 @@ export default class Inventory
 				break;
 			case 'lifeStealPotion':
 				this.scene.myPlayer.lifesteal += 8;	
-				this.scene.lifeStealBuff = this.scene.add.image(this.scene.backgroundLifeSteal.x, this.scene.backgroundLifeSteal.y, 'pots', 8);		
+
+				if(this.scene.lifeStealBuff == undefined)
+				{
+					this.scene.lifeStealBuff = this.scene.add.image(this.scene.backgroundLifeSteal.x, this.scene.backgroundLifeSteal.y, 'pots', 8);	
+				}
+
 				break;
 			case 'projectileSpeedPotion':
 				if(projectileSpeedTimer != undefined) {projectileSpeedTimer.remove()}
 				this.scene.myPlayer.projectileSpeedBonus = 1.5;
-				this.scene.projectileSpeedBuff = this.scene.add.image(this.scene.backgroundProjectileSpeed.x, this.scene.backgroundProjectileSpeed.y, 'pots', 0);	
+
+				if(this.scene.projectileSpeedBuff == undefined)
+				{
+					this.scene.projectileSpeedBuff = this.scene.add.image(this.scene.backgroundProjectileSpeed.x, this.scene.backgroundProjectileSpeed.y, 'pots', 0);
+				}	
+
 				var projectileSpeedTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
 					callback: this.projectileSpeedPotion, 
@@ -171,7 +197,12 @@ export default class Inventory
 			case 'attackCooldownPotion':
 				if(attackCooldownTimer != undefined) {attackCooldownTimer.remove()}
 				this.scene.myPlayer.attackCooldownReduction = true;
-				this.scene.attackCooldownBuff = this.scene.add.image(this.scene.backgroundAttackCooldown.x, this.scene.backgroundAttackCooldown.y, 'pots', 5);	
+
+				if(this.scene.attackCooldownBuff == undefined)
+				{
+					this.scene.attackCooldownBuff = this.scene.add.image(this.scene.backgroundAttackCooldown.x, this.scene.backgroundAttackCooldown.y, 'pots', 5);	
+				}	
+
 				var attackCooldownTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
 					callback: this.attackCooldownPotion, 
@@ -182,7 +213,12 @@ export default class Inventory
 			case 'attackSpeedPotion':
 				if(attackSpeedTimer != undefined) {attackSpeedTimer.remove()}
 				this.scene.myPlayer.attackSpeedReduction = 0.4;
-				this.scene.attackSpeedBuff = this.scene.add.image(this.scene.backgroundAttackSpeed.x, this.scene.backgroundAttackSpeed.y, 'pots', 9);	
+
+					if(this.scene.attackSpeedBuff == undefined)
+					{
+						this.scene.attackSpeedBuff = this.scene.add.image(this.scene.backgroundAttackSpeed.x, this.scene.backgroundAttackSpeed.y, 'pots', 9);	
+					}
+				
 				var attackSpeedTimer = this.scene.time.addEvent({ 
 					delay: 5000, 
 					callback: this.attackSpeedPotion, 
@@ -201,70 +237,97 @@ export default class Inventory
 
 	speedPotion()
 	{
-		this.scene.myPlayer.playerSpeed = 150;
-		this.scene.speedBuff.x = 9999;
-		this.scene.speedBuff.y = 9999; 
-		this.scene.speedBuff = undefined;
+		if(this.scene.speedBuff != undefined)
+		{
+			this.scene.myPlayer.playerSpeed = 150;
+			this.scene.speedBuff.x = 9999;
+			this.scene.speedBuff.y = 9999; 
+			this.scene.speedBuff = undefined;
+		}
 	}
 
 	cooldownReductionPotion()
 	{
-		this.scene.myPlayer.cooldownReduction = 1.0;
-		this.scene.cooldownBuff.x = 9999;
-		this.scene.cooldownBuff.y = 9999; 
-		this.scene.cooldownBuff = undefined;
+		if(this.scene.cooldownBuff != undefined)
+		{
+			this.scene.myPlayer.cooldownReduction = 1.0;
+			this.scene.cooldownBuff.x = 9999;
+			this.scene.cooldownBuff.y = 9999; 
+			this.scene.cooldownBuff = undefined;	
+		}
 	}
 
 	attackPotion()
 	{
-		this.scene.myPlayer.damageBonus = 1.0;
-		this.scene.damageBuff.x = 9999;
-		this.scene.damageBuff.y = 9999; 
-		this.scene.damageBuff = undefined;
+		if(this.scene.damageBuff != undefined)
+		{
+			this.scene.myPlayer.damageBonus = 1.0;
+			this.scene.damageBuff.x = 9999;
+			this.scene.damageBuff.y = 9999; 
+			this.scene.damageBuff = undefined;
+		}
 	}
 
 	projectileSpeedPotion()
 	{
-		this.scene.myPlayer.projectileSpeedBonus = 1.0;
-		this.scene.projectileSpeedBuff.x = 9999;
-		this.scene.projectileSpeedBuff.y = 9999; 
-		this.scene.projectileSpeedBuff = undefined;
+		if(this.scene.projectileSpeedBuff != undefined)
+		{
+			this.scene.myPlayer.projectileSpeedBonus = 1.0;
+			this.scene.projectileSpeedBuff.x = 9999;
+			this.scene.projectileSpeedBuff.y = 9999; 
+			this.scene.projectileSpeedBuff = undefined;
+		}
 	}
 
 	attackCooldownPotion()
 	{
-		this.scene.myPlayer.attackCooldownReduction = false;
-		this.scene.attackCooldownBuff.x = 9999;
-		this.scene.attackCooldownBuff.y = 9999; 
-		this.scene.attackCooldownBuff = undefined;
+		if(this.scene.attackCooldownBuff != undefined)
+		{
+			this.scene.myPlayer.attackCooldownReduction = false;
+			this.scene.attackCooldownBuff.x = 9999;
+			this.scene.attackCooldownBuff.y = 9999; 
+			this.scene.attackCooldownBuff = undefined;
+		}
 	}
 
 	attackSpeedPotion()
 	{
-		this.scene.myPlayer.attackSpeedReduction = 1.0;
-		this.scene.attackSpeedBuff.x = 9999;
-		this.scene.attackSpeedBuff.y = 9999; 
-		this.scene.attackSpeedBuff = undefined;
+		if(this.scene.attackSpeedBuff != undefined)
+		{
+			this.scene.myPlayer.attackSpeedReduction = 1.0;
+			this.scene.attackSpeedBuff.x = 9999;
+			this.scene.attackSpeedBuff.y = 9999; 
+			this.scene.attackSpeedBuff = undefined;
+		}
 	}
 
 	removeHealthRegenPotion()
 	{
-		this.scene.regenBuff.x = 9999;
-		this.scene.regenBuff.y = 9999; 
-		this.scene.regenBuff = undefined;
+		if(this.scene.regenBuff != undefined)
+		{
+			this.scene.regenBuff.x = 9999;
+			this.scene.regenBuff.y = 9999; 
+			this.scene.regenBuff = undefined;
+		}
 	}
 
 	removeSkillDamagePotion()
 	{
-		this.scene.skillDamageBuff.x = 9999;
-		this.scene.skillDamageBuff.y = 9999; 
-		this.scene.skillDamageBuff = undefined;
+		if(this.scene.skillDamageBuff != undefined)
+		{
+			this.scene.skillDamageBuff.x = 9999;
+			this.scene.skillDamageBuff.y = 9999; 
+			this.scene.skillDamageBuff = undefined;
+		}
 	}
 
 	removeLifeStealPotion()
 	{
-		this.scene.lifeStealBuff.x = 9999;
-		this.scene.lifeStealBuff.y = 9999; 
-		this.scene.lifeStealBuff = undefined;
+		if(this.scene.lifeStealBuff)
+		{
+			this.scene.lifeStealBuff.x = 9999;
+			this.scene.lifeStealBuff.y = 9999; 
+			this.scene.lifeStealBuff = undefined;
+		}
 	}
 }

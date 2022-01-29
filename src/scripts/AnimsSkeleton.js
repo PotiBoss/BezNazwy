@@ -10,7 +10,7 @@ export default anims => {
 		key: 'skeletonBackAnim',
 		frames: anims.generateFrameNames('skeletonBack'),
 		repeat: -1,
-		frameRate: 10``
+		frameRate: 10
 	}) 
 
 	anims.create({

@@ -76,7 +76,7 @@ export default class ScenePreload extends Phaser.Scene
 
 	//	this.load.image('tiles', 'assets/dungeon_tiles.png'); //TESTMAPA
 	//	this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json'); //TESTMAPA
-		this.load.tilemapTiledJSON('dungeon', 'assets/owo9.json'); //NORMALNA
+		this.load.tilemapTiledJSON('dungeon', 'assets/owo10.json'); //NORMALNA
 		this.load.image('tiles', 'assets/tileset.png'); //NORMALNA
 
 		this.load.spritesheet('tilesSheet', 'assets/tileset.png',{frameWidth:16,frameHeight:16});

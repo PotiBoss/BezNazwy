@@ -143,6 +143,7 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 	
 	handleState(deltaTime)
 	{
+		if(this.body == undefined){return;}
 
 		if(this.enemyHealth <= 0)
 		{

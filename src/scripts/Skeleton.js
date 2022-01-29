@@ -1,4 +1,4 @@
-import initAnims from './AnimsEnemy'
+import initAnims from './AnimsSkeleton'
 import EnemyBase from './EnemyBase';
 import { getTimeStamp } from './GetTimeStamp';
 
@@ -99,6 +99,30 @@ export default class Skeleton extends EnemyBase
 		this.myPlayer = this.scene.myPlayer
 		if(this.myPlayer != undefined)
 		{
+
+			this.enemyPlayerOffsetX = this.x - this.scene.myPlayer.x;
+			this.enemyPlayerOffsetY = this.y - this.scene.myPlayer.y;
+
+			if(this.enemyPlayerOffsetX >= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY)) //lewo
+			{
+				this.flipX = true;
+				this.anims.play('skeletonSideAnim', true);
+			}
+			else if(this.enemyPlayerOffsetY <= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX)) //dol
+			{
+				this.anims.play('skeletonFrontAnim', true);
+			}
+			else if(this.enemyPlayerOffsetX <= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY)) //prawo 
+			{
+				this.flipX = false;
+				this.anims.play('skeletonSideAnim', true);
+			}
+			else if(this.enemyPlayerOffsetY >= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX))
+			{
+				this.anims.play('skeletonBackAnim', true);
+			} 
+
+
 			if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
 			{
 				this.scene.physics.moveToObject(this, this.myPlayer, this.enemySpeed);

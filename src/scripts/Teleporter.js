@@ -10,7 +10,7 @@ export default class Teleporter extends Phaser.Physics.Arcade.Sprite
 
 		this.create();
 
-		this.setScale(2,2)
+		this.setScale(3,3)
 
 
 		this.startIndex = index;
