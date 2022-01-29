@@ -57,11 +57,15 @@ export default class SceneInventory extends Phaser.Scene
 			this.refresh();
 		})
 		this.input.keyboard.on('keydown-F', () => {
+			if(this.mainScene.myPlayer.healthState != 0) {return;}
 			if(this.inventory.getItem(this.inventory.currentItem))
 			{
+				this.drink= this.sound.add('potion', {
+					volume: 0.12,
+				});
+				this.drink.play();
 				this.inventory.drinkPotion(this.inventory.getItem(this.inventory.currentItem).name);
-				this.inventory.removeItem(this.inventory.getItem(this.inventory.currentItem).name);
-				
+				this.inventory.removeItem(this.inventory.getItem(this.inventory.currentItem).name);	
 			}
 		});
 

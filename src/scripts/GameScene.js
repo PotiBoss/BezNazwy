@@ -38,7 +38,7 @@ export default class GameScene extends Phaser.Scene
 	
 		//this.spawnEnemy();
 
-		this.setupFOV();
+		//this.setupFOV();
 		this.events.on(Phaser.Scenes.Events.POST_UPDATE, this.lateUpdate, this)
 		//this.createFOW();
 
@@ -46,12 +46,15 @@ export default class GameScene extends Phaser.Scene
 		this.gameHeight = this.sys.game.config.height;
 		
 		this.gameBGM = this.sound.add('gameBGM', {
-			volume: 0.05,
+			volume: 0.00,
 			loop: true
 		});
 		this.gameBGM.play();
 
 		this.addBackgroundBuffs();
+
+		this.endingFlag = false;
+		this.bossFlag = false;
 	}
 
 	update(time, deltaTime)
@@ -61,7 +64,7 @@ export default class GameScene extends Phaser.Scene
 		this.myPlayer.handleState(deltaTime);
 		this.myPlayer.handleAttack();
 
-		this.updateFOV();
+		//this.updateFOV();
 		//this.updateFOW();
 
 		//console.log(this.myPlayer.x)
@@ -179,6 +182,7 @@ export default class GameScene extends Phaser.Scene
 			else
 			{
 				this.isCraftingActive = true;
+				this.myPlayer.setVelocity(0,0)
 				this.scene.run('SceneCrafting', {mainScene: this});
 				sceneEvents.emit('startCrafting');
 			}
@@ -264,6 +268,8 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.overlap(this.myPlayer, this.currentMap.teleporters, this.handlePlayerTeleporterCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.enemyProj, this.handlePlayerProjectilesCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.walls, this.handleBombsWallsCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer.potions, this.currentMap.walls, this.handlePotionsWallsCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.door, this.handlePlayerDoorCollision, undefined, this);
 		//skeleton
 		this.physics.add.collider(this.currentMap.skeletons, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.skeletons, this.handlePlayerEnemyCollision, undefined, this);
@@ -495,15 +501,14 @@ export default class GameScene extends Phaser.Scene
 
 
 		this.raycaster.mapGameObjects(this.currentMap.walls, false, {
-			collisionTiles: [14,15,16,17,18,33,34,35,36,37,52,53,54,55,56,71,72,73,74,75,79,80,81,82,98,99,100,101,117,118,119,120,163,182,361,362,363,364,365,366,367,368,369,
+			collisionTiles: [14,15,16,17,18,33,34,35,36,37,52,53,54,55,56,71,72,73,74,75,79,80,81,82,98,99,100,101,117,118,119,120,163,164,165,166,167,168,169,170,361,362,363,364,365,366,367,368,369,
 				370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,
 				408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,
 				446,447,448,449,450,451,452,453,454,455,456,457,458,459,460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479,480,481,482,483,
 				484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499,500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,517,518,519,520,521,
 				522,523,524,525,526,527,528,529,530,531,532,533,534,535,536,537,538,539,540,541,542,543,544,545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,
 				560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576,577,578,579,580,581,582,583,584,585,586,587,588,589,590,591,592,593,594,595,596,597,
-				598,601,602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,618,620,621,622,623,624,632,633,634,635,636,637,638
-			] //ID tilow z Tiled NA 323 KONEIC 81 100 119
+				598,601,602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,618,620,621,622,623,624,632,633,634,635,636,637,638] 
 		});
 		
 		
@@ -756,6 +761,10 @@ export default class GameScene extends Phaser.Scene
 	{	
 		this.myPlayer.inventory.addItem({name: 'healthHerb', quantity: 1});
 		this.add.sprite(item.x, item.y, 'pots', 17);
+		this.pickUp = this.sound.add('pickUp', {
+			volume: 0.1,
+		});
+		this.pickUp.play();
 		item.destroy();
 	}
 
@@ -763,6 +772,10 @@ export default class GameScene extends Phaser.Scene
 	{	
 		this.myPlayer.inventory.addItem({name: 'cooldownHerb', quantity: 1});
 		this.add.sprite(item.x, item.y, 'pots', 18);
+		this.pickUp = this.sound.add('pickUp', {
+			volume: 0.1,
+		});
+		this.pickUp.play();
 		item.destroy();
 	}
 
@@ -770,6 +783,10 @@ export default class GameScene extends Phaser.Scene
 	{	
 		this.myPlayer.inventory.addItem({name: 'speedHerb', quantity: 1});
 		this.add.sprite(item.x, item.y, 'pots', 19);
+		this.pickUp = this.sound.add('pickUp', {
+			volume: 0.1,
+		});
+		this.pickUp.play();
 		item.destroy();
 	}
 
@@ -777,6 +794,10 @@ export default class GameScene extends Phaser.Scene
 	{	
 		this.myPlayer.inventory.addItem({name: 'damageHerb', quantity: 1});
 		this.add.sprite(item.x, item.y, 'pots', 15);
+		this.pickUp = this.sound.add('pickUp', {
+			volume: 0.1,
+		});
+		this.pickUp.play();
 		item.destroy();
 	}
 
@@ -848,6 +869,11 @@ export default class GameScene extends Phaser.Scene
 		enemy.enemyHealth -= projectile.projectileDamage;
 		enemy.updateHP();
 
+		this.collsionSound = this.sound.add('projectileHit', {
+			volume: 0.1,
+		});
+		this.collsionSound.play();
+
 		this.timerEnemyDamaged = this.time.addEvent({ 
 			delay: 1000, 
 			callback: enemy.clearTint, 
@@ -900,6 +926,22 @@ export default class GameScene extends Phaser.Scene
 	handleBombsWallsCollision(explosion, wall)
 	{
 		explosion.explode(this.myPlayer);
+	}
+
+	handlePotionsWallsCollision(potion, wall)
+	{
+		potion.destroyPotion(wall);
+	}
+
+	handlePlayerDoorCollision(player, door)
+	{
+		if(this.endingFlag == false && this.bossFlag == true)
+		{
+			this.myPlayer.healthState = 2;
+			this.myPlayer.anims.stop();
+			this.endingFlag = true;
+			sceneEvents.emit('gameCleared');
+		}
 	}
 }
 

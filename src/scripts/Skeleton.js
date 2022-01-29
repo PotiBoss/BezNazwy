@@ -16,6 +16,7 @@ export default class Skeleton extends EnemyBase
 
 		this.body.onCollide = true;
 
+
 		this.scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this);
 
 		this.create();	
@@ -26,7 +27,7 @@ export default class Skeleton extends EnemyBase
 		this.enemySpeed = 100;
 		this.enemyMaxHealth = 30;
 		this.enemyHealth = 30;
-		this.visionRange = 420;
+		this.visionRange = 450;
 
 		this.setupDirections();
 		this.currentDirection = this.right;

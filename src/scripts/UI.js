@@ -32,15 +32,17 @@ export default class UI extends Phaser.Scene
 		this.welcomeMsg();
 
 		sceneEvents.on('playerDeath', this.pressF5, this);
+		sceneEvents.on('gameCleared', this.gameCleared, this);
 
 		this.events.on(Phaser.Scenes.Events.SHUTDOWN, () => {
 			sceneEvents.off('playerDeath', this.pressF5, this);
+			sceneEvents.off('gameCleared', this.gameCleared, this);
 		})
 	}
 
 	welcomeMsg()
 	{
-		this.msg = ["STEROWANIE:\nC - opens crafting menu on workbench\nV - crafts potion in crafting menu\nT - teleports on teleport", "I - opens bigger inventory\nF - drinks a potion"];
+		this.msg = ["STEROWANIE:\nC - opens crafting menu on workbench\nV - crafts potion in crafting menu\nT - teleports on teleport\nI - opens bigger inventory\nF - drinks a potion"];
 		this.dialog.init(this.msg);
 		this.dialog.setText(this.msg[0], true);
 	}
@@ -57,6 +59,13 @@ export default class UI extends Phaser.Scene
 		this.msg3 = ["Game Over \nPlease refresh this page UwU"];
 		this.dialog.init(this.msg3);
 		this.dialog.setText(this.msg3[0], true);
+	}
+
+	gameCleared()
+	{
+		this.msg4 = ["You Won!\nThanks for playing"];
+		this.dialog.init(this.msg4);
+		this.dialog.setText(this.msg4[0], true);	
 	}
 
 	handlePlayerHealthChanged(health)

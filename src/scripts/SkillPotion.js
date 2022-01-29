@@ -39,7 +39,7 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 	{ 
 		this.timer.remove();
 		this.potionBreak = this.scene.sound.add('potionBreak', {
-			volume: 0.1,
+			volume: 0.035,
 		});
 		this.potionBreak.play();
 

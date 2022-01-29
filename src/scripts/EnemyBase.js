@@ -130,6 +130,7 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 	
 	applyBurnDamage()
 	{
+		if(this.scene == undefined || this ==undefined) {return;}
 		this.enemyHealth = this.enemyHealth - 5;
 		this.updateHP();
 

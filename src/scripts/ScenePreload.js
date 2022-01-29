@@ -138,8 +138,7 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.image('ciastko', 'assets/Ciastko.png')
 
 		this.load.audio('menuBGM', [
-			'audio/determination.ogg',
-			'audio/determination.mp3'
+			'audio/menuBGM.ogg'
 		]);
 
 		this.load.audio('gameBGM', [
@@ -151,7 +150,7 @@ export default class ScenePreload extends Phaser.Scene
 		]);
 
 		this.load.audio('blink', [
-			'audio/blink.mp3'
+			'audio/blink.ogg'
 		]);
 
 		this.load.audio('skeletonSpawn', [
@@ -164,6 +163,18 @@ export default class ScenePreload extends Phaser.Scene
 
 		this.load.audio('playerDamaged', [
 			'audio/playerDamaged.mp3'
+		]);
+
+		this.load.audio('pickUp', [
+			'audio/pickUp.ogg'
+		]);
+		
+		this.load.audio('potion', [
+			'audio/potion.ogg'
+		]);
+		
+		this.load.audio('projectileHit', [
+			'audio/projectileHit.ogg'
 		]);
 	}
 

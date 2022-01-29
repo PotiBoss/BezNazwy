@@ -10,7 +10,7 @@ export default class Teleporter extends Phaser.Physics.Arcade.Sprite
 
 		this.create();
 
-		this.setScale(3,3)
+		this.setScale(3,3);
 
 
 		this.startIndex = index;
@@ -26,6 +26,7 @@ export default class Teleporter extends Phaser.Physics.Arcade.Sprite
 	{	
 		this.scene.input.keyboard.on('keydown-T', () => 
 		{ 
+			if(this.scene.myPlayer.healthState != 0) {return;}
 			this.scene.input.keyboard.resetKeys();
 			this.teleporting(player);
 		});

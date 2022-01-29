@@ -12,10 +12,7 @@ PRIO
 
 final tp
 po zabiciu bossa podziekowania
-animacja szkieleta
-
-
-
+muzyka
 
 NON PRIO
 offset dla rzutu potka

@@ -61,12 +61,11 @@ export default class SceneMenu extends Phaser.Scene {
 		});
 
 		this.menuBGM = this.sound.add('menuBGM', {
-			volume: 0.1,
+			volume: 0.08,
 			loop: true
 		});
 		this.menuBGM.play();
 	}
-
 
 	usedAssets()
 	{
@@ -74,6 +73,4 @@ export default class SceneMenu extends Phaser.Scene {
 		this.dialog.init(this.msg);
 		this.dialog.setText(this.msg[0], true);
 	}
-
-
 }

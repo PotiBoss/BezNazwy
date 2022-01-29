@@ -459,7 +459,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.x += Phaser.Math.Clamp(this.scene.intersectionRightDown.x-this.x-16, 0, 150) / this.square2;
 			this.y += Phaser.Math.Clamp(this.scene.intersectionRightDown.y-this.y-16, 0, 150) / this.square2;
 			this.blink = this.scene.sound.add('blink', {
-				volume: 0.1,
+				volume: 0.035,
 			});
 			this.blink.play();
 			this.destroyTeleport();
@@ -473,7 +473,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.x += Phaser.Math.Clamp(this.scene.intersectionLeftDown.x-this.x+16, -150, 0) / this.square2;
 			this.y += Phaser.Math.Clamp(this.scene.intersectionLeftDown.y-this.y-16, 0, 150) / this.square2;
 			this.blink = this.scene.sound.add('blink', {
-				volume: 0.1,
+				volume: 0.035,
 			});
 			this.blink.play();
 			this.destroyTeleport();
@@ -487,7 +487,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.x += Phaser.Math.Clamp(this.scene.intersectionLeftUp.x-this.x+16, -150, 0) / this.square2;
 			this.y += Phaser.Math.Clamp(this.scene.intersectionLeftUp.y-this.y+16, -150, 0) / this.square2;
 			this.blink = this.scene.sound.add('blink', {
-				volume: 0.1,
+				volume: 0.035,
 			});
 			this.blink.play();
 			this.destroyTeleport();
@@ -501,7 +501,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.x += Phaser.Math.Clamp(this.scene.intersectionRightUp.x-this.x-16, 0, 150) / this.square2;
 			this.y += Phaser.Math.Clamp(this.scene.intersectionRightUp.y-this.y+16, -150, 0) / this.square2;
 			this.blink = this.scene.sound.add('blink', {
-				volume: 0.1,
+				volume: 0.035,
 			});
 			this.blink.play();
 			this.destroyTeleport();	
@@ -531,7 +531,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			}
 
 			this.blink = this.scene.sound.add('blink', {
-				volume: 0.1,
+				volume: 0.035,
 			});
 			this.blink.play();
 
@@ -560,7 +560,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			}
 
 			this.blink = this.scene.sound.add('blink', {
-				volume: 0.1,
+				volume: 0.035,
 			});
 			this.blink.play();
 			this.destroyTeleport();
@@ -588,7 +588,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			}
 
 			this.blink = this.scene.sound.add('blink', {
-				volume: 0.1,
+				volume: 0.035,
 			});
 			this.blink.play();
 			this.destroyTeleport();
@@ -617,7 +617,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 
 			this.blink = this.scene.sound.add('blink', {
-				volume: 0.1,
+				volume: 0.035,
 			});
 			this.blink.play();
 			this.destroyTeleport();
@@ -654,6 +654,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 	{
 		this.scene.input.on('pointerdown', (pointer) => 
 		{
+			if(this.healthState != this.unharmed) {return;}
 			this.date = new Date();
 			if(this.timeFromLastShot && this.timeFromLastShot + this.fireRate * this.attackSpeedReduction >  this.date){ return; }
 			this.timeFromLastShot = getTimeStamp();
@@ -680,8 +681,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	potionThrow()
 	{
+		
 		this.scene.input.keyboard.on('keydown-Q', () => 
-		{
+		{ 
+			if(this.healthState != this.unharmed) {return;}
 			this.date = new Date();
 			if(this.timeFromLastPotion && this.timeFromLastPotion + this.potionCooldown * this.cooldownReduction >  this.date){ return; }
 			//this.potionHand = new PotionInHand(this.scene, this);
@@ -712,8 +715,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 	bombThrow()
 	{
+		
 		this.scene.input.keyboard.on('keydown-E', () => 
 		{
+			if(this.healthState != this.unharmed) {return;}
 			this.date2 = new Date();
 			if(this.timeFromLastBomb && this.timeFromLastBomb + this.bombCooldown * this.cooldownReduction >  this.date2){ return; }
 			this.timeFromLastBomb = getTimeStamp();

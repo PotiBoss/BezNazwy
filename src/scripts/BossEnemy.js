@@ -20,8 +20,8 @@ export default class BossEnemy extends EnemyBase
 		this.scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this);
 		this.setupDirections();
 
-		this.enemyMaxHealth = 30;
-		this.enemyHealth = 30;	
+		this.enemyMaxHealth = 6;
+		this.enemyHealth = 6;	
 		this.enemySpeed = 10;
 		
 		this.visionRange = 300;
@@ -54,7 +54,7 @@ export default class BossEnemy extends EnemyBase
 			this.changeDirection()
 		}
 
-		//this.chasePlayer();  //TODO: WLACZYC
+		this.chasePlayer();  //TODO: WLACZYC
 
 		this.healthbar.preUpdate();
 		
@@ -176,6 +176,7 @@ export default class BossEnemy extends EnemyBase
 
 	destroy()
 	{
+		this.scene.bossFlag = true;
 		this.dead = true;
 		super.destroy();
 	}

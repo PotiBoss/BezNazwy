@@ -117,8 +117,13 @@ export default class Map
 			let boss = this.boss.get(this.scene, object.x * 2, object.y * 2);
 		})
 
+		this.endDoorLayer = this.map.getObjectLayer('endingdoor');
+		this.door = this.scene.physics.add.staticGroup();
+		this.endDoorLayer.objects.forEach(object => {
+			let dur = this.door.create(object.x * 2, object.y * 2, 'pots', 10) ; 
+		})
 
-
+		this.door.setVisible(false);
 
 		this.activateColliders();
 
