@@ -30,6 +30,9 @@ export default class GameScene extends Phaser.Scene
 		this.isCraftingActive = false;
 		this.fullWidth = 300;
 
+		this.teleportPoints = 500;
+		this.activatedTeleport = false;
+
 		this.deathFlag = false;
 
 		this.spawnPlayer();
@@ -52,6 +55,11 @@ export default class GameScene extends Phaser.Scene
 		this.gameBGM.play();
 
 		this.addBackgroundBuffs();
+
+		this.nothornyFirst = false;
+		this.nothornySecond = false;
+		this.hornyFirst = false;
+		this.hornySecond = false;
 
 		this.endingFlag = false;
 		this.bossFlag = false;
@@ -270,6 +278,9 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.walls, this.handleBombsWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer.potions, this.currentMap.walls, this.handlePotionsWallsCollision, undefined, this);
 		this.physics.add.collider(this.myPlayer, this.currentMap.door, this.handlePlayerDoorCollision, undefined, this);
+		this.physics.add.overlap(this.myPlayer, this.currentMap.teleportersFinal, this.handlePlayerTeleporterCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.npcHorny, this.handlePlayerNPCHornyCollision, undefined, this);
+		this.physics.add.collider(this.myPlayer, this.currentMap.npcNotHorny, this.handlePlayerNPCNotHornyCollision, undefined, this);
 		//skeleton
 		this.physics.add.collider(this.currentMap.skeletons, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.skeletons, this.handlePlayerEnemyCollision, undefined, this);
@@ -943,5 +954,54 @@ export default class GameScene extends Phaser.Scene
 			sceneEvents.emit('gameCleared');
 		}
 	}
+
+	handlePlayerNPCNotHornyCollision(player, npc)
+	{
+		if(this.nothornyFirst == false)
+		{
+			this.myPlayer.x +=25;
+			this.myPlayer.y -=25;
+			this.nothornyFirst = true;
+			sceneEvents.emit('NothornyFirst');
+		}
+		else if(this.nothornySecond == false)
+		{
+			this.myPlayer.x +=25;
+			this.myPlayer.y -=25;
+			this.nothornySecond = true;
+			sceneEvents.emit('NothornySecond');
+		}
+		else 
+		{
+			this.myPlayer.x +=25;
+			this.myPlayer.y -=25;
+			sceneEvents.emit('NothornyThird');
+		}
+	}
+
+	handlePlayerNPCHornyCollision(player, npc)
+	{
+		if(this.hornyFirst == false)
+		{
+			this.myPlayer.x -=25;
+			this.myPlayer.y +=25;
+			this.hornyFirst = true;
+			sceneEvents.emit('hornyFirst');
+		}
+		else if(this.hornySecond == false)
+		{
+			this.myPlayer.x -=25;
+			this.myPlayer.y +=25;
+			this.hornySecond = true;
+			sceneEvents.emit('hornySecond');
+		}
+		else 
+		{
+			this.myPlayer.x -=25;
+			this.myPlayer.y +=25;
+			sceneEvents.emit('hornyThird');
+		}
+	}
 }
+
 

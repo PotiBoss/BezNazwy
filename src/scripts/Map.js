@@ -6,6 +6,7 @@ import Teleporter from "./Teleporter";
 import Necromancer from "./Necromancer";
 import RangeEnemy from "./RangeEnemy";
 import BossEnemy from "./BossEnemy";
+import TeleporterFinal from "./TeleporterFinal";
 
 export default class Map
 {
@@ -34,6 +35,16 @@ export default class Map
 			this.teleporters.get(teleporterObject.x * 2 + teleporterObject.width, teleporterObject.y * 2 - teleporterObject.height, this.teleportIndex++); // * 2 bo skalowalem tilemape
 		})
 
+		this.teleportersFinal = this.scene.physics.add.group({
+			classType: TeleporterFinal
+		})
+		this.teleporterLayerFinal = this.map.getObjectLayer('teleporterFinal');
+
+		this.teleportIndexFinal = 0;
+		this.teleporterLayerFinal.objects.forEach(teleporterObject => {
+			this.teleportersFinal.get(teleporterObject.x * 2 + teleporterObject.width, teleporterObject.y * 2 - teleporterObject.height, this.teleportIndexFinal++); // * 2 bo skalowalem tilemape
+		})
+
 		this.ground = this.map.createLayer('ground', tileset).setScale(2,2);
 		this.walls = this.map.createLayer('walls', tileset).setScale(2,2);
 	
@@ -60,7 +71,7 @@ export default class Map
 		this.speedBushLayer = this.map.getObjectLayer('speedBushes');
 		this.speedBush = this.scene.physics.add.staticGroup();
 		this.speedBushLayer.objects.forEach(object => {
-			let speedBush = this.speedBush.create(object.x * 2, object.y * 2, 'pots', 14) ; 
+			let speedBush = this.speedBush.create(object.x * 2, object.y * 2, 'pots', 14).setScale(1.5) ; 
 		})
 
 		this.damageBushLayer = this.map.getObjectLayer('damageBushes');
@@ -124,6 +135,20 @@ export default class Map
 		})
 
 		this.door.setVisible(false);
+
+		
+		this.npcHornyLayer = this.map.getObjectLayer('npcHorny');
+		this.npcHorny = this.scene.physics.add.staticGroup();
+		this.npcHornyLayer.objects.forEach(object => {
+			let dur = this.npcHorny.create(object.x * 2, object.y * 2, 'npcHorny') ; 
+		})
+
+		
+		this.npcNotHornyLayer = this.map.getObjectLayer('npcNotHorny');
+		this.npcNotHorny = this.scene.physics.add.staticGroup();
+		this.npcNotHornyLayer.objects.forEach(object => {
+			let dur = this.npcNotHorny.create(object.x * 2, object.y * 2, 'npcNotHorny') ; 
+		})
 
 		this.activateColliders();
 

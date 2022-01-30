@@ -1,12 +1,4 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"owo11.json"
-        }
-    },
  "height":310,
  "infinite":false,
  "layers":[

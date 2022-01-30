@@ -13,4 +13,18 @@ export default anims => {
 		frameRate: 36
 	})
 
+	anims.create({
+		key: 'potionSideBlue',
+		frames: anims.generateFrameNames('potionSideBlue'),
+		repeat: -1,
+		frameRate: 36
+	})
+
+	anims.create({
+		key: 'potionFrontBlue',
+		frames: anims.generateFrameNames('potionFrontBlue'),
+		repeat: -1,
+		frameRate: 36
+	})
+
 }

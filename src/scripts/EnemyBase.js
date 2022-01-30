@@ -1,5 +1,6 @@
 import { getTimeStamp } from './GetTimeStamp';
 import HealthBar from './HealthBar';
+import { sceneEvents } from './EventCommunicator';
 
 export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 {
@@ -185,6 +186,16 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 
 	destroy()
 	{
+		this.scene.myPlayer.points += 25;
+
+		console.log(this.scene.teleportPoints - this.scene.myPlayer.points)
+
+		if(this.scene.myPlayer.points >= this.scene.teleportPoints)
+		{
+			this.scene.activatedTeleport = true;
+			sceneEvents.emit('teleportActivated');
+		}
+
 		super.destroy();
 	}
 

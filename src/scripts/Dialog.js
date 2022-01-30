@@ -252,8 +252,6 @@ setText: function (text, animate) {
 	});
 
 	this.textScroll.play();
-
-
   },
 
   _animateText: function () {
@@ -261,6 +259,7 @@ setText: function (text, animate) {
 	this.text.setText(this.text.text + this.dialog[this.eventCounter - 1]);
 	if (this.eventCounter === this.dialog.length) {
 	  this.timedEvent.remove();
+	  this.textScroll.stop();
 	}
   },
 };

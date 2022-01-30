@@ -8,12 +8,13 @@ losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
 PRIO
 
-final tp
 muzyka
 
 naprawic movement
 teleport od klawiszy nie velocity
-naprawic text scroll
+
+RESPAWN PRZECIWNIKOW
+
 
 NON PRIO
 offset dla rzutu potka

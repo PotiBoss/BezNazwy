@@ -38,6 +38,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.damageTime = 0;
 		this.damagedInvulnerability = 500;
 
+		this.points = 0;
+
 		this.fireRate = 1000;
 		this.timeFromLastShot = null;
 
@@ -182,7 +184,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.setVelocityX(this.playerSpeed);
 			this.setVelocityY(-this.playerSpeed);
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side')  && (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side'))
 			{
 				this.anims.play('run-Up', true);
 			}
@@ -192,7 +194,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.setVelocityX(this.playerSpeed);
 			this.setVelocityY(this.playerSpeed);
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side')&& (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side'))
 			{
 				this.anims.play('run-Down', true);
 			}
@@ -203,7 +205,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			this.setVelocityX(-this.playerSpeed);
 			this.setVelocityY(this.playerSpeed);
 			this.flipX = true;
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side')&& (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side'))
 			{
 				this.anims.play('run-Down', true);
 			}
@@ -213,7 +215,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.setVelocityX(-this.playerSpeed);
 			this.setVelocityY(-this.playerSpeed);
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side')&& (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side'))
 			{
 				this.anims.play('run-Up', true);
 			}
@@ -223,7 +225,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.setVelocityX(-this.playerSpeed);
 			this.flipX = true;
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side')&& (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side'))
 			{
 				this.anims.play('run-Side', true);
 			}
@@ -233,7 +235,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		{
 			this.setVelocityX(this.playerSpeed);
 			this.flipX = false;
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side')&& (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side'))
 			{
 				this.anims.play('run-Side', true);
 			}
@@ -242,7 +244,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		else if(this.keyW.isDown)
 		{
 			this.setVelocityY(-this.playerSpeed);
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side')&& (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side'))
 			{
 				this.anims.play('run-Up', true);
 			}
@@ -251,7 +253,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		else if(this.keyS.isDown)
 		{
 			this.setVelocityY(this.playerSpeed);
-			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side'))
+			if(this.anims.currentAnim != null && (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side') && (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side') && (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side'))
 			{
 				this.anims.play('run-Down', true);
 			}
@@ -262,6 +264,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.anims.currentAnim != null 
 				&& (this.anims.currentAnim.key != 'throw-Up' && this.anims.currentAnim.key != 'throw-Down' && this.anims.currentAnim.key != 'throw-Side')
 				&& (this.anims.currentAnim.key != '2throw-Up' && this.anims.currentAnim.key != '2throw-Down' && this.anims.currentAnim.key != '2throw-Side')
+				&& (this.anims.currentAnim.key != '3throw-Up' && this.anims.currentAnim.key != '3throw-Down' && this.anims.currentAnim.key != '3throw-Side')
 				&& this.healthState != 2)
 			{
 				const parts = this.anims.currentAnim.key.split('-')
@@ -355,50 +358,106 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		if(this.angleDetla > -22.5 &&  this.angleDetla <= 22.5)
 		{
 			this.flipX = false;
-			this.anims.play('throw-Side', true);
+			if(this.currentPotion == 0)
+			{
+				this.anims.play('throw-Side', true);
+			}
+			else
+			{
+				this.anims.play('throw-Side', true);
+			}
 			this.potionAnimation = 'potionSide';
 			this.bombAnimation = 'bombSide';
 		}
 		else if( this.angleDetla > 22.5 && this.angleDetla <= 67.5)
 		{
-			this.anims.play('throw-Down', true);
+			if(this.currentPotion == 0)
+			{
+				this.anims.play('2throw-Down', true);
+			}
+			else
+			{
+				this.anims.play('throw-Down', true);
+			}
 			this.potionAnimation = 'potionFront';
 			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > 67.5 && this.angleDetla <= 112.5)
 		{
-			this.anims.play('throw-Down', true);
+			if(this.currentPotion == 0)
+			{
+				this.anims.play('2throw-Down', true);
+			}
+			else
+			{
+				this.anims.play('throw-Down', true);
+			}
 			this.potionAnimation = 'potionFront';
 			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > 112.5 && this.angleDetla <= 157.5)
 		{
-			this.anims.play('throw-Down', true);
+			if(this.currentPotion == 0)
+			{
+				this.anims.play('2throw-Down', true);
+			}
+			else
+			{
+				this.anims.play('throw-Down', true);
+			}
 			this.potionAnimation = 'potionFront';
 			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > 157.5 || this.angleDetla <= -157.5)
 		{
 			this.flipX = true;
-			this.anims.play('throw-Side', true);
+			if(this.currentPotion == 0)
+			{
+				this.anims.play('2throw-Side', true);
+			}
+			else
+			{
+				this.anims.play('throw-Side', true);
+			}
 			this.potionAnimation = 'potionSide';
 			this.bombAnimation = 'bombSide';
 		}
 		else if( this.angleDetla > -157.5 && this.angleDetla <= -112.5)
 		{
-			this.anims.play('throw-Up', true);
+			if(this.currentPotion == 0)
+			{
+				this.anims.play('2throw-Up', true);
+			}
+			else
+			{
+				this.anims.play('throw-Up', true);
+			}
 			this.potionAnimation = 'potionFront';
 			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > -112.5 && this.angleDetla <= -67.5)
 		{
-			this.anims.play('throw-Up', true);
+			if(this.currentPotion == 0)
+			{
+				this.anims.play('2throw-Up', true);
+			}
+			else
+			{
+				this.anims.play('throw-Up', true);
+			}
 			this.potionAnimation = 'potionFront';
 			this.bombAnimation = 'bombFront';
 		}
 		else if( this.angleDetla > -67.5 && this.angleDetla <= -22.5)
 		{
-			this.anims.play('throw-Up', true);
+			if(this.currentPotion == 0)
+			{
+				this.anims.play('2throw-Up', true);
+			}
+			else
+			{
+				this.anims.play('throw-Up', true);
+			}
 			this.potionAnimation = 'potionFront';
 			this.bombAnimation = 'bombFront';
 		}
@@ -689,6 +748,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 			if(this.timeFromLastPotion && this.timeFromLastPotion + this.potionCooldown * this.cooldownReduction >  this.date){ return; }
 			//this.potionHand = new PotionInHand(this.scene, this);
 			this.timeFromLastPotion = getTimeStamp();
+
+			this.currentPotion = Math.floor(Math.random() * 2);
 			
 			this.lookAtMouse(this.scene.input.activePointer);
 

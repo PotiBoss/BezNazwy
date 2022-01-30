@@ -56,6 +56,24 @@ export default anims => {
 	})
 
 	anims.create({
+		key: '3throw-Down',
+		frames: anims.generateFrameNames('throwFrontBlue'),
+		frameRate: 12, 
+	})
+
+	anims.create({
+		key: '3throw-Up',
+		frames: anims.generateFrameNames('throwBackBlue'),
+		frameRate: 12,
+	})
+
+	anims.create({
+		key: '3throw-Side',
+		frames: anims.generateFrameNames('throwSideBlue'),
+		frameRate: 12,
+	})
+
+	anims.create({
 		key: '2throw-Down',
 		frames: anims.generateFrameNames('throwFront2'),
 		frameRate: 12, 

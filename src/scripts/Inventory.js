@@ -127,7 +127,7 @@ export default class Inventory
 				}
 
 				var cooldownReductionTimer = this.scene.time.addEvent({ 
-					delay: 5000, 
+					delay: 30000, 
 					callback: this.cooldownReductionPotion, 
 					callbackScope: this
 					});
@@ -136,7 +136,7 @@ export default class Inventory
 				if(moveSpeedTimer != undefined) {moveSpeedTimer.remove()}
 				this.scene.myPlayer.playerSpeed = 250;
 				var moveSpeedTimer = this.scene.time.addEvent({ 
-					delay: 5000, 
+					delay: 30000, 
 					callback: this.speedPotion, 
 					callbackScope: this
 					});
@@ -149,17 +149,17 @@ export default class Inventory
 				if(attackDamageTimer != undefined) {attackDamageTimer.remove()}
 				this.scene.myPlayer.damageBonus = 1.5;
 				var attackDamageTimer = this.scene.time.addEvent({ 
-					delay: 5000, 
+					delay: 30000, 
 					callback: this.attackPotion, 
 					callbackScope: this
 					});
-				if(this.scene.skillDamageBuff)
+				if(this.scene.damageBuff == undefined)
 				{
 					this.scene.damageBuff = this.scene.add.image(this.scene.backgroundDamage.x, this.scene.backgroundDamage.y, 'pots', 3);
 				}
 				break;
 			case 'skillDamagePotion':
-					this.scene.myPlayer.skillDamageBonus += 5;
+					this.scene.myPlayer.skillDamageBonus += 7;
 					if(this.scene.skillDamageBuff == undefined)
 					{
 						this.scene.skillDamageBuff = this.scene.add.image(this.scene.backgroundSkillDamage.x, this.scene.backgroundSkillDamage.y, 'pots', 6);
@@ -189,7 +189,7 @@ export default class Inventory
 				}	
 
 				var projectileSpeedTimer = this.scene.time.addEvent({ 
-					delay: 5000, 
+					delay: 30000, 
 					callback: this.projectileSpeedPotion, 
 					callbackScope: this
 					});
@@ -204,7 +204,7 @@ export default class Inventory
 				}	
 
 				var attackCooldownTimer = this.scene.time.addEvent({ 
-					delay: 5000, 
+					delay: 30000, 
 					callback: this.attackCooldownPotion, 
 					callbackScope: this
 					});
@@ -220,7 +220,7 @@ export default class Inventory
 					}
 				
 				var attackSpeedTimer = this.scene.time.addEvent({ 
-					delay: 5000, 
+					delay: 25000, 
 					callback: this.attackSpeedPotion, 
 					callbackScope: this
 					});

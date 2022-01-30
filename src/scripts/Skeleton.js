@@ -12,7 +12,6 @@ export default class Skeleton extends EnemyBase
 
 
 		initAnims(scene.anims);
-		//this.anims.play('lizard-idle');
 
 		this.body.onCollide = true;
 

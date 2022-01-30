@@ -24,7 +24,7 @@ export default class SceneMenu extends Phaser.Scene {
 
 		this.quitButton = this.add.image(this.game.renderer.width / 2, this.game.renderer.height * 0.6, 'quitButton');
 
-		this.indicator = this.add.sprite(100, 100, 'treasure').setScale(2, 2).setVisible(false);
+		this.indicator = this.add.sprite(100, 100, 'pots', 1).setScale(2, 2).setVisible(false);
 
 
 		this.startButton.setInteractive();

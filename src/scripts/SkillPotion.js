@@ -18,7 +18,7 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 
 		initAnims(scene.anims);
 
-		this.currentPotion = Math.floor(Math.random() * 2);
+		this.currentPotion = this.scene.myPlayer.currentPotion;
 	}
 
 	throw(initiator)
@@ -27,7 +27,16 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 
 		initiator.destroyPotion();
 
-		this.anims.play(this.scene.myPlayer.potionAnimation, true);
+		if(this.currentPotion == 0)
+		{
+			console.log("XD")
+			this.anims.play(this.scene.myPlayer.potionAnimation + "Blue", true);
+		}
+		else
+		{
+			this.anims.play(this.scene.myPlayer.potionAnimation, true);	
+		}
+		
 
 		this.timer = this.scene.time.addEvent({ 
 			delay: 1000, 
