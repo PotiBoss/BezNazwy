@@ -1,12 +1,15 @@
 import EnemyBase from "./EnemyBase";
+import initAnims from './AnimsNecromancer'
 
 export default class Necromancer extends EnemyBase
 {
 	constructor(scene, name, x, y)
 		{
-		super(scene, x, y, 'necromancer');
+		super(scene, x, y, 'necromancerFront', 0);
 
 		this.scene.physics.add.existing(this);
+
+		initAnims(scene.anims);
 
 		this.x = x;
 		this.y = y;
@@ -20,7 +23,8 @@ export default class Necromancer extends EnemyBase
 		this.enemySpeed = 60;
 		this.enemyHealth = 40;
 		
-		this.visionRange = 300;
+		this.visionRange = 450;
+		this.attackRange = 250;
 
 		this.skeletonSpawnCooldown = 5000;
 		this.skeletonSpawnFlag = true;
@@ -54,11 +58,68 @@ export default class Necromancer extends EnemyBase
 
 	chasePlayer()
 	{
+		this.enemyPlayerOffsetX = this.x - this.scene.myPlayer.x;
+		this.enemyPlayerOffsetY = this.y - this.scene.myPlayer.y;
+
+
+		if(this.enemyPlayerOffsetX >= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY))
+		{
+			this.flipX = true;
+
+			if(this.body.velocity.x == 0 || this.body.velocity.y == 0)
+			{
+				this.anims.play('necromancerSide', true);
+			}
+			else
+			{
+				this.anims.play('necromancerSideAnim', true);
+			}
+		} 
+		else if(this.enemyPlayerOffsetY <= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX))
+		{
+			if(this.body.velocity.x == 0 || this.body.velocity.y == 0)
+			{
+				this.anims.play('necromancerFront', true);
+			}
+			else
+			{
+				this.anims.play('necromancerFrontAnim', true);
+			}
+
+		} 
+		else if(this.enemyPlayerOffsetX <= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY)) 
+		{
+			this.flipX = false;
+			if(this.body.velocity.x == 0 || this.body.velocity.y == 0)
+			{
+				this.anims.play('necromancerSide', true);
+			}
+			else
+			{
+				this.anims.play('necromancerSideAnim', true);
+			}
+		}
+		else if(this.enemyPlayerOffsetY >= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX))
+		{
+			if(this.body.velocity.x == 0 || this.body.velocity.y == 0)
+			{
+				this.anims.play('necromancerBack', true);
+			}
+			else
+			{
+				this.anims.play('necromancerBackAnim', true);
+			}
+		} 
+
 		this.myPlayer = this.scene.myPlayer;
 		if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
 		{
-
 			this.seenPlayer();
+			this.scene.physics.moveToObject(this, this.myPlayer, 75);
+			if(Math.abs(this.x - this.myPlayer.x) < this.attackRange && Math.abs(this.y - this.myPlayer.y) < this.attackRange)
+			{
+				this.setVelocity(0,0);
+			}
 		}
 	}
 

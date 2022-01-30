@@ -574,13 +574,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 
 			if(Math.abs(this.scene.intersectionRightUpper.x - this.x) < 150 && Math.abs(this.x - this.scene.intersectionRightLower.x) > Math.abs(this.scene.intersectionRightUpper.x - this.x) && this.scene.intersectionRightUpper.x !== this.scene.intersectionRight.x)
 			{
-				console.log("upper")
+				
 				this.x += Phaser.Math.Clamp(this.scene.intersectionRight.x-this.x-16, 0, 150);
 				this.y += 16;
 			}
 			else if(Math.abs(this.x - this.scene.intersectionRightLower.x) < 150 && Math.abs(this.x - this.scene.intersectionRightLower.x) < Math.abs(this.scene.intersectionRightUpper.x - this.x) && this.scene.intersectionRightLower.x !== this.scene.intersectionRight.x)
 			{
-				console.log("lower")
+				
 				this.x += Phaser.Math.Clamp(this.scene.intersectionRight.x-this.x-16, 0, 150);
 				this.y -= 16;	
 			}

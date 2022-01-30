@@ -23,6 +23,8 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 		this.burnTicks = 5;
 		this.burnTimer = 5;
 		this.burnIntervals = 500;
+
+		this.showedDialog = false;
 		
 		this.setupDirections();
 
@@ -190,8 +192,9 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 
 		console.log(this.scene.teleportPoints - this.scene.myPlayer.points)
 
-		if(this.scene.myPlayer.points >= this.scene.teleportPoints)
+		if(this.scene.myPlayer.points >= this.scene.teleportPoints && this.showedDialog == false)
 		{
+			this.showedDialog = true;
 			this.scene.activatedTeleport = true;
 			sceneEvents.emit('teleportActivated');
 		}

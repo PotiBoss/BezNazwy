@@ -125,7 +125,11 @@ export default class Skeleton extends EnemyBase
 
 			if(Math.abs(this.x - this.myPlayer.x) < this.visionRange && Math.abs(this.y - this.myPlayer.y) < this.visionRange)
 			{
-				this.scene.physics.moveToObject(this, this.myPlayer, this.enemySpeed);
+				if(this.frozen == false)
+				{
+					this.scene.physics.moveToObject(this, this.myPlayer, 125);
+				}
+				
 			}
 		}
 

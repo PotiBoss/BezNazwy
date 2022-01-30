@@ -118,6 +118,10 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.spritesheet('skeletonBack', 'assets/SkeletonBackSheet.png', {frameWidth:23,frameHeight:41})
 		this.load.spritesheet('skeletonSide', 'assets/SkeletonSideSheet.png', {frameWidth:23,frameHeight:41})
 
+		this.load.spritesheet('necromancerFront', 'assets/NecromancerFront.png', {frameWidth:23,frameHeight:41})
+		this.load.spritesheet('necromancerBack', 'assets/NecromancerBack.png', {frameWidth:23,frameHeight:41})
+		this.load.spritesheet('necromancerSide', 'assets/NecromancerSide.png', {frameWidth:23,frameHeight:41})
+
 		this.load.image('npcHorny', 'assets/npcHorny.png');
 		this.load.image('npcNotHorny', 'assets/npcNotHorny.png');
 

@@ -29,7 +29,6 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 
 		if(this.currentPotion == 0)
 		{
-			console.log("XD")
 			this.anims.play(this.scene.myPlayer.potionAnimation + "Blue", true);
 		}
 		else
