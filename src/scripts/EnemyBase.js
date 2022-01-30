@@ -33,7 +33,7 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 		this.health = 30;
 		this.maxHealth = 30;
 		this.enemyHealth = 30;
-		this.visionRange = 200;
+		this.visionRange = 450;
 		this.justDamaged = false;
 		this.damagedTintTime = 100;
 		this.collisionDamage = 10;

@@ -9,7 +9,7 @@ losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 PRIO
 
 muzyka
-
+animacje dominika
 naprawic movement
 teleport od klawiszy nie velocity
 
