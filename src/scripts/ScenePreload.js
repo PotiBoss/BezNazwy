@@ -128,6 +128,10 @@ export default class ScenePreload extends Phaser.Scene
 	//	this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
 		this.load.spritesheet('necromancer', 'assets/birdSprite.png',{frameWidth:32,frameHeight:32});
 		this.load.image('boss', 'assets/boss.png');
+		this.load.spritesheet('bossSheet', 'assets/bossSheet.png',{frameWidth:23,frameHeight:41.666});
+		this.load.spritesheet('bossBack', 'assets/bossBack.png',{frameWidth:23*3,frameHeight:41*3}); 
+		this.load.spritesheet('bossSide', 'assets/bossSide.png',{frameWidth:23*3,frameHeight:41*3}); 
+		this.load.spritesheet('bossFront', 'assets/bossFront.png',{frameWidth:23*3,frameHeight:41*3});  //WHY DOMINIK
 
 	//	this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
 		this.load.image('workbench', 'assets/workbench.png');
@@ -137,6 +141,8 @@ export default class ScenePreload extends Phaser.Scene
 
 		this.load.image('inventoryBackground', 'assets/HudSheet.png');
 		this.load.image('buffBackground', 'assets/BuffSheet.png');
+
+		this.load.spritesheet('tombstone', 'assets/BossDeathSheet.png',{frameWidth:66,frameHeight:123});
 
 		this.load.spritesheet('finalTeleport', 'assets/FinalTP.png',{frameWidth:32,frameHeight:32});
 		this.load.spritesheet('gate', 'assets/Gate.png',{frameWidth:96,frameHeight:96});
@@ -175,7 +181,7 @@ export default class ScenePreload extends Phaser.Scene
 		]);
 
 		this.load.audio('textScroll', [
-			'audio/textScroll.mp3'
+			'audio/textScroll.ogg'
 		]);
 
 		this.load.audio('playerDamaged', [

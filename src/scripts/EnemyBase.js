@@ -133,7 +133,7 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 	
 	applyBurnDamage()
 	{
-		if(this.scene == undefined || this ==undefined) {return;}
+		if(this.scene == undefined || this == undefined) {return;}
 		this.enemyHealth = this.enemyHealth - 5;
 		this.updateHP();
 
@@ -190,7 +190,7 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 	{
 		this.scene.myPlayer.points += 25;
 
-		console.log(this.scene.teleportPoints - this.scene.myPlayer.points)
+	//	console.log(this.scene.teleportPoints - this.scene.myPlayer.points)
 
 		if(this.scene.myPlayer.points >= this.scene.teleportPoints && this.scene.showedDialog == false)
 		{

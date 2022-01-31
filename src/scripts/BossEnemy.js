@@ -1,11 +1,12 @@
-import EnemyBase from "./EnemyBase";
+import EnemyBase from "./EnemyBase"; 
+import initAnims from "./AnimsBoss";
 
 
 export default class BossEnemy extends EnemyBase
 {
 	constructor(scene, name, x, y)
 		{
-		super(scene, x, y, 'boss');
+		super(scene, x, y, 'bossFront', 0);
 
 		scene.add.existing(this);
 		this.scene.physics.add.existing(this);
@@ -15,17 +16,21 @@ export default class BossEnemy extends EnemyBase
 		this.y;
 		this.scene = scene;
 
+	//	this.setScale(3,3)
+
+		initAnims(scene.anims);
+
 		this.body.onCollide = true;
 		//this.setPushable(false);
 		this.scene.physics.world.on(Phaser.Physics.Arcade.Events.TILE_COLLIDE, this.handleTileCollision, this);
 		this.setupDirections();
 
-		this.enemyMaxHealth = 6;
-		this.enemyHealth = 6;	
+		this.enemyMaxHealth = 666;
+		this.enemyHealth = 666;	
 		this.enemySpeed = 10;
 		
-		this.visionRange = 300;
-		this.attackRange = 200;
+		this.visionRange = 450;
+		this.attackRange = 250;
 
 		this.damageTime = 0;
 		this.damagedInvulnerability = 500;
@@ -40,6 +45,8 @@ export default class BossEnemy extends EnemyBase
 
 		this.shootFlag = true;
 		this.shootCooldown = 75;
+		
+	
 		
 		this.projectilesEnemy = this.scene.enemyProj; // nie wiem czemu undefined jest ale zrobienie tego w scenie na poczatku naprawia 
 
@@ -57,7 +64,6 @@ export default class BossEnemy extends EnemyBase
 		this.chasePlayer();  //TODO: WLACZYC
 
 		this.healthbar.preUpdate();
-		
 		this.handleState(deltaTime);
 	}
 
@@ -71,6 +77,28 @@ export default class BossEnemy extends EnemyBase
 			{
 				this.setVelocity(0,0);
 				this.newAction();
+
+				this.enemyPlayerOffsetX = this.x - this.scene.myPlayer.x;
+				this.enemyPlayerOffsetY = this.y - this.scene.myPlayer.y;
+
+				if(this.enemyPlayerOffsetX >= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY))
+				{
+					this.flipX = true;
+					this.anims.play('bossAttack-Side', true);
+				} 
+				else if(this.enemyPlayerOffsetY <= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX))
+				{
+					this.anims.play('bossAttack-Down', true);
+				} 
+				else if(this.enemyPlayerOffsetX <= 0  && Math.abs(this.enemyPlayerOffsetX) >= Math.abs(this.enemyPlayerOffsetY))
+				{
+					this.anims.play('bossAttack-Side', true);
+					this.flipX = false;
+				}
+				else if(this.enemyPlayerOffsetY >= 0  && Math.abs(this.enemyPlayerOffsetY) >= Math.abs(this.enemyPlayerOffsetX))
+				{
+					this.anims.play('bossAttack-Up', true);
+				} 
 
 			}
 		}
@@ -176,7 +204,7 @@ export default class BossEnemy extends EnemyBase
 
 	destroy()
 	{
-		//this.scene.bossBGM.stop();
+	//	this.scene.bossBGM.stop();
 
 		this.menuBGM = this.scene.sound.add('menuBGM', {
 			volume: 0.065,
@@ -184,6 +212,7 @@ export default class BossEnemy extends EnemyBase
 		});
 		this.menuBGM.play();
 
+		this.scene.add.image(this.x, this.y, 'tombstone', 9).setScale(0.5);
 		this.scene.add.image(5472, 5920, 'gate', 1).setScale(2);
 
 		this.scene.bossFlag = true;

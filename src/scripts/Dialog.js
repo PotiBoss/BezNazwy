@@ -248,7 +248,7 @@ setText: function (text, animate) {
 	});
 
 	this.textScroll = this.scene.sound.add('textScroll', {
-		volume: 1,
+		volume: 0.06,
 	});
 
 	this.textScroll.play();

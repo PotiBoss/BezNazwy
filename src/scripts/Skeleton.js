@@ -23,7 +23,7 @@ export default class Skeleton extends EnemyBase
 
 	create()
 	{
-		this.enemySpeed = 100;
+		this.enemySpeed = 90;
 		this.enemyMaxHealth = 30;
 		this.enemyHealth = 30;
 		this.visionRange = 450;

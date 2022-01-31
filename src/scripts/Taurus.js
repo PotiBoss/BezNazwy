@@ -25,7 +25,7 @@ export default class Taurus extends EnemyBase
 		this.enemySpeed = 80;
 		this.enemyHealth = 50;
 		
-		this.visionRange = 300;
+		this.visionRange = 420;
 
 		this.chargeRange = 150;
 		this.chargeTime = 500; // cooldown miedzy szarzami

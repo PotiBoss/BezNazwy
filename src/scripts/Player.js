@@ -38,7 +38,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite
 		this.damageTime = 0;
 		this.damagedInvulnerability = 500;
 
-		this.points = 500;
+		this.points = 0;
 
 		this.fireRate = 1000;
 		this.timeFromLastShot = null;

@@ -257,7 +257,7 @@ export default class GameScene extends Phaser.Scene
 
 	spawnPlayer()
 	{
-		this.myPlayer = new Player(this, 5500, 4750); // 5500 4750
+		this.myPlayer = new Player(this, 5472, 6100); // 5500 4750
 		this.UI = this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
@@ -305,6 +305,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.currentMap.necromancers, this.currentMap.tauroses)
 		this.physics.add.collider(this.currentMap.rangeEnemies, this.currentMap.tauroses)
 		this.physics.add.collider(this.currentMap.boss, this.currentMap.tauroses)
+		this.physics.add.collider(this.currentMap.tauroses, this.currentMap.door)
 		//necro
 		this.physics.add.collider(this.currentMap.necromancers, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.necromancers, this.handlePlayerEnemyCollision, undefined, this);
@@ -323,6 +324,7 @@ export default class GameScene extends Phaser.Scene
 		this.physics.add.collider(this.myPlayer.bombs, this.currentMap.rangeEnemies, this.handleBombEnemyCollision, undefined, this);
 		this.physics.add.collider(this.currentMap.rangeEnemies, this.currentMap.rangeEnemies)
 		this.physics.add.collider(this.currentMap.boss, this.currentMap.rangeEnemies)
+		this.physics.add.collider(this.currentMap.rangeEnemies, this.currentMap.door)
 		//boss
 		this.physics.add.collider(this.currentMap.boss, this.currentMap.walls);
 		this.physics.add.collider(this.myPlayer, this.currentMap.boss, this.handlePlayerEnemyCollision, undefined, this);
@@ -986,22 +988,22 @@ export default class GameScene extends Phaser.Scene
 	{
 		if(this.hornyFirst == false)
 		{
-			this.myPlayer.x -=25;
-			this.myPlayer.y +=25;
+			this.myPlayer.x +=25;
+			this.myPlayer.y -=25;
 			this.hornyFirst = true;
 			sceneEvents.emit('hornyFirst');
 		}
 		else if(this.hornySecond == false)
 		{
-			this.myPlayer.x -=25;
-			this.myPlayer.y +=25;
+			this.myPlayer.x +=25;
+			this.myPlayer.y -=25;
 			this.hornySecond = true;
 			sceneEvents.emit('hornySecond');
 		}
 		else 
 		{
-			this.myPlayer.x -=25;
-			this.myPlayer.y +=25;
+			this.myPlayer.x +=25;
+			this.myPlayer.y -=25;
 			sceneEvents.emit('hornyThird');
 		}
 	}

@@ -77,7 +77,7 @@ export default class SceneInventory extends Phaser.Scene
 	updateSelected()
 	{
 		for(let i = 0; i < this.crafting.craftableItems.length; i++){
-			this.craftingSlots[i].tint = this.crafting.selected === i ? 0xffff00 : 0xffffff;
+			this.craftingSlots[i].tint = this.crafting.selected === i ? 0xaa336a: 0xffffff;
 		}
 	}
 }

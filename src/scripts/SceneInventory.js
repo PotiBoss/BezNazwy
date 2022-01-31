@@ -127,7 +127,7 @@ export default class SceneInventory extends Phaser.Scene
 	{
 		for(let i = 0; i < this.maxColumns; i++)
 		{
-			this.inventorySlots[i].tint = this.inventory.currentItem === i ? 0xffff00 : 0xffffff; 
+			this.inventorySlots[i].tint = this.inventory.currentItem === i ? 0xaa336a : 0xffffff; 
 		}
 	}
 
