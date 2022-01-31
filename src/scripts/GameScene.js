@@ -47,9 +47,11 @@ export default class GameScene extends Phaser.Scene
 
 		this.gameWidth = this.sys.game.config.width;
 		this.gameHeight = this.sys.game.config.height;
+
+		this.bossBGM = undefined;
 		
 		this.gameBGM = this.sound.add('gameBGM', {
-			volume: 0.00,
+			volume: 0.05,
 			loop: true
 		});
 		this.gameBGM.play();
@@ -63,6 +65,7 @@ export default class GameScene extends Phaser.Scene
 
 		this.endingFlag = false;
 		this.bossFlag = false;
+		this.showedDialog = false;
 	}
 
 	update(time, deltaTime)
@@ -254,7 +257,7 @@ export default class GameScene extends Phaser.Scene
 
 	spawnPlayer()
 	{
-		this.myPlayer = new Player(this, 5500, 4750);
+		this.myPlayer = new Player(this, 5500, 4750); // 5500 4750
 		this.UI = this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
@@ -507,7 +510,7 @@ export default class GameScene extends Phaser.Scene
 		  });
 		  this.rayUpRight.setAngleDeg(270);
 
-		this.raycaster.debugOptions.enabled = true;
+	//	this.raycaster.debugOptions.enabled = true;
 
 
 
@@ -959,22 +962,22 @@ export default class GameScene extends Phaser.Scene
 	{
 		if(this.nothornyFirst == false)
 		{
-			this.myPlayer.x +=25;
-			this.myPlayer.y -=25;
+			this.myPlayer.x +=50;
+			this.myPlayer.y +=50;
 			this.nothornyFirst = true;
 			sceneEvents.emit('NothornyFirst');
 		}
 		else if(this.nothornySecond == false)
 		{
-			this.myPlayer.x +=25;
-			this.myPlayer.y -=25;
+			this.myPlayer.x +=50;
+			this.myPlayer.y +=50;
 			this.nothornySecond = true;
 			sceneEvents.emit('NothornySecond');
 		}
 		else 
 		{
-			this.myPlayer.x +=25;
-			this.myPlayer.y -=25;
+			this.myPlayer.x +=50;
+			this.myPlayer.y +=50;
 			sceneEvents.emit('NothornyThird');
 		}
 	}

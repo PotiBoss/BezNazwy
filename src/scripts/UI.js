@@ -50,9 +50,12 @@ export default class UI extends Phaser.Scene
 
 	welcomeMsg()
 	{
-		this.msg = ["CONTROLS:\nC - opens crafting menu on workbench\nV - crafts potion in crafting menu\nT - teleports on teleporter\nI - opens bigger inventory\nF - drinks a potion"];
+		this.msg = [ 
+		"Chronos - Embodiment of Time\nWelcome mortal, you must be confused why did we bring you here.You are here because Eldritch God from the cosmos is awakening. You are needed considering you are not bound by the rules of the Myths.", 
+		"Chronos - Embodiment of Time\nYou must seek the cosmic instruments. Only they can return Azathoth to its slumber. No man can stand against Outer Gods. If you were to fail, your task will be given to another. Your race is like sand one might not change anything but thousands... Come to me if you need more guidance. You may also talk to my friend Crius."];
 		this.dialog.init(this.msg);
 		this.dialog.setText(this.msg[0], true);
+		//"CONTROLS:\nC - opens crafting menu on workbench\nV - crafts potion in crafting menu\nT - teleports on teleporter\nI - opens bigger inventory\nF - drinks a potion"
 	}
 
 	secondMsg()
@@ -106,7 +109,7 @@ export default class UI extends Phaser.Scene
 
 	nothornyFirst()
 	{
-		this.msg9 = ["Not Horny Desu"];
+		this.msg9 = ["Chronos - Embodiment of Time\nThanks to the Almighty Gods you realm is not influenced so hardly by Azathoth. Soon it might change. Crius gave us space to bring tears in space and time made by Eldritch God."];
 		this.dialog.init(this.msg9);
 		this.dialog.setText(this.msg9[0], true);	
 	}

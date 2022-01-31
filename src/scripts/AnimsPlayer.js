@@ -93,7 +93,7 @@ export default anims => {
 
 	anims.create({
 		key: 'faint',
-		frames: anims.generateFrameNames('player', { start: 1, end: 4, prefix: 'faint-', suffix: '.png' }),
+		frames: anims.generateFrameNames('playerDeath'),
 		frameRate: 15
 	})
 }

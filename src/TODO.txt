@@ -8,12 +8,9 @@ losowosc przy wybuchu scrapa jest od gracza nie wybuchu
 
 PRIO
 
-muzyka
-animacje dominika
 dialogi
-
-naprawic movement
 teleport od klawiszy nie velocity
+menu zmienic
 
 RESPAWN PRZECIWNIKOW
 

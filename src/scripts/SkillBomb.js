@@ -57,6 +57,17 @@ export default class SkillBomb extends Phaser.Physics.Arcade.Sprite
 	{
 		this.timer.remove();
 
+		if(this.scene == undefined)
+		{
+			this.destroy();
+			return;
+		}
+
+		this.bombBreak = this.scene.sound.add('bombSkill', {
+			volume: 0.06,
+		});
+		this.bombBreak.play();
+
 		for(let i = 0; i <= this.shrapnels; i++)
 		{
 			this.dirX = Math.floor(Math.random() * 960);

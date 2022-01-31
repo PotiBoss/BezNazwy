@@ -9,7 +9,7 @@ export default class ScenePreload extends Phaser.Scene
 	}
 
 	preload() 
-		{
+	{
 		var width = this.cameras.main.width;
 		var height = this.cameras.main.height;
 
@@ -81,10 +81,10 @@ export default class ScenePreload extends Phaser.Scene
 
 		this.load.spritesheet('tilesSheet', 'assets/tileset.png',{frameWidth:16,frameHeight:16});
 
-		this.load.atlas('player', 'assets/fauna.png', 'assets/fauna.json');
-
 		this.load.image('playerBase', 'assets/PlayerBase.png');
 		
+		this.load.spritesheet('playerDeath', 'assets/playerDeathSheet.png', {frameWidth:20,frameHeight:41});
+
 		this.load.spritesheet('playerFront', 'assets/PlayerFront.png', {frameWidth:21,frameHeight:41});
 		this.load.spritesheet('playerBack', 'assets/PlayerBack.png', {frameWidth:21,frameHeight:41});
 		this.load.spritesheet('playerSide', 'assets/PlayerSide.png', {frameWidth:23,frameHeight:41});
@@ -126,7 +126,6 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.image('npcNotHorny', 'assets/npcNotHorny.png');
 
 	//	this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
-		this.load.atlas('taurus', 'assets/enemies.png', 'assets/enemies_atlas.json');
 		this.load.spritesheet('necromancer', 'assets/birdSprite.png',{frameWidth:32,frameHeight:32});
 		this.load.image('boss', 'assets/boss.png');
 
@@ -138,6 +137,9 @@ export default class ScenePreload extends Phaser.Scene
 
 		this.load.image('inventoryBackground', 'assets/HudSheet.png');
 		this.load.image('buffBackground', 'assets/BuffSheet.png');
+
+		this.load.spritesheet('finalTeleport', 'assets/FinalTP.png',{frameWidth:32,frameHeight:32});
+		this.load.spritesheet('gate', 'assets/Gate.png',{frameWidth:96,frameHeight:96});
 
 		this.load.spritesheet('tileitem','assets/dungeon_tiles.png',{frameWidth:16,frameHeight:16});
 
@@ -157,7 +159,7 @@ export default class ScenePreload extends Phaser.Scene
 		]);
 
 		this.load.audio('gameBGM', [
-			'audio/gameBGM.mp3'
+			'audio/gameBGM.ogg'
 		]);
 
 		this.load.audio('potionBreak', [
@@ -191,10 +193,17 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.audio('projectileHit', [
 			'audio/projectileHit.ogg'
 		]);
-	}
 
+		this.load.audio('bombSkill', [
+			'audio/bombSkill.ogg'
+		]);
+		
+		this.load.audio('boss', [
+			'audio/boss.ogg'
+		]);
+	}
 	create() 
 	{
 		this.scene.start('SceneMenu');
 	}
-}
+}	

@@ -192,11 +192,13 @@ export default class EnemyBase extends Phaser.Physics.Arcade.Sprite
 
 		console.log(this.scene.teleportPoints - this.scene.myPlayer.points)
 
-		if(this.scene.myPlayer.points >= this.scene.teleportPoints && this.showedDialog == false)
+		if(this.scene.myPlayer.points >= this.scene.teleportPoints && this.scene.showedDialog == false)
 		{
-			this.showedDialog = true;
+			this.scene.showedDialog = true;
 			this.scene.activatedTeleport = true;
 			sceneEvents.emit('teleportActivated');
+
+			this.scene.add.image(3327.45, 4480.72, 'finalTeleport', 1).setScale(2).setDepth(-1);
 		}
 
 		super.destroy();

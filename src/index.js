@@ -14,7 +14,7 @@ const config =
 	physics: {
 		default: 'arcade',
 		arcade: {
-			debug: true
+			//debug: true
 		}, 
 	},
 	scene: [ScenePreload, SceneMenu, GameScene, UI, SceneInventory, SceneCrafting],

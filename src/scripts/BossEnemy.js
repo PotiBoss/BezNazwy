@@ -176,6 +176,16 @@ export default class BossEnemy extends EnemyBase
 
 	destroy()
 	{
+		//this.scene.bossBGM.stop();
+
+		this.menuBGM = this.scene.sound.add('menuBGM', {
+			volume: 0.065,
+			loop: true
+		});
+		this.menuBGM.play();
+
+		this.scene.add.image(5472, 5920, 'gate', 1).setScale(2);
+
 		this.scene.bossFlag = true;
 		this.dead = true;
 		super.destroy();

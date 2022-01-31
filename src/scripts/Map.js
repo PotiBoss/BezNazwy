@@ -32,7 +32,7 @@ export default class Map
 
 		this.teleportIndex = 0;
 		this.teleporterLayer.objects.forEach(teleporterObject => {
-			this.teleporters.get(teleporterObject.x * 2 + teleporterObject.width, teleporterObject.y * 2 - teleporterObject.height, this.teleportIndex++); // * 2 bo skalowalem tilemape
+			this.teleporters.get(teleporterObject.x * 2 + teleporterObject.width, teleporterObject.y * 2 - teleporterObject.height, this.teleportIndex++).setDepth(-5); // * 2 bo skalowalem tilemape
 		})
 
 		this.teleportersFinal = this.scene.physics.add.group({
@@ -45,7 +45,7 @@ export default class Map
 			this.teleportersFinal.get(teleporterObject.x * 2 + teleporterObject.width, teleporterObject.y * 2 - teleporterObject.height, this.teleportIndexFinal++); // * 2 bo skalowalem tilemape
 		})
 
-		this.ground = this.map.createLayer('ground', tileset).setScale(2,2);
+		this.ground = this.map.createLayer('ground', tileset).setScale(2,2).setDepth(-3);
 		this.walls = this.map.createLayer('walls', tileset).setScale(2,2);
 	
 		this.chestLayer = this.map.getObjectLayer('chests');
@@ -137,14 +137,14 @@ export default class Map
 		this.door.setVisible(false);
 
 		
-		this.npcHornyLayer = this.map.getObjectLayer('npcHorny');
+		this.npcHornyLayer = this.map.getObjectLayer('npcNotHorny');
 		this.npcHorny = this.scene.physics.add.staticGroup();
 		this.npcHornyLayer.objects.forEach(object => {
 			let dur = this.npcHorny.create(object.x * 2, object.y * 2, 'npcHorny') ; 
 		})
 
 		
-		this.npcNotHornyLayer = this.map.getObjectLayer('npcNotHorny');
+		this.npcNotHornyLayer = this.map.getObjectLayer('npcHorny');
 		this.npcNotHorny = this.scene.physics.add.staticGroup();
 		this.npcNotHornyLayer.objects.forEach(object => {
 			let dur = this.npcNotHorny.create(object.x * 2, object.y * 2, 'npcNotHorny') ; 

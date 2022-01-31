@@ -3,7 +3,7 @@ export default class TeleporterFinal extends Phaser.Physics.Arcade.Sprite
 {
 	constructor(scene, x, y, index)
 	{
-		super(scene, x, y, 'tileitem', 294)
+		super(scene, x, y, 'finalTeleport', 1)
 		
 		this.scene = scene;
 
@@ -35,6 +35,13 @@ export default class TeleporterFinal extends Phaser.Physics.Arcade.Sprite
 	{
 		if(Math.abs(player.x - this.x) < 35 && Math.abs(player.y - this.y) < 35  && this.scene.activatedTeleport)
 		{
+			this.scene.gameBGM.stop();
+			this.scene.bossBGM = this.scene.sound.add('boss', {
+				volume: 0.1,
+				loop: true
+			});
+			this.scene.bossBGM.play();
+
 			if(this.index % 2 === 0)
 			{
 				const toIndex = this.index;

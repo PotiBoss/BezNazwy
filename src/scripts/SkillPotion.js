@@ -46,6 +46,13 @@ export default class SkillPotion extends Phaser.Physics.Arcade.Sprite
 	destroyPotion(enemy)
 	{ 
 		this.timer.remove();
+
+		if(this.scene == undefined)
+		{
+			this.destroy();
+			return;
+		}
+
 		this.potionBreak = this.scene.sound.add('potionBreak', {
 			volume: 0.035,
 		});
