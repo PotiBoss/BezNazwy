@@ -72,10 +72,6 @@ export default class ScenePreload extends Phaser.Scene
 			assetText.destroy();
 		});
 
-		this.load.image('potion', 'assets/star.png');
-
-	//	this.load.image('tiles', 'assets/dungeon_tiles.png'); //TESTMAPA
-	//	this.load.tilemapTiledJSON('dungeon', 'assets/dungeonmap.json'); //TESTMAPA
 		this.load.tilemapTiledJSON('dungeon', 'assets/owo11.json'); //NORMALNA
 		this.load.image('tiles', 'assets/tileset.png'); //NORMALNA
 
@@ -125,19 +121,22 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.image('npcHorny', 'assets/npcHorny.png');
 		this.load.image('npcNotHorny', 'assets/npcNotHorny.png');
 
-	//	this.load.atlas('lizard', 'assets/lizard.png', 'assets/lizard.json');
-		this.load.spritesheet('necromancer', 'assets/birdSprite.png',{frameWidth:32,frameHeight:32});
-		this.load.image('boss', 'assets/boss.png');
+		this.load.image('Credits','assets/Credits.png');
+		this.load.image('CreditsHighlight','assets/CreditsHighlight.png');
+		this.load.image('Play','assets/Play.png');
+		this.load.image('PlayHighlight','assets/PlayHighlight.png');
+
+
 		this.load.spritesheet('bossSheet', 'assets/bossSheet.png',{frameWidth:23,frameHeight:41.666});
 		this.load.spritesheet('bossBack', 'assets/bossBack.png',{frameWidth:23*3,frameHeight:41*3}); 
 		this.load.spritesheet('bossSide', 'assets/bossSide.png',{frameWidth:23*3,frameHeight:41*3}); 
 		this.load.spritesheet('bossFront', 'assets/bossFront.png',{frameWidth:23*3,frameHeight:41*3});  //WHY DOMINIK
 
-	//	this.load.atlas('treasure', 'assets/treasure.png', 'assets/treasure.json');
 		this.load.image('workbench', 'assets/workbench.png');
 
 		this.load.spritesheet('pots','assets/pots.png',{frameWidth:32,frameHeight:32});
-		this.load.spritesheet('items','assets/items.png',{frameWidth:32,frameHeight:32});
+
+		this.load.image('indi', 'assets/indi.png');
 
 		this.load.image('inventoryBackground', 'assets/HudSheet.png');
 		this.load.image('buffBackground', 'assets/BuffSheet.png');
@@ -147,16 +146,12 @@ export default class ScenePreload extends Phaser.Scene
 		this.load.spritesheet('finalTeleport', 'assets/FinalTP.png',{frameWidth:32,frameHeight:32});
 		this.load.spritesheet('gate', 'assets/Gate.png',{frameWidth:96,frameHeight:96});
 
-		this.load.spritesheet('tileitem','assets/dungeon_tiles.png',{frameWidth:16,frameHeight:16});
-
 		this.load.spritesheet('healthBar', 'assets/HealthBarSheet.png',{frameWidth:16,frameHeight:26});
 
 		this.load.spritesheet('skillHud', 'assets/SkillHud.png',{frameWidth:32,frameHeight:35});
 
 		this.load.image('titleBackground', 'assets/title_bg.jpg');
 		this.load.image('title', 'assets/logo.png');
-		this.load.image('startButton', 'assets/play_button.png');
-		this.load.image('quitButton', 'assets/options_button.png');
 
 		this.load.image('ciastko', 'assets/Ciastko.png')
 

@@ -249,6 +249,7 @@ setText: function (text, animate) {
 
 	this.textScroll = this.scene.sound.add('textScroll', {
 		volume: 0.06,
+		repeat: -1
 	});
 
 	this.textScroll.play();

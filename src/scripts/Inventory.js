@@ -18,11 +18,11 @@ export default class Inventory
 
 		this.currentItem = 0;
 
-		this.addItem({name: 'healthPotion', quantity: 30})
-		this.addItem({name: 'speedHerb', quantity: 8})
-		this.addItem({name: 'healthHerb', quantity: 8})
-		this.addItem({name: 'damageHerb', quantity: 8})
-		this.addItem({name: 'cooldownHerb', quantity: 8})
+		this.addItem({name: 'healthPotion', quantity: 2})
+		this.addItem({name: 'speedHerb', quantity: 3})
+		this.addItem({name: 'healthHerb', quantity: 3})
+		this.addItem({name: 'damageHerb', quantity: 3})
+		this.addItem({name: 'cooldownHerb', quantity: 3})
 	}
 
 	addItem(item)

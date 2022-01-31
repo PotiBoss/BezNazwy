@@ -204,7 +204,7 @@ export default class BossEnemy extends EnemyBase
 
 	destroy()
 	{
-	//	this.scene.bossBGM.stop();
+		this.scene.bossBGM.stop();
 
 		this.menuBGM = this.scene.sound.add('menuBGM', {
 			volume: 0.065,

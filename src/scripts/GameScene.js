@@ -257,7 +257,7 @@ export default class GameScene extends Phaser.Scene
 
 	spawnPlayer()
 	{
-		this.myPlayer = new Player(this, 5472, 6100); // 5500 4750
+		this.myPlayer = new Player(this, 5500, 4750); // 5500 4750
 		this.UI = this.scene.run('UI', {mainScene: this});
 		this.scene.run('SceneInventory', {mainScene: this});
 		this.setFollowingCamera(this.myPlayer);
